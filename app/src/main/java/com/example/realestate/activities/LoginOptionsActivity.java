@@ -37,7 +37,7 @@ import java.util.HashMap;
 public class LoginOptionsActivity extends AppCompatActivity {
     // View binding
     private ActivityLoginOptionsBinding binding;
-    // Tag to show  logs in logcat
+    // Tag to show logs in logcat
     private static final String TAG = "LOGIN_OPTIONS_TAG";
     // ProgressDialog to show while google sign in
     private ProgressDialog progressDialog;
@@ -80,6 +80,13 @@ public class LoginOptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginOptionsActivity.this, LoginEmailActivity.class));
+            }
+        });
+
+        binding.loginPhoneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginOptionsActivity.this, LoginPhoneActivity.class));
             }
         });
     }

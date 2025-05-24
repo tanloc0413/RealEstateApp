@@ -133,6 +133,8 @@ public class RegisterEmailActivity extends AppCompatActivity {
         String registeredUserEmail = firebaseAuth.getCurrentUser().getEmail();
         String registeredUserUid = firebaseAuth.getUid();
 
+        // setup data to save in firebase realtime db most of the data
+        // will be empty and will set in edit profile
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("uid", registeredUserUid);
         hashMap.put("email", registeredUserEmail);
@@ -140,8 +142,9 @@ public class RegisterEmailActivity extends AppCompatActivity {
         hashMap.put("timestamp", timestamp);
         hashMap.put("phoneCode", "");
         hashMap.put("phoneNumber", "");
+        hashMap.put("profileImageUrl", "");
         hashMap.put("dob", "");
-        hashMap.put("userType", MyUtils.USER_TYPE_EMAIL);
+        hashMap.put("userType", MyUtils.USER_TYPE_EMAIL); // possible values Email/Phone/Google
         hashMap.put("token", "");
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
