@@ -2,4 +2,6 @@
     <string name="app_name">Real Estate</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_account_register">No Account? <b>Register</b></string>
+    <string name="have_account_login">Have Account? <b>Login</b></string>
 </resources>

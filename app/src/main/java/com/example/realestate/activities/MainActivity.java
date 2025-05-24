@@ -1,4 +1,4 @@
-package com.example.realestate;
+package com.example.realestate.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.realestate.R;
 import com.example.realestate.databinding.ActivityMainBinding;
 import com.example.realestate.fragment.ChatListFragment;
 import com.example.realestate.fragment.FavoriteListFragment;
