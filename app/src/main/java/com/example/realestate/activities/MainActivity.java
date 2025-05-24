@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -13,16 +14,28 @@ import com.example.realestate.fragment.FavoriteListFragment;
 import com.example.realestate.fragment.HomeFragment;
 import com.example.realestate.fragment.ProfileFragment;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
     // View Binding
     private ActivityMainBinding binding;
+    //
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // activity_main.xml = ActivityMainBinding
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // get instance of firebase auth for Auth related tasks
+        firebaseAuth = FirebaseAuth.getInstance();
+        // check if user is logged in or not
+        if(firebaseAuth.getCurrentUser() == null) {{
+            // user is not logged in, move to LoginOptionsActivity
+            startLoginOptionsActivity();
+        }}
 
         // By default (when app open) show HomeFragment
         showHomeFragment();
@@ -85,5 +98,9 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(binding.fragmentsFl.getId(), profileFragment, "ProfileFragment");
         fragmentTransaction.commit();
+    }
+
+    private void startLoginOptionsActivity() {
+        startActivity(new Intent(this, LoginOptionsActivity.class));
     }
 }

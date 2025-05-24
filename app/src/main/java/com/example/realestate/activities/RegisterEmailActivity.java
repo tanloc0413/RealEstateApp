@@ -1,4 +1,4 @@
-package com.example.realestate;
+package com.example.realestate.activities;
 
 import android.os.Bundle;
 
@@ -8,13 +8,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class LoginOptionsActivity extends AppCompatActivity {
+import com.example.realestate.R;
+
+public class RegisterEmailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_login_options);
+        setContentView(R.layout.activity_register_email);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
