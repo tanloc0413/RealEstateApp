@@ -5,4 +5,5 @@
     <string name="no_account_register">No Account? <b>Register</b></string>
     <string name="have_account_login">Have Account? <b>Login</b></string>
     <string name="didn_t_receive_otp_resend">Didn\'t Receive OTP? <b>Resend</b></string>
+    <string name="forgot_password_recover">Forgot Password? <b>Recover</b></string>
 </resources>

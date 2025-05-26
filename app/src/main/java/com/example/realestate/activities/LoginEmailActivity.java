@@ -56,17 +56,29 @@ public class LoginEmailActivity extends AppCompatActivity {
             }
         });
 
+        // handle loginBtn click, start login
         binding.loginBtnTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                validateData();
             }
         });
 
+        // handle noAccountTv click, open RegisterEmailActivity to register
+        // user with Email & Password
         binding.noAccountTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginEmailActivity.this, RegisterEmailActivity.class));
+            }
+        });
+
+        // handle forgotPasswordTv click, open ForgotPasswordActivity to send password
+        // recovery instructions to registered email
+        binding.forgotPasswordTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginEmailActivity.this, ForgotPasswordActivity.class));
             }
         });
     }

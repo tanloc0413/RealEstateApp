@@ -72,7 +72,7 @@ public class LoginOptionsActivity extends AppCompatActivity {
         binding.loginGoogleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                beginGoogleLogin();
             }
         });
 
