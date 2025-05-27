@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.realestate.MyUtils;
 import com.example.realestate.R;
 import com.example.realestate.databinding.ActivityMainBinding;
 import com.example.realestate.fragment.ChatListFragment;
@@ -20,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity {
     // View Binding
     private ActivityMainBinding binding;
-    //
+    // Firebase
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -38,28 +39,67 @@ public class MainActivity extends AppCompatActivity {
             startLoginOptionsActivity();
         }}
 
-        // By default (when app open) show HomeFragment
+        // by default (when app open) show HomeFragment
         showHomeFragment();
 
+        // handle bottomNv item clicks to navigate between fragments
         binding.bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                // get id of the menu item clicked
                 int itemId = item.getItemId();
-
+                // check which item is clicked and show fragment accordingly
                 if(itemId == R.id.item_home) {
-
+                    // Home item clicked, show HomeFragment
                     showHomeFragment();
+                    // Return true so bottom navigation menu become selected
+                    return true;
                 } else if (itemId == R.id.item_chat) {
+                    // Chats item clicked, show ChatsListFragment
 
-                    showChatListFragment();
+                    if (firebaseAuth.getCurrentUser() == null) {
+                        // Not, Logged-In, show message toast
+                        MyUtils.toast(MainActivity.this, "Login Required...!");
+                        // Return false so bottom navigation menu doesn't become selected
+                        return false;
+                    } else {
+                        // Logged-In, open ChatListFragment
+                        showChatListFragment();
+                        // Return true so bottom navigation menu become selected
+                        return true;
+                    }
                 } else if (itemId == R.id.item_favorite) {
+                    // Favorites item clicked, show FavoriteListFragment
 
-                    showFavoriteListFragment();
+                    if (firebaseAuth.getCurrentUser() == null) {
+                        // Not, Logged-In, show message toast
+                        MyUtils.toast(MainActivity.this, "Login Required...!");
+                        // Return false so bottom navigation menu doesn't become selected
+                        return false;
+                    } else {
+                        // Logged-In, open FavoriteListFragment
+                        showFavoriteListFragment();
+                        // Return true so bottom navigation menu become selected
+                        return true;
+                    }
                 } else if (itemId == R.id.item_profile) {
+                    // Profile item clicked, show ProfileFragment
 
-                    showProfileFragment();
+                    if (firebaseAuth.getCurrentUser() == null) {
+                        // Not, Logged-In, show message toast
+                        MyUtils.toast(MainActivity.this, "Login Required...!");
+                        // Return false so bottom navigation menu doesn't become selected
+                        return false;
+                    } else {
+                        // Logged-In, open ProfileListFragment
+                        showProfileFragment();
+                        // Return true so bottom navigation menu become selected
+                        return true;
+                    }
+                } else {
+                    // Return false so bottom navigation menu doesn't become selected
+                    return false;
                 }
-                return true;
             }
         });
 

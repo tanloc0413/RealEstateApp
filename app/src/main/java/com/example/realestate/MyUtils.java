@@ -1,7 +1,10 @@
 package com.example.realestate;
 
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 public class MyUtils {
     public static final String USER_TYPE_GOOGLE = "Google";
@@ -15,5 +18,14 @@ public class MyUtils {
 
     public static long timestamp() {
         return System.currentTimeMillis();
+    }
+
+    public static String formatTimestampDate(Long timestamp) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timestamp);
+
+        String date = DateFormat.format("dd/MM/yyyy", calendar).toString();
+
+        return date;
     }
 }

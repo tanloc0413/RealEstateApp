@@ -27,7 +27,7 @@
 
         <!-- ShapeableImageView: Just to show a static image -->
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/profileTv"
+            android:id="@+id/profileIv"
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:layout_centerHorizontal="true"
@@ -44,7 +44,7 @@
             style="@style/TextAppearance.Material3.TitleMedium"
             android:text="Create A New Account"
             android:textColor="?attr/colorOnPrimary"
-            android:layout_below="@+id/profileTv"
+            android:layout_below="@+id/profileIv"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="-17dp"
             android:textSize="18dp"/>
