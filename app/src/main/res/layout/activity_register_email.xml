@@ -19,11 +19,12 @@
             android:id="@+id/toolbarBackBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:background="@android:color/transparent"
             android:padding="10dp"
-            android:layout_marginTop="2dp"
             android:src="@drawable/back_white"
-            android:tint="?attr/colorOnPrimary"/>
+            app:tint="?attr/colorOnPrimary"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
         <!-- ShapeableImageView: Just to show a static image -->
         <com.google.android.material.imageview.ShapeableImageView

@@ -7,4 +7,5 @@
     </style>
 
     <style name="Theme.RealEstate" parent="Base.Theme.RealEstate" />
+
 </resources>

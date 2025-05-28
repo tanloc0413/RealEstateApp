@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.realestate.MyUtils;
 import com.example.realestate.R;
 import com.example.realestate.activities.MainActivity;
+import com.example.realestate.activities.ProfileEditActivity;
 import com.example.realestate.databinding.FragmentProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -84,6 +85,14 @@ public class ProfileFragment extends Fragment {
 
                 startActivity(new Intent(mContext, MainActivity.class));
                 getActivity().finishAffinity();
+            }
+        });
+
+        binding.editProfileCv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(mContext, ProfileEditActivity.class));
             }
         });
     }
