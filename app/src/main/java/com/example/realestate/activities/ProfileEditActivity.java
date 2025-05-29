@@ -1,12 +1,26 @@
 package com.example.realestate.activities;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -18,12 +32,22 @@ import com.example.realestate.MyUtils;
 import com.example.realestate.R;
 import com.example.realestate.databinding.ActivityLoginOptionsBinding;
 import com.example.realestate.databinding.ActivityProfileEditBinding;
+import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileEditActivity extends AppCompatActivity {
     // view binding
@@ -34,8 +58,10 @@ public class ProfileEditActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     // ProgressDialog to show while verify account
     private ProgressDialog progressDialog;
-
+    // Hold user type e.g Email/Google/Phone
     private String myUserType = "";
+    // Image Uri to hold the uri of image picked from Camera/Gallery
+    private Uri imageUri = null;
 
 
     @Override
@@ -63,8 +89,303 @@ public class ProfileEditActivity extends AppCompatActivity {
             }
         });
 
+        // handle profileImagePickFab click, show image pick popup menu
+        binding.profileImagePickFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imagePickDialog();
+            }
+        });
+
+        // handle updateBtn click, validate data
+        binding.updateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                validateData();
+            }
+        });
+    }
+
+    private String name = "", dob = "", email = "", phoneCode = "", phoneNumber = "";
+
+    private void validateData() {
+        // input data
+        name = binding.nameEt.getText().toString().trim();
+        dob = binding.dobEt.getText().toString().trim();
+        email = binding.emailEt.getText().toString().trim();
+        phoneCode = binding.countryCodePicker.getSelectedCountryCodeWithPlus();
+        phoneNumber = binding.phoneNumberEt.getText().toString().trim();
+
+        // validate data
+        if (imageUri == null) {
+            // no image to upload to storage, just update db
+            updateProfileDb(null);
+        } else {
+            // image need to upload to storage, first upload image the update db
+            uploadProfileImageStorage();
+        }
+    }
+
+    private void uploadProfileImageStorage() {
+        Log.d(TAG, "uploadProfileImageStorage: ");
+
+        // show progress
+        progressDialog.setMessage("Uploading user profile image...");
+        progressDialog.show();
+
+        String filePathAndName = "UserImages/" + firebaseAuth.getUid();
+
+        StorageReference ref = FirebaseDatabase.getInstance().getReference().child(filePathAndName);
+        ref.putFile(imageUri)
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                        // progress from 0 to 100
+                        double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                        Log.d(TAG, "onSuccess: " + progress);
+
+                        // show progress to progress dialog
+                        progressDialog.setMessage("Uploading profile image. Progress: " + (int)progress + "");
+                    }
+                })
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Image uploaded successfully
+                        Log.d(TAG, "onSuccess: Uploaded");
+                        // To get url of upload image
+                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                        // Get url of uploaded image
+                        while(!uriTask.isSuccessful());
+                        String uploadedImageUrl = uriTask.getResult().toString();
+
+                        // if we get successfully then upload to db
+                        if(uriTask.isSuccessful()) {
+                            updateProfileDb(uploadedImageUrl);
+
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Failed to upload image
+                        Log.e(TAG, "onFailure: ", e);
+                        progressDialog.dismiss();
+                        MyUtils.toast(ProfileEditActivity.this, "Failed to upload profile image due to " + e.getMessage());
+                    }
+                });
+    }
+
+    private void updateProfileDb(String imageUrl) {
+        // show progress
+        progressDialog.setMessage("Updating user info...");
+        progressDialog.show();
+
+        // setup data in hashmap to update to firebase db
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("name", "" + name);
+        hashMap.put("dob", "" + dob);
+
+        if (imageUrl != null) {
+            // update profileImageUrl in db only if uploaded image url is not null
+            hashMap.put("profileImageUrl", "" + imageUrl);
+        }
+
+        /* if user type is Phone then allow to update email otherwise
+           (in case of Google or Email) allow to update Phone */
+        if (myUserType.equals(MyUtils.USER_TYPE_EMAIL) || myUserType.equals(MyUtils.USER_TYPE_GOOGLE)) {
+            // user type is google/email, allow to update phone number not email
+            hashMap.put("phoneCode", "" + phoneCode);
+            hashMap.put("phoneNumber", "" + phoneNumber);
+        } else if (myUserType.equals(MyUtils.USER_TYPE_PHONE)) {
+            // user type is phone, allow to update email, not phone number
+            hashMap.put("email", "" + email);
+        }
+
+        // Database reference of user to update info
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child("" + firebaseAuth.getUid())
+                .updateChildren(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        // updated successfully
+                        Log.d(TAG, "onSuccess: Info updated");
+                        progressDialog.dismiss();
+                        MyUtils.toast(ProfileEditActivity.this, "Profile updated...");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // failed to update
+                        Log.e(TAG, "onFailure: ", e);
+                        progressDialog.dismiss();
+                        MyUtils.toast(ProfileEditActivity.this, "Failed to update due to" + e.getMessage());
+                    }
+                });
+    }
+
+    private void imagePickDialog() {
+        /* Init popup menu param 1 is context and param 2 is the UI View (profileImagePickFab)
+           to above/below we need to show popup menu */
+        PopupMenu popupMenu = new PopupMenu(this, binding.profileImagePickFab);
+        /* Add menu items to our popup menu Param#1 is GroupID, Param#2 is ItemID,
+           Param#3 is OrderID, Param#4 is Menu Item Title */
+        popupMenu.getMenu().add(Menu.NONE, 1, 1, "Camera");
+        popupMenu.getMenu().add(Menu.NONE, 2, 2, "Gallery");
+        // Show Popup Menu
+        popupMenu.show();
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                // Get the id of the menu item clicked
+                int itemId = item.getItemId();
+
+                // Check which menu item is clicked based on itemId we got
+                if (itemId == 1) {
+                    /* Camera is clicked we need to check if we have permission of
+                       Camera, Storage before launching Camera to Capture image */
+                    Log.d(TAG, "onMenuItemClick: ");
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        // Device version is TIRAMISU (SDK 33) or above. We only need Camera permission
+                        requestCameraPermission.launch(new String[] {
+                                Manifest.permission.CAMERA
+                        });
+                    } else {
+                        // Device version is below TIRAMISU. We need Camera & Storage permissions
+                        requestCameraPermission.launch(new String[] {
+                                Manifest.permission.CAMERA,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        });
+                    }
+
+                } else if (itemId == 2) {
+                    // Gallery is clicked, we don't need any permission to launch Gallery
+                    Log.d(TAG, "onMenuItemClick: Gallery Clicked...");
+                    pickImageGallery();
+                }
+
+                return false;
+            }
+        });
 
     }
+
+    private final ActivityResultLauncher<String[]> requestCameraPermission = registerForActivityResult(
+            new ActivityResultContracts.RequestMultiplePermissions(),
+            new ActivityResultCallback<Map<String, Boolean>>() {
+                @Override
+                public void onActivityResult(Map<String, Boolean> result) {
+                    Log.d(TAG, "onActivityResult: " + result.toString());
+                    // Check if all permissions are granted
+                    boolean areAllGranted = true; // Iterate through the result values to check each permission
+                    for (Boolean isGranted : result.values()) {
+                        // Update the flag indicating whether all permissions are granted
+                        areAllGranted = areAllGranted && isGranted;
+                    }
+
+                    if (areAllGranted) {
+                        // All Permission Camera, Storage are granted, we can now launch camera to capture image
+                        pickImageCamera();
+                    } else {
+                        // Camera or Storage or Both permission are denied, can't launch camera capture image
+                        Log.d(TAG, "onActivityResult: All or either one permission denied...");
+                        MyUtils.toast(ProfileEditActivity.this, "Camera or Storage or Both permissions denied...");
+                    }
+                }
+            }
+    );
+
+    private void pickImageGallery() {
+        Log.d(TAG, "pickImageGallery: ");
+
+        // Intent to launch Image Picker e.g Gallery
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        galleryActivityResultLauncher.launch(intent);
+    }
+
+    private final ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    // Check if image is picked or not
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // Image Picked from Gallery, get data/intent from ActivityResult
+                        Intent data = result.getData();
+                        // get uri of image picked
+                        imageUri = data.getData();
+
+                        Log.d(TAG, "onActivityResult: Image Picked From Gallery: " + imageUri);
+
+                        try {
+                            // set to profileIv
+                            try {
+                                Glide.with(ProfileEditActivity.this)
+                                        .load(imageUri)
+                                        .placeholder(R.drawable.person_black)
+                                        .into(binding.profileIv);
+                            } catch (Exception e) {
+                                Log.e(TAG, "onActivityResult: ", e);
+                            }
+                        } catch (Exception e) {
+                            Log.e(TAG, "onActivityResult: ", e);
+                        }
+                    } else {
+                        // cancelled
+                        Log.d(TAG, "onActivityResult: Cancelled...");
+                        MyUtils.toast(ProfileEditActivity.this, "Cancelled...!");
+                    }
+                }
+            }
+    );
+
+    private void pickImageCamera() {
+        Log.d(TAG, "pickImageCamera: ");
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.Images.Media.TITLE, "temp_images");
+        contentValues.put(MediaStore.Images.Media.DESCRIPTION, "temp_images_description");
+        // store the camera image in imageUri variable
+        imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+
+        // Intent to launch camera
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        cameraActivityResultLauncher.launch(intent);
+    }
+
+    private final ActivityResultLauncher<Intent> cameraActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    // check if image is captured or not
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Log.d(TAG, "onActivityResult: Image Picked: " + imageUri);
+
+                        // set to profileIv
+                        try {
+                            Glide.with(ProfileEditActivity.this)
+                                    .load(imageUri)
+                                    .placeholder(R.drawable.person_black)
+                                    .into(binding.profileIv);
+                        } catch (Exception e) {
+                            Log.e(TAG, "onActivityResult: ", e);
+                        }
+                    } else {
+                        // cancelled
+                        Log.d(TAG, "onActivityResult: Cancelled...");
+                        MyUtils.toast(ProfileEditActivity.this, "Cancelled...");
+                    }
+                }
+            }
+    );
 
     private void loadMyInfo() {
         Log.d(TAG, "loadMyInfo: ");
@@ -130,6 +451,6 @@ public class ProfileEditActivity extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError error) {
 
                     }
-                })
+                });
     }
 }
