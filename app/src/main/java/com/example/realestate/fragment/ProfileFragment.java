@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.example.realestate.MyUtils;
 import com.example.realestate.R;
+import com.example.realestate.activities.ChangePasswordActivity;
 import com.example.realestate.activities.MainActivity;
 import com.example.realestate.activities.ProfileEditActivity;
 import com.example.realestate.databinding.FragmentProfileBinding;
@@ -88,11 +89,19 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        // handle editProfileCv click, start ProfileEditActivity
         binding.editProfileCv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 startActivity(new Intent(mContext, ProfileEditActivity.class));
+            }
+        });
+
+        // handle changePasswordCv click, start ChangePasswordActivity
+        binding.changePasswordCv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, ChangePasswordActivity.class));
             }
         });
     }

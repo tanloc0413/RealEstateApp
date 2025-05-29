@@ -84,7 +84,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         Log.d(TAG, "sendPasswordRecoveryInstruction: ");
 
         // show progress
-        progressDialog.setMessage("");
+        progressDialog.setMessage("sendPasswordRecoveryInstruction");
         progressDialog.show();
 
         firebaseAuth.sendPasswordResetEmail(email)
