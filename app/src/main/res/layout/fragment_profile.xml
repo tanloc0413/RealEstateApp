@@ -262,7 +262,7 @@
                            android:layout_centerVertical="true"
                            android:layout_marginEnd="15dp"
                            android:adjustViewBounds="true"
-                           android:src="@drawable/house"/>
+                           android:src="@drawable/house_logo1"/>
 
                         <!-- ImageView: Post Ad Icon -->
                         <TextView

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.PostAddActivity">
+
+    <!-- RelativeLayout: Toolbar -->
+    <RelativeLayout
+        android:id="@+id/toolbarRl"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="@drawable/toolbar_bg02">
+
+        <!-- ImageButton: Click to go-back -->
+        <ImageButton
+            android:id="@+id/toolbarBackBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="10dp"
+            android:src="@drawable/back_white"
+            app:tint="?attr/colorOnPrimary"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <!-- TextView: Just to show a labeled text -->
+        <TextView
+            android:id="@+id/toolbarTitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:text="Post an Ad"
+            android:textColor="?attr/colorOnPrimary"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="-15dp"
+            android:layout_below="@+id/toolbarBackBtn"
+            tools:ignore="HardcodedText"/>
+
+        <!-- TextView: Just to show a labeled text/description -->
+        <TextView
+            android:id="@+id/toolbarSubtitleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.Material3.BodySmall"
+            android:text="Reach thousands of the \nbuyers/tenants quickly"
+            android:layout_below="@+id/toolbarTitleTv"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="18sp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="2.5dp"
+            tools:ignore="HardcodedText"/>
+
+        <!-- ImageView: Just an icon -->
+        <ImageView
+            android:id="@+id/toolbarAssetTv"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/apartment"
+            android:layout_marginEnd="35dp"
+            android:layout_marginBottom="15dp"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="10dp"
+        android:layout_below="@+id/toolbarRl">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- TextView: Label of Property Purpose e.g Buy or Rent -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Purpose"
+                android:textSize="18sp"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                tools:ignore="HardcodedText"/>
+
+            <!-- RadioGroup: Choose purpose of property Buy or Rent -->
+            <RadioGroup
+                android:id="@+id/purposeRg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
+
+                <!-- RadioButton: Purpose Sell -->
+                <RadioButton
+                    android:id="@+id/purposeSellRb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"/>
+
+                <!-- RadioButton: Purpose Rent -->
+                <RadioButton
+                    android:id="@+id/purposeRentRb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Type"
+                android:textSize="18sp"
+                android:layout_marginTop="5dp"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                tools:ignore="HardcodedText"/>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/propertyCategoryTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- TabItem: Select property type Homes -->
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:icon="@drawable/modern_house_black"
+                    android:text="Homes"
+                    tools:ignore="HardcodedText"/>
+
+                <!-- TabItem: Select property type Plots -->
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:icon="@drawable/land_black"
+                    android:text="Plots"
+                    tools:ignore="HardcodedText"/>
+
+                <!-- TabItem: Select property type Commercial -->
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:icon="@drawable/store_black"
+                    android:text="Commercial"
+                    tools:ignore="HardcodedText"/>
+
+            </com.google.android.material.tabs.TabLayout>
+
+            <!-- TextInputLayout: Pick property sub category from
+                 drop down options -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/propertySubCategoryTil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:hint="Property Subcategory"
+                android:layout_marginTop="5dp"
+                app:startIconDrawable="@drawable/category_black"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
+                tools:ignore="HardcodedText">
+
+                <AutoCompleteTextView
+                    android:id="@+id/propertySubCategoryAct"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:paddingStart="50dp"
+                    android:textSize="18sp"
+                    tools:ignore="RtlSymmetry,SpeakableTextPresentCheck"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp"
+                android:text="Specifications"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bedroomTil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:hint="Bed Rooms"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:startIconDrawable="@drawable/bed_black"
+                tools:ignore="HardcodedText">
+
+                <EditText
+                    android:id="@+id/bedRoomEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textSize="18sp"
+                    android:paddingStart="50dp"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

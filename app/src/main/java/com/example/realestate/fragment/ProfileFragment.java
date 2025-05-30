@@ -19,6 +19,7 @@ import com.example.realestate.MyUtils;
 import com.example.realestate.R;
 import com.example.realestate.activities.ChangePasswordActivity;
 import com.example.realestate.activities.MainActivity;
+import com.example.realestate.activities.PostAddActivity;
 import com.example.realestate.activities.ProfileEditActivity;
 import com.example.realestate.databinding.FragmentProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -76,6 +77,15 @@ public class ProfileFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         
         loadMyInfo();
+
+        // handle postAdBtn click, start PostAddActivity
+        binding.postAdBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, PostAddActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // handle logoutBtn click, logout user and start MainActivity
         binding.logoutCv.setOnClickListener(new View.OnClickListener() {
