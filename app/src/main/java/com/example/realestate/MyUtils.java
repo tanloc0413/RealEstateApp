@@ -7,9 +7,53 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 public class MyUtils {
+    // Constants
     public static final String USER_TYPE_GOOGLE = "Google";
     public static final String USER_TYPE_EMAIL = "Email";
     public static final String USER_TYPE_PHONE = "Phone";
+
+
+    //
+    public static final String[] propertyTypes = {"Homes", "Plots", "Commercial"};
+    public static final String[] propertyTypesHomes = {
+            "House",
+            "Flats",
+            "Upper Portion",
+            "Lower Portion",
+            "Farm House",
+            "Room",
+            "Penthouse"
+    };
+    public static final String[] propertyTypesPlots = {
+            "Residential Plot",
+            "Commercial Plot",
+            "Agricultural Plot",
+            "Industrial Plot",
+            "Plot File",
+            "Plot Form"
+    };
+    public static final String[] propertyTypesCommercial = {
+            "Office",
+            "Shop",
+            "Warehouse",
+            "Factory",
+            "Building",
+            "Other"
+    };
+
+    public static final String[] propertyAreaSizeUnit = {
+            "ha",
+            "km²",
+            "m²",
+            "ft²",
+            "Building",
+            "Other"
+    };
+
+    public static final String PROPERTY_PURPOSE_ANY = "Any";
+    public static final String PROPERTY_PURPOSE_SELL = "Sell";
+    public static final String PROPERTY_PURPOSE_RENT = "Rent";
+
 
 
     public static void toast(Context context, String message) {

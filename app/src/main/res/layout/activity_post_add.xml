@@ -174,7 +174,7 @@
                 tools:ignore="HardcodedText">
 
                 <AutoCompleteTextView
-                    android:id="@+id/propertySubCategoryAct"
+                    android:id="@+id/propertySubcategoryAct"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
@@ -341,7 +341,7 @@
                     tools:ignore="HardcodedText,InefficientWeight">
 
                     <AutoCompleteTextView
-                        android:id="@+id/areaSizeUnitEt"
+                        android:id="@+id/areaSizeUnitAct"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
