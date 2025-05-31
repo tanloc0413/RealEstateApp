@@ -544,6 +544,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/pickImagesTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.Material3.TitleMedium"

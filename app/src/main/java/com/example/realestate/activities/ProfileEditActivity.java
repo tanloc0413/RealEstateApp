@@ -228,7 +228,7 @@ public class ProfileEditActivity extends AppCompatActivity {
     }
 
     private void imagePickDialog() {
-        /* Init popup menu param 1 is context and param 2 is the UI View (profileImagePickFab)
+        /* Init the PopupMenu, param 1 is context and param 2 is the UI View (profileImagePickFab)
            to above/below we need to show popup menu */
         PopupMenu popupMenu = new PopupMenu(this, binding.profileImagePickFab);
         /* Add menu items to our popup menu Param#1 is GroupID, Param#2 is ItemID,
@@ -253,12 +253,12 @@ public class ProfileEditActivity extends AppCompatActivity {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         // Device version is TIRAMISU (SDK 33) or above. We only need Camera permission
                         requestCameraPermission.launch(new String[] {
-                                Manifest.permission.CAMERA
+                                android.Manifest.permission.CAMERA
                         });
                     } else {
                         // Device version is below TIRAMISU. We need Camera & Storage permissions
                         requestCameraPermission.launch(new String[] {
-                                Manifest.permission.CAMERA,
+                                android.Manifest.permission.CAMERA,
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE
                         });
                     }
