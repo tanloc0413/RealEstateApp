@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardElevation="0dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- ShapeableImageView: Show image picked/taken
+             from Gallery/Camera -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageIv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            app:shapeAppearanceOverlay="@style/ImageStyle_Corner_Rounded"
+            tools:src="@tools:sample/backgrounds/scenic"/>
+
+        <!-- ImageButton: Click to remove the image picked/taken
+             from Gallery/Camera -->
+        <ImageButton
+            android:id="@+id/closeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_alignParentEnd="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/close_black"/>
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>
