@@ -7,6 +7,10 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 public class MyUtils {
+    public static final String AD_STATUS_AVAILABLE = "AVAILABLE";
+    public static final String AD_STATUS_SOLD = "SOLD";
+    public static final String AD_STATUS_RENTED = "RENTED";
+
     // Constants
     public static final String USER_TYPE_GOOGLE = "Google";
     public static final String USER_TYPE_EMAIL = "Email";

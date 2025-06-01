@@ -24,18 +24,32 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.realestate.AdapterImagePicked;
+import com.example.realestate.ModelImagePicked;
 import com.example.realestate.MyUtils;
 import com.example.realestate.R;
 import com.example.realestate.databinding.ActivityPostAddBinding;
 import com.example.realestate.databinding.ActivityProfileEditBinding;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class PostAddActivity extends AppCompatActivity {
@@ -47,15 +61,24 @@ public class PostAddActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     // ProgressDialog to show while verify account
     private ProgressDialog progressDialog;
-    //
-    private String category = MyUtils.propertyTypes[0];
-    private String purpose = MyUtils.PROPERTY_PURPOSE_SELL;
-    /* Array Adapter to set to AutoCompleteTextView, so user can
-       select subcategory base on category */
-    private ArrayAdapter<String> adapterPropertySubcategory;
     /* Image Uri to hold uri of the image (picked/captured using
        Gallery/Camera) to add in Ad Images List */
     private Uri imageUri = null;
+    /* Array Adapter to set to AutoCompleteTextView, so user can
+       select subcategory base on category */
+    private ArrayAdapter<String> adapterPropertySubcategory;
+    // List of images (picked/captured using Gallery/Camera or from Internet)
+    private ArrayList<ModelImagePicked> imagePickedArrayList;
+    // Adapter to show images picked/taken from Gallery/Camera or from Internet
+    private AdapterImagePicked adapterImagePicked;
+    private String category = MyUtils.propertyTypes[0];
+    private String purpose = MyUtils.PROPERTY_PURPOSE_SELL;
+    private String subcategory = "", floors = "", bedRooms = "", bathRooms = "";
+    private String areaSize = "", areaSizeUnit = "", price = "", title = "";
+    private String description = "", email = "", phoneCode = "", phoneNumber = "";
+    private String country = "", city = "", address = "";
+    private double latitude = 0, longitude = 0;
+
 
 
     @Override
@@ -65,6 +88,14 @@ public class PostAddActivity extends AppCompatActivity {
         binding = ActivityPostAddBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Firebase Auth for auth related tasks
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        // init/setup ProgressDialog to show while adding/updating the Ad
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Please wait...!");
+        progressDialog.setCanceledOnTouchOutside(false);
+
         /* setup and set the property area size unit adapter to the
            Property Area Unit Filed i.e areaSizeUnitAct */
         ArrayAdapter<String> adapterAreaSize = new ArrayAdapter<>(
@@ -72,6 +103,9 @@ public class PostAddActivity extends AppCompatActivity {
         );
         binding.areaSizeUnitAct.setAdapter(adapterAreaSize);
 
+        // init imagePickedArrayList
+        imagePickedArrayList = new ArrayList<>();
+        loadImages();
         propertyCategoryHomes();
 
         // handle propertyCategoryTabLayout change listener, Choose Category
@@ -129,6 +163,245 @@ public class PostAddActivity extends AppCompatActivity {
                 showImagePickOptions();
             }
         });
+
+        // handle submitBtn click, validate data and upload
+        binding.submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                validateData();
+            }
+        });
+    }
+
+    private void validateData() {
+        Log.d(TAG, "validateData: ");
+
+        // input data
+        subcategory = binding.propertySubcategoryAct.getText().toString().trim();
+        floors = binding.floorsEt.getText().toString().trim();
+        bedRooms = binding.bedRoomEt.getText().toString().trim();
+        bathRooms = binding.bathRoomEt.getText().toString().trim();
+        areaSize = binding.areaSizeEt.getText().toString().trim();
+        areaSizeUnit = binding.areaSizeUnitAct.getText().toString().trim();
+        address = binding.locationAct.getText().toString().trim();
+        price = binding.priceEt.getText().toString().trim();
+        title = binding.titleEt.getText().toString().trim();
+        description = binding.descriptionEt.getText().toString().trim();
+        email = binding.emailEt.getText().toString().trim();
+        phoneCode = binding.phoneCodeTil.getSelectedCountryCodeWithPlus();
+        phoneNumber = binding.phoneNumberEt.getText().toString().trim();
+
+        // validate data
+        if (subcategory.isEmpty()) {
+            /* no property subcategory selected in propertySubcategoryAct, show
+               error in propertySubcategoryAct and focus */
+            binding.propertySubcategoryAct.setError("Choose Subcategory");
+            binding.propertySubcategoryAct.requestFocus();
+        } else if (category.equals(MyUtils.propertyTypes[0]) && floors.isEmpty()) {
+            /* Property Type is Home, No floors count entered in floorEt, show
+               error in floorEt and focus */
+            binding.floorsEt.setError("Enter Floors Count...!");
+            binding.floorsEt.requestFocus();
+        } else if (category.equals(MyUtils.propertyTypes[0]) && bedRooms.isEmpty()) {
+            /* Property Type is Home, No floors count entered in bedRoomEt, show
+               error in bedRoomEt and focus */
+            binding.bedRoomEt.setError("Enter Bedrooms Count...!");
+            binding.bedRoomEt.requestFocus();
+        } else if (category.equals(MyUtils.propertyTypes[0]) && bathRooms.isEmpty()) {
+            /* Property Type is Home, No floors count entered in bathRoomEt, show
+               error in bathRoomEt and focus */
+            binding.bathRoomEt.setError("Enter Bathrooms Count...!");
+            binding.bathRoomEt.requestFocus();
+        } else if (areaSize.isEmpty()) {
+            // no area size entered in areaSizeEt, show error in areaSizeEt and focus
+            binding.areaSizeEt.setError("Enter Area Size...!");
+            binding.areaSizeEt.requestFocus();
+        } else if (areaSizeUnit.isEmpty()) {
+            // no area size entered in areaSizeUnitAct, show error in areaSizeUnitAct and focus
+            binding.areaSizeUnitAct.setError("Choose Area Size Unit...!");
+            binding.areaSizeUnitAct.requestFocus();
+        }
+//        else if (address.isEmpty()) {
+//            /* no address selected in locationAct (need to pick from map), show error
+//               in locationAct and focus */
+//            binding.locationAct.setError("Pick Location...!");
+//            binding.locationAct.requestFocus();
+//        }
+        else if (price.isEmpty()) {
+            // no price entered in priceEt, show error in priceEt and focus
+            binding.priceEt.setError("Enter Price...!");
+            binding.priceEt.requestFocus();
+        } else if (title.isEmpty()) {
+            // no title entered in titleEt, show error in titleEt and focus
+            binding.titleEt.setError("Enter Title...!");
+            binding.titleEt.requestFocus();
+        } else if (description.isEmpty()) {
+            // no description entered in descriptionEt, show error in descriptionEt and focus
+            binding.descriptionEt.setError("Enter Description...!");
+            binding.descriptionEt.requestFocus();
+        } else if (phoneNumber.isEmpty()) {
+            // no phone number entered in phoneNumberEt, show error in phoneNumberEt and focus
+            binding.phoneNumberEt.setError("Enter Phone Number...!");
+            binding.phoneNumberEt.requestFocus();
+        } else if (imagePickedArrayList.isEmpty()) {
+            // no image selected/picked
+            MyUtils.toast(this, "Pick at-least one image...!");
+        } else {
+            // all data is validated, we can proceed further now
+            postAd();
+        }
+
+    }
+
+    private void postAd() {
+        Log.d(TAG, "postAd: ");
+
+        // show progress
+        progressDialog.setMessage("Publishing Ad");
+        progressDialog.show();
+
+        // if bedRooms is empty init with "0"
+        if (bedRooms.isEmpty()) {
+            bedRooms = "0";
+        }
+
+        // if bathRooms is empty init with "0"
+        if (bathRooms.isEmpty()) {
+            bathRooms = "0";
+        }
+
+        // get current timestamp
+        long timestamp = MyUtils.timestamp();
+        // firebase database Properties reference to store new Properties
+        DatabaseReference refProperties = FirebaseDatabase.getInstance().getReference("Properties");
+        // key id from the reference to use as Ad id
+        String keyId = refProperties.push().getKey();
+
+        // setup data to add in firebase database
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("id", "" + keyId);
+        hashMap.put("uid", "" + firebaseAuth.getUid());
+        hashMap.put("purpose", "" + purpose);
+        hashMap.put("category", "" + category);
+        hashMap.put("subcategory", "" + subcategory);
+        hashMap.put("areaSize", Double.parseDouble(areaSize));
+        hashMap.put("areaSizeUnit", "" + areaSizeUnit);
+        hashMap.put("title", "" + title);
+        hashMap.put("description", "" + description);
+        hashMap.put("email", "" + email);
+        hashMap.put("phoneCode", "" + phoneCode);
+        hashMap.put("phoneNumber", "" + phoneNumber);
+        hashMap.put("country", "" + country);
+        hashMap.put("city", "" + city);
+        hashMap.put("address", "" + address);
+        hashMap.put("status", "" + MyUtils.AD_STATUS_AVAILABLE);
+        hashMap.put("floors", Long.parseLong(floors));
+        hashMap.put("bedRooms", Long.parseLong(bedRooms));
+        hashMap.put("bathRooms", Long.parseLong(bathRooms));
+        hashMap.put("price", Double.parseDouble(price));
+        hashMap.put("timestamp", timestamp);
+        hashMap.put("latitude", latitude);
+        hashMap.put("longitude", longitude);
+
+        // set data to firebase database, Properties -> PropertyId -> PropertyDataJSON
+        refProperties.child(keyId)
+                .setValue(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: Ad Published");
+
+                        uploadImagesStorage(keyId);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: ", e);
+                        progressDialog.dismiss();
+                        MyUtils.toast(
+                                PostAddActivity.this,
+                                "Failed to publish due to " + e.getMessage()
+                        );
+                    }
+                });
+    }
+
+    private void uploadImagesStorage(String propertyId) {
+        Log.d(TAG, "uploadImagesStorage: propertyId: " + propertyId);
+
+        for (int i = 0; i < imagePickedArrayList.size(); i++) {
+            ModelImagePicked modelImagePicked = imagePickedArrayList.get(i);
+
+            if (!modelImagePicked.isFromInternet()) {
+                String imageName = modelImagePicked.getId();
+                String filePathAndName = "Properties/" + imageName;
+                int imageIndexForProgress = i + 1;
+                Uri pickedImageUri = modelImagePicked.getImageUri();
+
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
+                storageReference.putFile(pickedImageUri)
+                        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                                double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
+
+                                String message = "Uploading" + imageIndexForProgress
+                                        + " of " + imagePickedArrayList.size()
+                                        + " images... \nProgress " + (int)progress + "%";
+                                Log.d(TAG, "onProgress: message: " + message);
+
+                                progressDialog.setMessage(message);
+                                progressDialog.show();
+                            }
+                        })
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Log.d(TAG, "onSuccess: ");
+
+                                // image uploaded get url of uploaded image
+                                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                                while (!uriTask.isSuccessful());
+                                Uri uploadedImageUrl = uriTask.getResult();
+
+                                if (uriTask.isSuccessful()) {
+                                    HashMap<String, Object> hashMap = new HashMap<>();
+                                    hashMap.put("id", "" + modelImagePicked.getId());
+                                    hashMap.put("uid", "" + uploadedImageUrl);
+
+                                    DatabaseReference refProperties = FirebaseDatabase.getInstance().getReference("Properties");
+                                    refProperties.child(propertyId).child("Images")
+                                            .child(imageName).updateChildren(hashMap);
+                                }
+
+                                progressDialog.dismiss();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.e(TAG, "onFailure: ", e);
+
+                                MyUtils.toast(
+                                        PostAddActivity.this,
+                                        "Failed to uploaded due to " + e.getMessage()
+                                );
+
+                                progressDialog.dismiss();
+                            }
+                        });
+
+            }
+        }
+    }
+
+    private void loadImages() {
+        Log.d(TAG, "loadImages: ");
+
+        adapterImagePicked = new AdapterImagePicked(this, imagePickedArrayList);
+        // set adapter to imageRv
+        binding.imagesRv.setAdapter(adapterImagePicked);
     }
 
     private void propertyCategoryHomes() {
@@ -258,6 +531,18 @@ public class PostAddActivity extends AppCompatActivity {
                         imageUri = data.getData();
 
                         Log.d(TAG, "onActivityResult: imageUri: " + imageUri);
+
+                        // timestamp will be used as id of the image picked
+                        String timestamp = "" + MyUtils.timestamp();
+
+                        /* setup model for image. Param 1 is id, Param 2 is imageUri,
+                           Param 3 is imageUrl, from Internet */
+                        ModelImagePicked modelImagePicked = new ModelImagePicked(timestamp, imageUri, null, false);
+                        // add model to the imagePickedArrayList
+                        imagePickedArrayList.add(modelImagePicked);
+                        // reload the images
+                        loadImages();
+
                     } else {
                         // cancelled
                         MyUtils.toast(PostAddActivity.this, "Cancelled!");
@@ -344,6 +629,17 @@ public class PostAddActivity extends AppCompatActivity {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         // no need to get image uri here we already got it in pickImageCamera() function
                         Log.d(TAG, "onActivityResult: ");
+
+                        // timestamp will be used as id of the image picked
+                        String timestamp = "" + MyUtils.timestamp();
+
+                        /* setup model for image. Param 1 is id, Param 2 is imageUri,
+                           Param 3 is imageUrl, from Internet */
+                        ModelImagePicked modelImagePicked = new ModelImagePicked(timestamp, imageUri, null, false);
+                        // add model to the imagePickedArrayList
+                        imagePickedArrayList.add(modelImagePicked);
+                        // reload the images
+                        loadImages();
                     } else {
                         // Cancelled
                         MyUtils.toast(PostAddActivity.this, "Cancelled!");
