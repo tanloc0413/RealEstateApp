@@ -25,7 +25,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.realestate.AdapterImagePicked;
+import com.example.realestate.adapters.AdapterImagePicked;
 import com.example.realestate.models.ModelImagePicked;
 import com.example.realestate.MyUtils;
 import com.example.realestate.databinding.ActivityPostAddBinding;
@@ -407,7 +407,7 @@ public class PostAddActivity extends AppCompatActivity {
                                 if (uriTask.isSuccessful()) {
                                     HashMap<String, Object> hashMap = new HashMap<>();
                                     hashMap.put("id", "" + modelImagePicked.getId());
-                                    hashMap.put("uid", "" + uploadedImageUrl);
+                                    hashMap.put("imageUrl", "" + uploadedImageUrl);
 
                                     DatabaseReference refProperties = FirebaseDatabase.getInstance().getReference("Properties");
                                     refProperties.child(propertyId).child("Images")

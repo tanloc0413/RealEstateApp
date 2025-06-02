@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.format.DateFormat;
 import android.widget.Toast;
 
+import java.text.NumberFormat;
 import java.util.Calendar;
 
 public class MyUtils {
@@ -75,5 +76,13 @@ public class MyUtils {
         String date = DateFormat.format("dd/MM/yyyy", calendar).toString();
 
         return date;
+    }
+
+    public static String formatCurrency(Double price) {
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+
+        numberFormat.setMaximumFractionDigits(2);
+
+        return numberFormat.format(price);
     }
 }

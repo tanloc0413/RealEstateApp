@@ -11,10 +11,10 @@ import android.view.MenuItem;
 import com.example.realestate.MyUtils;
 import com.example.realestate.R;
 import com.example.realestate.databinding.ActivityMainBinding;
-import com.example.realestate.fragment.ChatListFragment;
-import com.example.realestate.fragment.FavoriteListFragment;
-import com.example.realestate.fragment.HomeFragment;
-import com.example.realestate.fragment.ProfileFragment;
+import com.example.realestate.fragments.ChatListFragment;
+import com.example.realestate.fragments.FavoriteListFragment;
+import com.example.realestate.fragments.HomeFragment;
+import com.example.realestate.fragments.ProfileFragment;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 

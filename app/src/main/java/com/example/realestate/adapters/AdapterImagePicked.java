@@ -1,4 +1,4 @@
-package com.example.realestate;
+package com.example.realestate.adapters;
 
 import android.content.Context;
 import android.net.Uri;
@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.realestate.R;
 import com.example.realestate.databinding.RowImagesPickedBinding;
 import com.example.realestate.models.ModelImagePicked;
 

@@ -1,4 +1,4 @@
-package com.example.realestate.fragment;
+package com.example.realestate.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
