@@ -11,14 +11,15 @@
     app:strokeColor="@color/colorGray3">
     
     <RelativeLayout
+        android:id="@+id/cardProperty"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="130dp">
 
         <RelativeLayout
             android:id="@+id/profileRl"
             android:layout_width="110dp"
-            android:layout_height="125dp"
-            android:layout_marginRight="6dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             tools:ignore="RtlHardcoded">
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -31,14 +32,24 @@
                 app:shapeAppearanceOverlay="@style/ImageStyle_Corner_Rounded"
                 tools:src="@tools:sample/backgrounds/scenic"/>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/favoriteBtn"
+
+            <RelativeLayout
+                android:id="@+id/buttons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:alpha=".8"
-                app:backgroundTint="?attr/colorPrimary"
-                app:fabCustomSize="40dp"/>
+                android:layout_marginTop="3.5dp"
+                android:layout_marginLeft="5dp">
+
+                <ImageButton
+                    android:id="@+id/favoriteBtn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/un_fav_red"
+                    app:backgroundTint="@android:color/transparent"
+                    app:tint="@color/black"
+                    tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
@@ -136,18 +147,19 @@
             tools:text="@tools:sample/lorem[10]"/>
 
         <RelativeLayout
+            android:id="@+id/dateTimeAndPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/addressTv"
             android:layout_toEndOf="@+id/profileRl"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="1dp">
 
             <TextView
                 android:id="@+id/dateTv"
                 style="@style/TextAppearance.Material3.LabelMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="0dp"
                 android:drawableStart="@drawable/time_gray"
                 android:drawablePadding="3dp"
                 android:gravity="center_vertical"
@@ -161,7 +173,7 @@
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.Material3.LabelLarge"
                 android:layout_toStartOf="@+id/priceSymbolTv"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="3dp"
                 tools:text="1500"/>
 
             <TextView
@@ -170,7 +182,7 @@
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.Material3.LabelLarge"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2.5dp"
                 tools:text="@string/price_symbol"

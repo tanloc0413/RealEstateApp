@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import com.example.realestate.R;
 import com.example.realestate.databinding.RowPropertyBinding;
 import com.example.realestate.models.ModelProperty;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,18 +29,18 @@ import java.util.ArrayList;
 public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.HolderProperty> {
     // view binding
     private RowPropertyBinding binding;
-
     private static final String TAG = "PROPERTY_TAG";
-
     // context of activity/fragment from where instance of AdapterAd class is created
     private Context context;
-
     // propertyArrayList the list of the Ads
     private ArrayList<ModelProperty> propertyArrayList;
+    private FirebaseAuth firebaseAuth;
 
     public AdapterProperty(Context context, ArrayList<ModelProperty> propertyArrayList) {
         this.context = context;
         this.propertyArrayList = propertyArrayList;
+
+        firebaseAuth = FirebaseAuth.getInstance();
     }
 
     @NonNull
@@ -54,6 +56,7 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
 
         double price = modelProperty.getPrice();
         long timestamp = modelProperty.getTimestamp();
+        String propertyId = modelProperty.getId();
         String title = modelProperty.getTitle();
         String description = modelProperty.getDescription();
         String address = modelProperty.getAddress();
@@ -65,6 +68,10 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
 
         loadPropertyFirstImage(modelProperty, holder);
 
+        if (firebaseAuth.getCurrentUser() != null) {
+            checkIsFavorite(modelProperty, holder);
+        }
+
         holder.titleTv.setText(title);
         holder.descriptionTv.setText(description);
         holder.purposeTv.setText(purpose);
@@ -73,6 +80,19 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
         holder.addressTv.setText(address);
         holder.dateTv.setText(formattedDate);
         holder.priceTv.setText(formattedPrice);
+
+        holder.favoriteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean favorite = modelProperty.isFavorite();
+
+                if (favorite) {
+                    MyUtils.removeFromFavorite(context, propertyId);
+                } else {
+                    MyUtils.addToFavorite(context, propertyId);
+                }
+            }
+        });
     }
 
     private void loadPropertyFirstImage(ModelProperty modelProperty, HolderProperty holder) {
@@ -107,6 +127,30 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
                 });
     }
 
+    private void checkIsFavorite(ModelProperty modelProperty, HolderProperty holder) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(firebaseAuth.getUid()).child("Favorites").child(modelProperty.getId())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        boolean favorite = snapshot.exists();
+
+                        modelProperty.setFavorite(favorite);
+
+                        if (favorite) {
+                            holder.favoriteBtn.setImageResource(R.drawable.fav_red);
+                        } else {
+                            holder.favoriteBtn.setImageResource(R.drawable.un_fav_red);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
     @Override
     public int getItemCount() {
         return propertyArrayList.size();
@@ -116,6 +160,7 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
         // UI Views of the row_property.xml
         ShapeableImageView propertyIv;
         TextView titleTv, descriptionTv, purposeTv, categoryTv, subcategoryTv, addressTv, dateTv, priceTv;
+        ImageButton favoriteBtn;
 
         public HolderProperty(@NonNull View itemView) {
             super(itemView);
@@ -130,6 +175,7 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
             addressTv = binding.purposeTv;
             dateTv = binding.dateTv;
             priceTv = binding.priceTv;
+            favoriteBtn = binding.favoriteBtn;
         }
     }
 }

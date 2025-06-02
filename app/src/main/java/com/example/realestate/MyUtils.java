@@ -4,8 +4,17 @@ import android.content.Context;
 import android.text.format.DateFormat;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.NumberFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class MyUtils {
     public static final String AD_STATUS_AVAILABLE = "AVAILABLE";
@@ -84,5 +93,59 @@ public class MyUtils {
         numberFormat.setMaximumFractionDigits(2);
 
         return numberFormat.format(price);
+    }
+
+    public static void addToFavorite(Context context, String propertyId) {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+        if (firebaseAuth.getCurrentUser() == null) {
+            MyUtils.toast(context, "You're not logged-in!");
+        } else {
+            long timestamp = MyUtils.timestamp();
+
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("propertyId", propertyId);
+            hashMap.put("timestamp", timestamp);
+
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+            ref.child(firebaseAuth.getUid()).child("Favorities").child(propertyId)
+                    .setValue(hashMap)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            MyUtils.toast(context, "Added to favorite...!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            MyUtils.toast(context, "Failed to add to favorite due to " + e.getMessage());
+                        }
+                    });
+        }
+    }
+
+    public static void removeFromFavorite(Context context, String propertyId) {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+        if (firebaseAuth.getCurrentUser() == null) {
+            MyUtils.toast(context, "You're not logged-in!");
+        } else {
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+            ref.child(firebaseAuth.getUid()).child("Favorities").child(propertyId)
+                    .removeValue()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            MyUtils.toast(context, "Removed from favorites...!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            MyUtils.toast(context, "Failed to remove from favorites due to " + e.getMessage());
+                        }
+                    });
+        }
     }
 }

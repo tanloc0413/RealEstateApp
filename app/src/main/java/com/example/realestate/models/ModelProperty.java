@@ -6,12 +6,13 @@ public class ModelProperty {
     String country, city, state, address, status;
     long floors, bedRooms, bathRooms, timestamp;
     Double latitude, longitude, areaSize, price;
+    boolean favorite;
 
     // Constructor
     public ModelProperty() {
     }
 
-    public ModelProperty(String id, String uid, String purpose, String category,
+    public ModelProperty(String id, String uid, String purpose, String category, boolean favorite,
                          String subcategory, String areaSizeUnit, String title, String description,
                          String email, String phoneCode, String phoneNumber, String country,
                          String city, String state, String address, String status,
@@ -41,9 +42,18 @@ public class ModelProperty {
         this.longitude = longitude;
         this.areaSize = areaSize;
         this.price = price;
+        this.favorite = favorite;
     }
 
     // Getter & Setter
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
     public String getId() {
         return id;
     }
