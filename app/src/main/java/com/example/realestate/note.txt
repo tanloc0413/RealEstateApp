@@ -1,2 +1,4 @@
 đăng nhập bằng email và phone và google, đăng ký, quên mật khẩu, đổi mật khẩu
-trang profile, thêm bài bđs, chỉnh sửa profile,
+trang profile, thêm bài bđs, chỉnh sửa profile
+
+tập 18: fix 31:40

@@ -4,8 +4,14 @@
 
     <uses-permission
         android:name="android.permission.CAMERA"
-        tools:ignore="PermissionImpliesUnsupportedChromeOsHardware" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        tools:ignore="PermissionImpliesUnsupportedChromeOsHardware"/>
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage"/>
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        tools:ignore="CoarseFineLocation"/>
+
 
     <application
         android:allowBackup="true"
@@ -17,6 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RealEstate"
         tools:targetApi="31">
+        <activity
+            android:name=".activities.LocationPickerActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.PostAddActivity"
             android:exported="false" />
@@ -50,6 +59,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/my_maps_api_key" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+
     </application>
 
 </manifest>

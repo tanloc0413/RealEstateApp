@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.realestate.databinding.RowImagesPickedBinding;
+import com.example.realestate.models.ModelImagePicked;
 
 import java.util.ArrayList;
 

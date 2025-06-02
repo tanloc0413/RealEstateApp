@@ -18,24 +18,17 @@ import android.widget.PopupMenu;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.realestate.AdapterImagePicked;
-import com.example.realestate.ModelImagePicked;
+import com.example.realestate.models.ModelImagePicked;
 import com.example.realestate.MyUtils;
-import com.example.realestate.R;
 import com.example.realestate.databinding.ActivityPostAddBinding;
-import com.example.realestate.databinding.ActivityProfileEditBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -76,7 +69,7 @@ public class PostAddActivity extends AppCompatActivity {
     private String subcategory = "", floors = "", bedRooms = "", bathRooms = "";
     private String areaSize = "", areaSizeUnit = "", price = "", title = "";
     private String description = "", email = "", phoneCode = "", phoneNumber = "";
-    private String country = "", city = "", address = "";
+    private String country = "", city = "", address = "", state = "";
     private double latitude = 0, longitude = 0;
 
 
@@ -164,6 +157,15 @@ public class PostAddActivity extends AppCompatActivity {
             }
         });
 
+        // handle locationAct click, launch LocationPickerActivity to pick location from MAP
+        binding.locationAct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PostAddActivity.this, LocationPickerActivity.class);
+                locationPickerActivityResultLauncher.launch(intent);
+            }
+        });
+
         // handle submitBtn click, validate data and upload
         binding.submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,6 +174,39 @@ public class PostAddActivity extends AppCompatActivity {
             }
         });
     }
+
+    private ActivityResultLauncher<Intent> locationPickerActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    Log.d(TAG, "onActivityResult: result: " + result);
+
+                    // get result of location picked from LocationPickerActivity
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+
+                        if (data != null) {
+                            latitude = data.getDoubleExtra("latitude", 0);
+                            longitude = data.getDoubleExtra("longitude", 0);
+                            address = data.getStringExtra("address");
+                            city = data.getStringExtra("city");
+                            country = data.getStringExtra("country");
+                            state = data.getStringExtra("state");
+
+                            Log.d(TAG, "onActivityResult: latitude" + latitude);
+                            Log.d(TAG, "onActivityResult: longitude" + longitude);
+                            Log.d(TAG, "onActivityResult: address" + address);
+                            Log.d(TAG, "onActivityResult: city" + city);
+                            Log.d(TAG, "onActivityResult: country" + country);
+                            Log.d(TAG, "onActivityResult: state" + state);
+
+                            binding.locationAct.setText(address);
+                        }
+                    }
+                }
+            }
+    );
 
     private void validateData() {
         Log.d(TAG, "validateData: ");
@@ -220,14 +255,12 @@ public class PostAddActivity extends AppCompatActivity {
             // no area size entered in areaSizeUnitAct, show error in areaSizeUnitAct and focus
             binding.areaSizeUnitAct.setError("Choose Area Size Unit...!");
             binding.areaSizeUnitAct.requestFocus();
-        }
-//        else if (address.isEmpty()) {
-//            /* no address selected in locationAct (need to pick from map), show error
-//               in locationAct and focus */
-//            binding.locationAct.setError("Pick Location...!");
-//            binding.locationAct.requestFocus();
-//        }
-        else if (price.isEmpty()) {
+        } else if (address.isEmpty()) {
+            /* no address selected in locationAct (need to pick from map), show error
+               in locationAct and focus */
+            binding.locationAct.setError("Pick Location...!");
+            binding.locationAct.requestFocus();
+        } else if (price.isEmpty()) {
             // no price entered in priceEt, show error in priceEt and focus
             binding.priceEt.setError("Enter Price...!");
             binding.priceEt.requestFocus();
@@ -259,6 +292,11 @@ public class PostAddActivity extends AppCompatActivity {
         // show progress
         progressDialog.setMessage("Publishing Ad");
         progressDialog.show();
+
+        // if floors is empty init with "0"
+        if (floors.isEmpty()) {
+            floors = "0";
+        }
 
         // if bedRooms is empty init with "0"
         if (bedRooms.isEmpty()) {
@@ -293,6 +331,7 @@ public class PostAddActivity extends AppCompatActivity {
         hashMap.put("phoneNumber", "" + phoneNumber);
         hashMap.put("country", "" + country);
         hashMap.put("city", "" + city);
+        hashMap.put("state", "" + state);
         hashMap.put("address", "" + address);
         hashMap.put("status", "" + MyUtils.AD_STATUS_AVAILABLE);
         hashMap.put("floors", Long.parseLong(floors));
