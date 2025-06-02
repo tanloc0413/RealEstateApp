@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.MyPropertyListActivity">
+
+    <RelativeLayout
+        android:id="@+id/toolbarRl"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="@drawable/toolbar_bg02">
+
+        <!-- ImageButton: Click to go-back -->
+        <ImageButton
+            android:id="@+id/toolbarBackBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="10dp"
+            android:src="@drawable/back_white"
+            app:tint="?attr/colorOnPrimary"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <!-- TextView: Toolbar title -->
+        <TextView
+            android:id="@+id/toolbarTitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.Material3.LabelLarge"
+            android:text="My Ads"
+            android:textColor="?attr/colorOnPrimary"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:textSize="22sp"
+            tools:ignore="HardcodedText"/>
+
+    </RelativeLayout>
+    
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/propertiesRv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbarRl"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/row_property"/>
+
+</RelativeLayout>

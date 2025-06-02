@@ -35,7 +35,8 @@
             android:textColor="?attr/colorOnPrimary"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
-            android:textSize="22sp"/>
+            android:textSize="22sp"
+            tools:ignore="HardcodedText"/>
 
         <!-- RelativeLayout: Profile Image, Pick Image for Profile -->
         <RelativeLayout

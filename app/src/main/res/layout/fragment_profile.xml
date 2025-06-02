@@ -288,6 +288,28 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/myPropertiesCv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    app:cardCornerRadius="10dp"
+                    app:contentPadding="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="My Ads"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="16.5sp"
+                        android:textColor="#787575"
+                        android:drawablePadding="10dp"
+                        android:drawableStart="@drawable/edit_gray"
+                        android:drawableEnd="@drawable/next_gray"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/editProfileCv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -11,7 +11,7 @@
         />
     <item android:id="@+id/item_favorite"
         android:title="Favorite"
-        android:icon="@drawable/favorite_no_black"
+        android:icon="@drawable/fav_black"
         />
     <item android:id="@+id/item_profile"
         android:title="Profile"

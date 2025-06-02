@@ -19,6 +19,7 @@ import com.example.realestate.MyUtils;
 import com.example.realestate.R;
 import com.example.realestate.activities.ChangePasswordActivity;
 import com.example.realestate.activities.MainActivity;
+import com.example.realestate.activities.MyPropertyListActivity;
 import com.example.realestate.activities.PostAddActivity;
 import com.example.realestate.activities.ProfileEditActivity;
 import com.example.realestate.databinding.FragmentProfileBinding;
@@ -112,6 +113,14 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(mContext, ChangePasswordActivity.class));
+            }
+        });
+
+        // handle myPropertiesCv click, start MyPropertyListActivity
+        binding.myPropertiesCv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, MyPropertyListActivity.class));
             }
         });
     }

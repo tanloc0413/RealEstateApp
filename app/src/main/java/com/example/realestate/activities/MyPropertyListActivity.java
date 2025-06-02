@@ -1,0 +1,93 @@
+package com.example.realestate.activities;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+
+import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import com.bumptech.glide.Glide;
+import com.example.realestate.R;
+import com.example.realestate.adapters.AdapterProperty;
+import com.example.realestate.databinding.ActivityMyPropertyListBinding;
+import com.example.realestate.models.ModelProperty;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
+public class MyPropertyListActivity extends AppCompatActivity {
+    // view binding
+    private ActivityMyPropertyListBinding binding;
+    // Tag to show logs in logcat
+    private static final String TAG = "MY_PROFILE_LIST_TAG";
+    // Firebase Auth for auth related tasks
+    private FirebaseAuth firebaseAuth;
+    private ArrayList<ModelProperty> propertyArrayList;
+    private AdapterProperty adapterProperty;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // init view binding... activity_my_property_list.xml = ActivityMyPropertyListBinding
+        binding = ActivityMyPropertyListBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        // Firebase Auth for auth related tasks
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        loadMyProperties();
+
+        // handle toolbarBackBtn click, go-back
+        binding.toolbarBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+
+    private void loadMyProperties() {
+        propertyArrayList = new ArrayList<>();
+        String myUid = "" + firebaseAuth.getUid();
+        Log.d(TAG, "loadMyProperties: " + myUid);
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Properties");
+        ref.orderByChild("uid").equalTo(myUid)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        propertyArrayList.clear();
+
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+
+                            try {
+                                ModelProperty modelProperty = ds.getValue(ModelProperty.class);
+
+                                propertyArrayList.add(modelProperty);
+                            } catch (Exception e) {
+                                Log.e(TAG, "onDataChange: ", e);
+                            }
+                        }
+
+                        adapterProperty = new AdapterProperty(MyPropertyListActivity.this, propertyArrayList);
+                        binding.propertiesRv.setAdapter(adapterProperty);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+}
