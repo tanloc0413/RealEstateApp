@@ -1,6 +1,8 @@
 package com.example.realestate;
 
 import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
 import android.text.format.DateFormat;
 import android.widget.Toast;
 
@@ -26,8 +28,9 @@ public class MyUtils {
     public static final String USER_TYPE_EMAIL = "Email";
     public static final String USER_TYPE_PHONE = "Phone";
 
+    public static final int MAX_DISTANCE_TO_LOAD_PROPERTIES = 10;
 
-    //
+
     public static final String[] propertyTypes = {"Homes", "Plots", "Commercial"};
     public static final String[] propertyTypesHomes = {
             "House",
@@ -93,6 +96,23 @@ public class MyUtils {
         numberFormat.setMaximumFractionDigits(2);
 
         return numberFormat.format(price);
+    }
+
+    public static double caculateDistanceKm(
+            double currentLatitude, double currentLongitude,
+            double propertyLatitude, double propertyLongitude) {
+        Location startPoint = new Location(LocationManager.NETWORK_PROVIDER);
+        startPoint.setLatitude(currentLatitude);
+        startPoint.setLongitude(currentLongitude);
+
+        Location endPoint = new Location(LocationManager.NETWORK_PROVIDER);
+        endPoint.setLatitude(propertyLatitude);
+        endPoint.setLongitude(propertyLongitude);
+
+        double distanceInMeters = startPoint.distanceTo(endPoint);
+        double distanceInKm = distanceInMeters/1000;
+
+        return distanceInKm;
     }
 
     public static void addToFavorite(Context context, String propertyId) {
