@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -26,19 +28,23 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.HolderProperty> {
+public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.HolderProperty> implements Filterable {
     // view binding
     private RowPropertyBinding binding;
     private static final String TAG = "PROPERTY_TAG";
     // context of activity/fragment from where instance of AdapterAd class is created
     private Context context;
+    // Firebase Auth for auth related tasks
+    private FirebaseAuth firebaseAuth;
     // propertyArrayList the list of the Ads
     private ArrayList<ModelProperty> propertyArrayList;
-    private FirebaseAuth firebaseAuth;
+    private ArrayList<ModelProperty> filterList;
+    private Filter filter;
 
     public AdapterProperty(Context context, ArrayList<ModelProperty> propertyArrayList) {
         this.context = context;
-        this.propertyArrayList = propertyArrayList;
+        this.propertyArrayList = new ArrayList<>(propertyArrayList);
+        this.filterList = new ArrayList<>(propertyArrayList);
 
         firebaseAuth = FirebaseAuth.getInstance();
     }
@@ -154,6 +160,51 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
     @Override
     public int getItemCount() {
         return propertyArrayList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (filter == null) {
+            filter = new Filter() {
+                @Override
+                protected FilterResults performFiltering(CharSequence constraint) {
+                    FilterResults results = new FilterResults();
+                    ArrayList<ModelProperty> filteredList = new ArrayList<>();
+
+                    if (constraint == null || constraint.length() == 0) {
+                        filteredList.addAll(filterList);
+                    } else {
+                        String searchQuery = constraint.toString().toLowerCase().trim();
+
+                        for (ModelProperty property : filterList) {
+                            String title = property.getTitle().toLowerCase();
+                            String description = property.getDescription().toLowerCase();
+                            String category = property.getCategory().toLowerCase();
+                            String subcategory = property.getSubcategory().toLowerCase();
+
+                            if (title.contains(searchQuery) || description.contains(searchQuery) ||
+                                    category.contains(searchQuery) || subcategory.contains(searchQuery)) {
+                                filteredList.add(property);
+                            }
+                        }
+                    }
+
+                    results.values = filteredList;
+                    results.count = filteredList.size();
+
+                    return results;
+                }
+
+                @Override
+                protected void publishResults(CharSequence charSequence, FilterResults results) {
+                    propertyArrayList.clear();
+                    propertyArrayList.addAll((ArrayList<ModelProperty>)results.values);
+                    notifyDataSetChanged();
+                }
+            };
+        }
+
+        return filter;
     }
 
     class HolderProperty extends RecyclerView.ViewHolder {

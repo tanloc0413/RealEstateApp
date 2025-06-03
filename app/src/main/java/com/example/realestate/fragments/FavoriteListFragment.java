@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +60,30 @@ public class FavoriteListFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
 
         loadFavoriteProperties();
+
+        binding.searchEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+                Log.d(TAG, "onTextChanged: " + s);
+
+                try {
+                    String query = s.toString();
+                    adapterProperty.getFilter().filter(query);
+                } catch (Exception e) {
+                    Log.e(TAG, "onTextChanged: ", e);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     private void loadFavoriteProperties() {
