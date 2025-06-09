@@ -8,4 +8,12 @@
     <string name="forgot_password_recover">Forgot Password? <b>Recover</b></string>
     <string name="price_symbol">đ</string>
     <string name="my_maps_api_key"></string>
+    <string name="floors_number">Floors: %1$d</string>
+    <string name="bedroom_number">Bedrooms: %1$d</string>
+    <string name="bathroom_number">Bathrooms: %1$d</string>
+    <string name="area_size">Area: %1$dm²</string>
+<!--    <string name="address">-->
+<!--&lt;!&ndash;        <b>Địa chỉ:</b>&ndash;&gt;-->
+<!--        <![CDATA[Lorem ipsum dolor sit amet consectetur. Nam feugiat amet magnis enim ultrices habitant]]>-->
+<!--    </string>-->
 </resources>

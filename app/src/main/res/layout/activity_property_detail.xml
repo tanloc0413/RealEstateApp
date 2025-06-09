@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    tools:context=".activities.PropertyDetailActivity">
+
+    <RelativeLayout
+        android:id="@+id/toolbarRl"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimary">
+
+        <ImageButton
+            android:id="@+id/toolbarBackBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:padding="10dp"
+            android:src="@drawable/back_white"
+            app:tint="?attr/colorOnPrimary"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+        <ImageView
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home_buildings"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:adjustViewBounds="true" />
+
+        <TextView
+            android:id="@+id/titleTil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:text="Chi tiết thuộc tính"
+            android:textSize="22sp"
+            android:textColor="@color/white"
+            android:layout_toEndOf="@+id/toolbarBackBtn"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            tools:ignore="HardcodedText,RtlHardcoded" />
+
+        <RelativeLayout
+            android:id="@+id/menuBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp">
+
+            <ImageButton
+                android:id="@+id/deleteBtn"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/trash_black"
+                app:tint="@color/white"
+                tools:ignore="ContentDescription,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+            <ImageButton
+                android:id="@+id/editBtn"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="11dp"
+                android:layout_toEndOf="@+id/deleteBtn"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/edit_black"
+                app:tint="@color/white"
+                tools:ignore="RtlHardcoded,ContentDescription,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+            <ImageButton
+                android:id="@+id/favBtn"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="12dp"
+                android:layout_toEndOf="@+id/editBtn"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/un_fav_red"
+                app:tint="@color/white"
+                tools:ignore="RtlHardcoded,ContentDescription,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/propertyRv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbarRl"
+        android:layout_marginTop="15dp"
+        tools:ignore="SpeakableTextPresentCheck">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <LinearLayout
+                android:id="@+id/carouselRv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_img"
+                android:orientation="vertical">
+
+                <include layout="@layout/row_carousel" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/priceDateRv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/carouselRv"
+                android:layout_marginTop="2dp">
+
+                <TextView
+                    android:id="@+id/priceEt"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/roboto"
+                    android:text="1.100.000.000đ"
+                    android:textColor="@color/colorPrimary"
+                    android:textFontWeight="900"
+                    android:textSize="26sp"
+                    tools:ignore="HardcodedText,UnusedAttribute" />
+
+                <TextView
+                    android:id="@+id/dateEt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:drawablePadding="5dp"
+                    android:drawableTint="#959595"
+                    android:textColor="#959595"
+                    android:textSize="16sp"
+                    tools:ignore="HardcodedText,RelativeOverlap,UseCompatTextViewDrawableXml"
+                    tools:text="@tools:sample/date/ddmmyy" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/titleTv"
+                style="@style/TextAppearance.Material3.TitleLarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/priceDateRv"
+                android:textSize="23sp"
+                android:textStyle="bold"
+                tools:text="@tools:sample/lorem" />
+
+            <LinearLayout
+                android:id="@+id/addressRv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/titleTv"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/addressEt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="#646464"
+                    android:textSize="17sp"
+                    tools:ignore="InefficientWeight"
+                    tools:text="@tools:sample/lorem[15]" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/purposeRv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addressRv"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/purposeTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:text="Purpose"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText,RtlHardcoded" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/purposeCv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toEndOf="@+id/purposeTv"
+                    app:cardCornerRadius="10dp"
+                    app:strokeWidth="1.5dp"
+                    tools:ignore="RtlHardcoded">
+
+                    <TextView
+                        android:id="@+id/purposeEt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_marginVertical="3dp"
+                        android:text="Sell"
+                        android:textSize="13sp"
+                        tools:ignore="HardcodedText" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/categoryRv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/purposeRv">
+
+                <TextView
+                    android:id="@+id/categoryTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:text="Category"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText,RtlHardcoded" />
+
+                <TextView
+                    android:id="@+id/categoryEt"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/categoryTv"
+                    android:text="Homes"
+                    android:textColor="@color/colorGray7"
+                    android:textSize="18sp"
+                    tools:ignore="HardcodedText" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/subcategoryRv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/categoryRv">
+
+                <TextView
+                    android:id="@+id/subcategoryTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:text="Subcategory"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText,RtlHardcoded" />
+
+                <TextView
+                    android:id="@+id/subcategoryEt"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/subcategoryTv"
+                    android:text="Farm Houses"
+                    android:textColor="@color/colorGray7"
+                    android:textSize="18sp"
+                    tools:ignore="HardcodedText" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/specificationRv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subcategoryRv">
+
+                <TextView
+                    android:id="@+id/specificationTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Specifications"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/specificationTv"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/floorEt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/floor_black"
+                        android:gravity="center"
+                        android:text="@string/floors_number"
+                        android:textSize="14sp"
+                        tools:ignore="HardcodedText,UseCompatTextViewDrawableXml" />
+
+                    <TextView
+                        android:id="@+id/bedRoomEt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/bed_black"
+                        android:gravity="center"
+                        android:text="@string/bedroom_number"
+                        android:textSize="14sp"
+                        tools:ignore="HardcodedText,UseCompatTextViewDrawableXml" />
+
+                    <TextView
+                        android:id="@+id/bathRoomEt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/bath_black"
+                        android:gravity="center"
+                        android:text="@string/bathroom_number"
+                        android:textSize="14sp"
+                        tools:ignore="HardcodedText,UseCompatTextViewDrawableXml" />
+
+                    <TextView
+                        android:id="@+id/areaSizeEt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/area_black"
+                        android:gravity="center"
+                        android:text="@string/area_size"
+                        android:textSize="14sp"
+                        tools:ignore="HardcodedText,UseCompatTextViewDrawableXml" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/sellerRv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/specificationRv">
+
+                <TextView
+                    android:id="@+id/sellerTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Seller Info"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/sellerCv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/sellerTv"
+                    android:layout_marginTop="5dp"
+                    app:strokeWidth="1dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginLeft="10dp"
+                        tools:ignore="RtlHardcoded">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/avtIv"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:scaleType="fitCenter"
+                            android:layout_marginRight="10dp"
+                            app:shapeAppearanceOverlay="@style/ImageStyle_Circle"
+                            tools:background="@tools:sample/avatars"
+                            tools:ignore="RtlHardcoded" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_toEndOf="@+id/avtIv"
+                            android:layout_centerVertical="true">
+
+                            <TextView
+                                android:id="@+id/fullNameEt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="17sp"
+                                android:textStyle="bold"
+                                android:fontFamily="@font/roboto"
+                                android:gravity="center_vertical"
+                                tools:text="@tools:sample/full_names"/>
+
+                            <TextView
+                                android:id="@+id/phoneEt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="15sp"
+                                android:text="0379383465"
+                                android:textColor="#737373"
+                                android:layout_marginTop="-3dp"
+                                tools:ignore="HardcodedText"/>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/sellerNextIv"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/next_black"
+                            android:tint="#999999"
+                            android:paddingTop="5dp"
+                            android:scaleType="centerCrop"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            tools:ignore="ContentDescription,UseAppTint"/>
+
+                    </RelativeLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/contactBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sellerRv"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/chatBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.Material3.TitleLarge"
+                    android:gravity="center"
+                    android:text="Chats"
+                    android:textSize="11.5sp"
+                    android:textColor="@color/white"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="5dp"
+                    android:drawableTop="@drawable/chat_black"
+                    android:drawableTint="@color/white"
+                    android:background="@drawable/border_btn"
+                    tools:ignore="HardcodedText,InefficientWeight"/>
+
+                <Button
+                    android:id="@+id/callBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.Material3.TitleLarge"
+                    android:drawableTop="@drawable/call_white"
+                    android:gravity="center"
+                    android:drawableTint="@color/white"
+                    android:text="Call"
+                    android:textSize="11.5sp"
+                    android:textColor="@color/white"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/border_btn"
+                    android:layout_weight="1"
+                    tools:ignore="HardcodedText,InefficientWeight" />
+
+                <Button
+                    android:id="@+id/smsBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.Material3.TitleLarge"
+                    android:drawableTop="@drawable/sms_white"
+                    android:gravity="center"
+                    android:drawableTint="@color/white"
+                    android:text="SMS"
+                    android:textSize="11.5sp"
+                    android:textColor="@color/white"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/border_btn"
+                    android:layout_weight="1"
+                    android:drawablePadding="5dp"
+                    tools:ignore="HardcodedText,InefficientWeight" />
+
+                <Button
+                    android:id="@+id/locationBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.Material3.TitleLarge"
+                    android:textSize="11.5sp"
+                    android:drawableTint="@color/white"
+                    android:drawableTop="@drawable/location_white"
+                    android:gravity="center"
+                    android:text="Location"
+                    android:textColor="@color/white"
+                    android:background="@drawable/border_btn"
+                    android:layout_weight="1"
+                    tools:ignore="HardcodedText,InefficientWeight"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

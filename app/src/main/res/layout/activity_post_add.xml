@@ -321,7 +321,7 @@
                         android:inputType="numberDecimal"
                         android:textSize="18sp"
                         android:paddingStart="52dp"
-                        tools:ignore="Autofill,LabelFor" />
+                        tools:ignore="Autofill,LabelFor,RtlSymmetry" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
