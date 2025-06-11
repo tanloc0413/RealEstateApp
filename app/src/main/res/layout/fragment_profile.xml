@@ -15,18 +15,19 @@
         <RelativeLayout
             android:id="@+id/toolbarRl"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="175dp"
+            android:paddingTop="5dp"
             android:background="@drawable/toolbar_bg02">
 
             <!-- ShapeableImageView: Just to show a static image
                 (person_black) from drawable -->
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/profileIv"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 app:shapeAppearanceOverlay="@style/ImageStyle_Circle"
                 android:layout_centerHorizontal="true"
-                android:layout_marginVertical="25dp"
+                android:layout_marginVertical="22dp"
                 android:background="?attr/colorOnPrimary"
                 android:src="@drawable/person_black"
                 android:scaleType="centerCrop"/>
@@ -42,14 +43,17 @@
                 android:layout_centerHorizontal="true"
                 android:textColor="?attr/colorOnPrimary"
                 android:textSize="20sp"
-                android:layout_marginTop="-15dp"/>
+                android:layout_marginTop="-10dp"/>
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <RelativeLayout
                 android:id="@+id/userEmail"
@@ -99,8 +103,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.Material3.LabelLarge"
-                    android:text="Phone"
-                    android:textSize="17sp"/>
+                    android:text="Số điện thoại"
+                    android:textSize="17sp"
+                    tools:ignore="HardcodedText" />
 
                 <!-- TextView: Show User Phone -->
                 <TextView
@@ -108,9 +113,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.Material3.BodySmall"
-                    tools:text="@tools:sample/us_phones"
                     android:layout_alignParentEnd="true"
-                    android:textSize="17sp"/>
+                    android:textSize="17sp"
+                    android:text=""
+                    tools:ignore="HardcodedText,RelativeOverlap"/>
 
             </RelativeLayout>
 
@@ -135,8 +141,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.Material3.LabelLarge"
-                    android:text="Day of Birth"
-                    android:textSize="17sp"/>
+                    android:text="Ngày sinh"
+                    android:textSize="17sp"
+                    tools:ignore="HardcodedText"/>
 
                 <!-- TextView: Show User Dob -->
                 <TextView
@@ -146,7 +153,8 @@
                     style="@style/TextAppearance.Material3.BodySmall"
                     tools:text="@tools:sample/date/ddmmyy"
                     android:layout_alignParentEnd="true"
-                    android:textSize="17sp"/>
+                    android:textSize="17sp"
+                    tools:ignore="RelativeOverlap"/>
 
             </RelativeLayout>
 
@@ -171,8 +179,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.Material3.LabelLarge"
-                    android:text="Member Since"
-                    android:textSize="17sp"/>
+                    android:text="Ngày tạo tài khoản"
+                    android:textSize="17sp"
+                    tools:ignore="HardcodedText"/>
 
                 <!-- TextView: Show User Member Since -->
                 <TextView
@@ -207,8 +216,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.Material3.LabelLarge"
-                    android:text="Account Status"
-                    android:textSize="17sp"/>
+                    android:text="Trạng thái tài khoản"
+                    android:textSize="17sp"
+                    tools:ignore="HardcodedText"/>
 
                 <!-- TextView: Show User Account Status -->
                 <TextView
@@ -216,11 +226,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.Material3.BodySmall"
-                    tools:text="Not Verify"
+                    tools:text="Chưa xác thực"
                     android:layout_alignParentEnd="true"
                     android:textSize="17sp"
                     android:textColor="@color/colorGreen"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    tools:ignore="RelativeOverlap"/>
 
             </RelativeLayout>
 
@@ -237,10 +248,11 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Preferences"
+                    android:text="Sở thích"
                     android:layout_marginBottom="5dp"
                     android:textSize="16.5dp"
-                    android:textColor="@color/colorGray4"/>
+                    android:textColor="@color/colorGray4"
+                    tools:ignore="HardcodedText,SpUsage" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/postPropertyAdCv"
@@ -256,13 +268,14 @@
 
                         <!-- ImageView: Post Ad Icon -->
                         <ImageView
-                           android:id="@+id/postAdIconIv"
-                           android:layout_width="80dp"
-                           android:layout_height="80dp"
-                           android:layout_centerVertical="true"
-                           android:layout_marginEnd="15dp"
-                           android:adjustViewBounds="true"
-                           android:src="@drawable/house_logo1"/>
+                            android:id="@+id/postAdIconIv"
+                            android:layout_width="85dp"
+                            android:layout_height="85dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="15dp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/house_logo1"
+                            tools:ignore="ContentDescription"/>
 
                         <!-- ImageView: Post Ad Icon -->
                         <TextView
@@ -271,17 +284,21 @@
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@+id/postAdIconIv"
                             android:gravity="center_vertical"
-                            android:text="Looking to sell or rent out your properties?"/>
+                            android:text="Bạn đang muốn bán hoặc cho thuê bất động sản của mình?"
+                            tools:ignore="HardcodedText"/>
 
                         <!-- MaterialButton: Post Ad Button, Click to open the
                             activity to add a property Ad -->
                         <com.google.android.material.button.MaterialButton
-                            android:id="@+id/postAdBtn"
+                            android:id="@+id/postAddBtn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Post an Ad"
+                            android:text="Đăng bất động sản"
+                            android:textSize="16sp"
+                            android:layout_marginTop="5dp"
                             android:layout_toEndOf="@+id/postAdIconIv"
-                            android:layout_below="@+id/postAdTitleTv"/>
+                            android:layout_below="@+id/postAdTitleTv"
+                            tools:ignore="HardcodedText"/>
 
                     </RelativeLayout>
 
@@ -298,14 +315,15 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="My Ads"
+                        android:text="Bài đăng của tôi"
                         android:gravity="center_vertical"
                         android:layout_marginLeft="5dp"
                         android:textSize="16.5sp"
                         android:textColor="#787575"
                         android:drawablePadding="10dp"
-                        android:drawableStart="@drawable/edit_gray"
-                        android:drawableEnd="@drawable/next_gray"/>
+                        android:drawableStart="@drawable/my_post"
+                        android:drawableEnd="@drawable/next_gray"
+                        tools:ignore="HardcodedText,RtlHardcoded,UseCompatTextViewDrawableXml" />
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -320,14 +338,16 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Edit Profile"
+                        android:text="Chỉnh sửa tài khoản"
                         android:gravity="center_vertical"
                         android:layout_marginLeft="5dp"
                         android:textSize="16.5sp"
                         android:textColor="#787575"
+                        android:paddingLeft="-2dp"
                         android:drawablePadding="10dp"
                         android:drawableStart="@drawable/edit_gray"
-                        android:drawableEnd="@drawable/next_gray"/>
+                        android:drawableEnd="@drawable/next_gray"
+                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UseCompatTextViewDrawableXml" />
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -342,14 +362,15 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Change Password"
+                        android:text="Đổi mật khẩu"
                         android:gravity="center_vertical"
                         android:layout_marginLeft="5dp"
                         android:textSize="16.5sp"
                         android:textColor="#787575"
                         android:drawablePadding="10dp"
                         android:drawableStart="@drawable/repass_gray"
-                        android:drawableEnd="@drawable/next_gray"/>
+                        android:drawableEnd="@drawable/next_gray"
+                        tools:ignore="HardcodedText,RtlHardcoded,UseCompatTextViewDrawableXml" />
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -364,7 +385,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Verify Account"
+                        android:text="Xác thực tài khoản"
                         android:gravity="center_vertical"
                         android:layout_marginLeft="5dp"
                         android:textSize="16.5sp"
@@ -372,7 +393,8 @@
                         android:drawablePadding="10dp"
                         android:drawableStart="@drawable/verify_gray"
                         android:drawableEnd="@drawable/next_gray"
-                        android:paddingLeft="-2dp"/>
+                        android:paddingLeft="-2dp"
+                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UseCompatTextViewDrawableXml" />
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -387,7 +409,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Delete Account"
+                        android:text="Xóa tài khoản"
                         android:gravity="center_vertical"
                         android:layout_marginLeft="5dp"
                         android:textSize="16.5sp"
@@ -395,7 +417,8 @@
                         android:drawablePadding="10dp"
                         android:drawableStart="@drawable/trash_gray"
                         android:drawableEnd="@drawable/next_gray"
-                        android:paddingLeft="-2dp"/>
+                        android:paddingLeft="-2dp"
+                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UseCompatTextViewDrawableXml" />
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -410,14 +433,15 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Logout"
+                        android:text="Đăng xuất"
                         android:gravity="center_vertical"
                         android:layout_marginLeft="5dp"
                         android:textSize="16.5sp"
                         android:textColor="#787575"
                         android:drawablePadding="10dp"
                         android:drawableStart="@drawable/exit_gray"
-                        android:drawableEnd="@drawable/next_gray"/>
+                        android:drawableEnd="@drawable/next_gray"
+                        tools:ignore="HardcodedText,RtlHardcoded,UseCompatTextViewDrawableXml" />
 
                 </com.google.android.material.card.MaterialCardView>
 

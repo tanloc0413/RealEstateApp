@@ -23,7 +23,7 @@
             android:padding="10dp"
             android:src="@drawable/back_white"
             app:tint="?attr/colorOnPrimary"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
         <!-- TextView: Toolbar title -->
         <TextView
@@ -31,11 +31,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextAppearance.Material3.TitleMedium"
-            android:text="Edit Profile"
+            android:text="Chỉnh sửa tài khoản"
             android:textColor="?attr/colorOnPrimary"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
-            android:textSize="22sp"
+            android:textSize="20sp"
             tools:ignore="HardcodedText"/>
 
         <!-- RelativeLayout: Profile Image, Pick Image for Profile -->
@@ -66,11 +66,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="7dp"
                 android:background="@drawable/circle_white"
                 android:padding="5dp"
                 android:src="@drawable/add_photo"
-                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         </RelativeLayout>
 
@@ -84,11 +84,11 @@
             android:layout_below="@id/toolbarProfileRl"
             android:layout_centerHorizontal="true"
             android:textColor="?attr/colorOnPrimary"
-            android:textSize="20sp"
-            android:layout_marginTop="-15dp"/>
+            android:textSize="22sp"
+            android:layout_marginTop="-10dp"/>
 
     </RelativeLayout>
-    
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
             android:layout_marginTop="10dp"
-            android:hint="Name"
+            android:hint="Họ và tên"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
             app:boxCornerRadiusTopEnd="8dp"
@@ -115,9 +115,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName|textCapWords"
-                android:paddingStart="50dp"
+                android:paddingStart="45dp"
                 android:textSize="18sp"
-                tools:ignore="RtlSymmetry"/>
+                tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -128,12 +128,12 @@
             android:layout_height="wrap_content"
             style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
             android:layout_marginTop="10dp"
-            android:hint="DOB (DD/MM/YYYY)"
+            android:hint="Ngày sinh"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
             app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusTopStart="8dp"
-            app:startIconDrawable="@drawable/calendar_gray"
+            app:startIconDrawable="@drawable/birthday_gray"
             android:layout_below="@+id/nameTil"
             tools:ignore="HardcodedText">
 
@@ -141,10 +141,10 @@
                 android:id="@+id/dobEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName|textCapWords"
-                android:paddingStart="50dp"
+                android:inputType="date"
+                android:paddingStart="45dp"
                 android:textSize="18sp"
-                tools:ignore="RtlSymmetry"/>
+                tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -170,12 +170,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName|textCapWords"
-                android:paddingStart="50dp"
+                android:paddingStart="45dp"
                 android:textSize="18sp"
-                tools:ignore="RtlSymmetry"/>
+                tools:ignore="Autofill,LabelFor,RtlSymmetry,TextFields"/>
 
         </com.google.android.material.textfield.TextInputLayout>
-        
+
         <RelativeLayout
             android:id="@+id/phoneInputRl"
             android:layout_width="match_parent"
@@ -191,11 +191,15 @@
                 android:layout_marginEnd="10dp"
                 android:gravity="center_vertical"
                 android:minWidth="60dp"
-                android:minHeight="56dp"
+                android:minHeight="60dp"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:background="@drawable/stroke_black"
                 app:ccp_autoDetectCountry="true"
                 app:ccp_rememberLastSelection="true"
                 app:ccp_showFlag="false"
-                app:ccp_showNameCode="false"/>
+                app:ccp_showNameCode="false"
+                tools:ignore="RtlHardcoded,RtlSymmetry"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/phoneNumberTil"
@@ -204,19 +208,22 @@
                 style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
                 android:layout_toEndOf="@+id/countryCodePicker"
                 android:layout_marginTop="4dp"
-                android:hint="Phone Number"
+                android:hint="Số điện thoại"
                 app:boxCornerRadiusBottomEnd="8dp"
                 app:boxCornerRadiusBottomStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
                 app:boxCornerRadiusTopStart="8dp"
-                app:startIconDrawable="@drawable/smartphone">
+                app:startIconDrawable="@drawable/smartphone"
+                tools:ignore="HardcodedText">
 
                 <EditText
                     android:id="@+id/phoneNumberEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
-                    android:paddingStart="50dp"/>
+                    android:paddingStart="30dp"
+                    android:textSize="18sp"
+                    tools:ignore="Autofill,LabelFor,RtlSymmetry,TextFields" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -229,8 +236,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:minHeight="@dimen/m_button_height"
-            android:text="Update"
-            android:textSize="18sp"/>
+            android:text="Cập nhật"
+            android:textSize="18sp"
+            tools:ignore="HardcodedText"/>
 
     </RelativeLayout>
 

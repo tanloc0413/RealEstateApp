@@ -1,43 +1,166 @@
 {
   "project_info": {
-    "project_number": "154246141943",
-    "firebase_url": "https://real-estate-4ebc7-default-rtdb.firebaseio.com",
-    "project_id": "real-estate-4ebc7",
-    "storage_bucket": "real-estate-4ebc7.firebasestorage.app"
+    "project_number": "383222663489",
+    "firebase_url": "https://appshoes-84a4f-default-rtdb.firebaseio.com",
+    "project_id": "appshoes-84a4f",
+    "storage_bucket": "appshoes-84a4f.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:154246141943:android:35d8b203e2dde06385c0f2",
+        "mobilesdk_app_id": "1:383222663489:android:b677cf3efe2890e3c0f9c0",
         "android_client_info": {
-          "package_name": "com.example.realestate"
+          "package_name": "com.example.parkvision"
         }
       },
       "oauth_client": [
         {
-          "client_id": "154246141943-8tk2lfboh7evkvo94t4ftt0b2sjpaknl.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.realestate",
-            "certificate_hash": "6cf06e57198040774a8cb425ea9cd9c57a1e4ef4"
-          }
-        },
-        {
-          "client_id": "154246141943-2is91dgj8rj042273gf1r92pdjrpps28.apps.googleusercontent.com",
+          "client_id": "383222663489-gvklkdjviv1mbd7egekoebrh5mn1suap.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC_vXTJ97dFBAqjzbm_YU8wmfJ1fV-NCQs"
+          "current_key": "AIzaSyCWa_R7aHEK8wbACDFezs1PgS90tlMyr9c"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "154246141943-2is91dgj8rj042273gf1r92pdjrpps28.apps.googleusercontent.com",
+              "client_id": "383222663489-gvklkdjviv1mbd7egekoebrh5mn1suap.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "383222663489-1rdr504edjamcd1aap7khukg3qunvrjq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sportShoesStore"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383222663489:android:a0af925d89071f08c0f9c0",
+        "android_client_info": {
+          "package_name": "com.example.simplimail"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383222663489-i9q1t6di1nsooc5rndi0o6ng6eemacc4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.simplimail",
+            "certificate_hash": "5aae3e87b272119bff29f9cd492de3e795c1b56b"
+          }
+        },
+        {
+          "client_id": "383222663489-gvklkdjviv1mbd7egekoebrh5mn1suap.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWa_R7aHEK8wbACDFezs1PgS90tlMyr9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383222663489-gvklkdjviv1mbd7egekoebrh5mn1suap.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "383222663489-1rdr504edjamcd1aap7khukg3qunvrjq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sportShoesStore"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383222663489:android:1fc8999691a9334fc0f9c0",
+        "android_client_info": {
+          "package_name": "com.example.sport_shoes_store"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383222663489-gvklkdjviv1mbd7egekoebrh5mn1suap.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWa_R7aHEK8wbACDFezs1PgS90tlMyr9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383222663489-gvklkdjviv1mbd7egekoebrh5mn1suap.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "383222663489-1rdr504edjamcd1aap7khukg3qunvrjq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sportShoesStore"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383222663489:android:56c020f1f6554adec0f9c0",
+        "android_client_info": {
+          "package_name": "com.fit.realestate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383222663489-03jqnlajua5bnv4br4cvgig04fsj301a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fit.realestate",
+            "certificate_hash": "6cf06e57198040774a8cb425ea9cd9c57a1e4ef4"
+          }
+        },
+        {
+          "client_id": "383222663489-gvklkdjviv1mbd7egekoebrh5mn1suap.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWa_R7aHEK8wbACDFezs1PgS90tlMyr9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383222663489-gvklkdjviv1mbd7egekoebrh5mn1suap.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "383222663489-1rdr504edjamcd1aap7khukg3qunvrjq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sportShoesStore"
+              }
             }
           ]
         }

@@ -22,7 +22,7 @@
             android:padding="10dp"
             android:src="@drawable/back_white"
             app:tint="?attr/colorOnPrimary"
-            tools:ignore="SpeakableTextPresentCheck"/>
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck"/>
 
         <!-- TextView: Just to show a labeled text -->
         <TextView
@@ -30,12 +30,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextAppearance.Material3.TitleMedium"
-            android:text="Post an Ad"
+            android:text="Đăng BĐS"
             android:textColor="?attr/colorOnPrimary"
             android:textStyle="bold"
-            android:textSize="30sp"
+            android:textSize="26sp"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="-15dp"
+            android:layout_marginTop="-20dp"
             android:layout_below="@+id/toolbarBackBtn"
             tools:ignore="HardcodedText"/>
 
@@ -44,26 +44,27 @@
             android:id="@+id/toolbarSubtitleTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.Material3.BodySmall"
-            android:text="Reach thousands of the \nbuyers/tenants quickly"
+            android:text="Tiếp cận được nhiều người \nhơn khi đăng bán hoặc cho \nthuê các bất động sản"
             android:layout_below="@+id/toolbarTitleTv"
+            android:textSize="15sp"
             android:textColor="?attr/colorOnPrimary"
-            android:textSize="18sp"
+            android:fontFamily="@font/roboto"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="2.5dp"
+            android:layout_marginTop="5dp"
             tools:ignore="HardcodedText"/>
 
         <!-- ImageView: Just an icon -->
         <ImageView
             android:id="@+id/toolbarAssetTv"
-            android:layout_width="120dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:src="@drawable/apartment"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="25dp"
             android:layout_marginBottom="15.25dp"
             android:adjustViewBounds="true"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            tools:ignore="ContentDescription" />
 
     </RelativeLayout>
 
@@ -83,7 +84,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Purpose"
+                android:text="Mục đích"
                 android:textSize="18sp"
                 style="@style/TextAppearance.Material3.TitleMedium"
                 tools:ignore="HardcodedText"/>
@@ -103,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Sell"
+                    android:text="Bán"
                     tools:ignore="HardcodedText"/>
 
                 <!-- RadioButton: Purpose Rent -->
@@ -111,16 +112,16 @@
                     android:id="@+id/purposeRentRb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rent"
+                    android:text="Cho thuê"
                     android:layout_marginLeft="15dp"
                     tools:ignore="HardcodedText,RtlHardcoded"/>
-                
+
             </RadioGroup>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Type"
+                android:text="Loại hình"
                 android:textSize="18sp"
                 android:layout_marginTop="5dp"
                 style="@style/TextAppearance.Material3.TitleMedium"
@@ -136,7 +137,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:icon="@drawable/modern_house_black"
-                    android:text="Homes"
+                    android:text="Nhà ở"
                     tools:ignore="HardcodedText"/>
 
                 <!-- TabItem: Select property type Plots -->
@@ -144,7 +145,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:icon="@drawable/land_black"
-                    android:text="Plots"
+                    android:text="Lô đất"
                     tools:ignore="HardcodedText"/>
 
                 <!-- TabItem: Select property type Commercial -->
@@ -152,7 +153,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:icon="@drawable/store_black"
-                    android:text="Commercial"
+                    android:text="TMDV"
                     tools:ignore="HardcodedText"/>
 
             </com.google.android.material.tabs.TabLayout>
@@ -164,8 +165,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:hint="Property Subcategory"
-                android:layout_marginTop="5dp"
+                android:hint="Loại bất động sản"
+                android:layout_marginTop="10dp"
                 app:startIconDrawable="@drawable/category_black"
                 app:boxCornerRadiusTopStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
@@ -178,9 +179,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    android:paddingStart="52dp"
+                    android:paddingStart="40dp"
                     android:textSize="18sp"
-                    tools:ignore="RtlSymmetry,SpeakableTextPresentCheck"/>
+                    tools:ignore="LabelFor,RtlSymmetry,SpeakableTextPresentCheck"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -190,7 +191,7 @@
                 style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_marginTop="10dp"
                 android:textSize="18sp"
-                android:text="Specifications"
+                android:text="Chi tiết"
                 tools:ignore="HardcodedText"/>
 
             <!-- TextInputLayout: Input Floors Count -->
@@ -205,7 +206,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:hint="Floors"
+                    android:hint="Số tầng"
                     app:boxCornerRadiusTopStart="8dp"
                     app:boxCornerRadiusTopEnd="8dp"
                     app:boxCornerRadiusBottomStart="8dp"
@@ -218,7 +219,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:paddingStart="52dp"
+                        android:paddingStart="45dp"
                         tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -237,7 +238,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:hint="Bed Rooms"
+                    android:hint="Số phòng ngủ"
                     app:boxCornerRadiusTopStart="8dp"
                     app:boxCornerRadiusTopEnd="8dp"
                     app:boxCornerRadiusBottomStart="8dp"
@@ -251,7 +252,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:textSize="18sp"
-                        android:paddingStart="52dp"
+                        android:paddingStart="45dp"
                         tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -270,7 +271,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:hint="Bath Rooms"
+                    android:hint="Số phòng tắm"
                     app:boxCornerRadiusTopStart="8dp"
                     app:boxCornerRadiusTopEnd="8dp"
                     app:boxCornerRadiusBottomStart="8dp"
@@ -284,7 +285,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:textSize="18sp"
-                        android:paddingStart="52dp"
+                        android:paddingStart="45dp"
                         tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -305,7 +306,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:hint="Area Size"
+                    android:hint="Diện tích"
                     android:layout_weight="1"
                     app:boxCornerRadiusTopStart="8dp"
                     app:boxCornerRadiusTopEnd="8dp"
@@ -320,7 +321,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="numberDecimal"
                         android:textSize="18sp"
-                        android:paddingStart="52dp"
+                        android:paddingStart="45dp"
                         tools:ignore="Autofill,LabelFor,RtlSymmetry" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -332,7 +333,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:hint="Sg. ft"
+                    android:hint="Đơn vị"
                     android:layout_weight="1"
                     app:boxCornerRadiusTopStart="8dp"
                     app:boxCornerRadiusTopEnd="8dp"
@@ -344,10 +345,11 @@
                         android:id="@+id/areaSizeUnitAct"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10dp"
                         android:inputType="none"
                         android:textSize="18sp"
-                        tools:ignore="LabelFor,SpeakableTextPresentCheck" />
+                        android:paddingStart="15dp"
+                        tools:ignore="LabelFor,RtlHardcoded,RtlSymmetry,SpeakableTextPresentCheck" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -359,7 +361,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:hint="Location"
+                android:hint="Vị trí"
                 android:layout_marginTop="5dp"
                 app:boxCornerRadiusTopStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
@@ -373,9 +375,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    android:paddingStart="52dp"
+                    android:paddingStart="45dp"
                     android:textSize="18sp"
-                    tools:ignore="LabelFor,SpeakableTextPresentCheck" />
+                    tools:ignore="LabelFor,RtlSymmetry,SpeakableTextPresentCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -385,7 +387,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                android:hint="Price"
+                android:hint="Giá"
                 android:layout_marginTop="5dp"
                 app:boxCornerRadiusTopStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
@@ -400,8 +402,8 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:textSize="18sp"
-                    android:paddingStart="52dp"
-                    tools:ignore="Autofill,LabelFor"/>
+                    android:paddingStart="45dp"
+                    tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -411,7 +413,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.Material3.TitleMedium"
-                android:text="Details"
+                android:text="Thông tin cơ bản"
                 android:layout_marginTop="10dp"
                 android:textSize="18sp"
                 android:layout_marginBottom="5dp"
@@ -423,7 +425,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                android:hint="Title"
+                android:hint="Tiêu đề"
                 android:layout_marginTop="5dp"
                 app:boxCornerRadiusTopStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
@@ -438,8 +440,8 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
                     android:textSize="18sp"
-                    android:paddingStart="52dp"
-                    tools:ignore="Autofill,LabelFor"/>
+                    android:paddingStart="45dp"
+                    tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -449,7 +451,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                android:hint="Description"
+                android:hint="Mô tả"
                 android:layout_marginTop="5dp"
                 app:boxCornerRadiusTopStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
@@ -464,8 +466,8 @@
                     android:layout_height="wrap_content"
                     android:inputType="textCapSentences|textMultiLine"
                     android:textSize="18sp"
-                    android:paddingStart="52dp"
-                    tools:ignore="Autofill,LabelFor"/>
+                    android:paddingStart="45dp"
+                    tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -490,8 +492,8 @@
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
                     android:textSize="18sp"
-                    android:paddingStart="52dp"
-                    tools:ignore="Autofill,LabelFor"/>
+                    android:paddingStart="50dp"
+                    tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -509,12 +511,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:gravity="center"
-                    android:minWidth="60dp"
+                    android:minWidth="65dp"
+                    android:minHeight="58.5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="1dp"
+                    android:layout_marginTop="2.5dp"
+                    android:background="@drawable/stroke_black"
                     app:ccp_autoDetectCountry="true"
                     app:ccp_contentColor="@color/colorGray1"
                     app:ccp_rememberLastSelection="true"
                     app:ccp_showFlag="false"
-                    app:ccp_showNameCode="false"/>
+                    app:ccp_showNameCode="false"
+                    tools:ignore="RtlHardcoded,RtlSymmetry" />
 
                 <!-- TextInputLayout: Input Phone Number -->
                 <com.google.android.material.textfield.TextInputLayout
@@ -522,7 +530,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:hint="Phone Number"
+                    android:hint="Số điện thoại"
                     app:boxCornerRadiusTopStart="8dp"
                     app:boxCornerRadiusTopEnd="8dp"
                     app:boxCornerRadiusBottomStart="8dp"
@@ -536,8 +544,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="phone"
                         android:textSize="18sp"
-                        android:paddingStart="50dp"
-                        tools:ignore="Autofill,LabelFor"/>
+                        android:paddingStart="40dp"
+                        tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -552,11 +560,10 @@
                 android:drawablePadding="10dp"
                 android:paddingVertical="5dp"
                 android:gravity="center_vertical"
-                android:text="Pick Images"
-                android:layout_marginTop="10dp"
+                android:text="Chọn hình ảnh"
+                android:layout_marginTop="15dp"
                 android:textSize="18sp"
-                android:paddingLeft="10dp"
-                tools:ignore="HardcodedText,UseCompatTextViewDrawableXml"/>
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UseCompatTextViewDrawableXml"/>
 
             <!-- RecyclerView: Show images picked/taken from Gallery/Camera -->
             <androidx.recyclerview.widget.RecyclerView
@@ -579,8 +586,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
-        android:text="Post Ad"
+        android:text="Đăng bài"
         android:textSize="18sp"
-        android:minHeight="@dimen/m_button_height"/>
+        android:minHeight="@dimen/m_button_height"
+        tools:ignore="HardcodedText" />
 
 </RelativeLayout>

@@ -11,19 +11,36 @@
         android:layout_height="match_parent"
         android:background="@drawable/bgn"
         android:foreground="@color/black_transparent" />
-    
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/signupBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đăng ký ngay"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:fontFamily="@font/roboto"
+        android:layout_margin="10dp"
+        android:layout_alignParentStart="true"
+        app:strokeWidth="1dp"
+        app:backgroundTint="@color/white"
+        app:strokeColor="@color/white"
+        tools:ignore="HardcodedText,ObsoleteLayoutParam"/>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/skipBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Skip Now"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="10dp"
+        android:text="Bỏ qua"
+        android:textSize="14sp"
         android:textColor="@color/white"
-        android:textSize="10sp"
+        android:fontFamily="@font/roboto"
+        android:layout_margin="10dp"
+        android:layout_alignParentEnd="true"
         app:backgroundTint="@android:color/transparent"
         app:strokeColor="@color/white"
-        app:strokeWidth="1dp"/>
+        app:strokeWidth="1dp"
+        tools:ignore="HardcodedText" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,9 +54,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="@dimen/m_button_height"
-            android:text="Continue with phone number"
+            android:text="Đăng nhập bằng số điện thoại"
             app:icon="@drawable/smartphone"
-            />
+            tools:ignore="HardcodedText"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -56,11 +73,12 @@
                 android:id="@+id/continueWithLabelTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="or continue with"
+                android:text="Hoặc tiếp tục với"
                 android:textColor="@color/white"
                 android:layout_centerInParent="true"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"/>
+                android:layout_marginEnd="20dp"
+                tools:ignore="HardcodedText" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
@@ -84,7 +102,8 @@
                 android:text="Email"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="1"
-                app:icon="@drawable/email_black"/>
+                app:icon="@drawable/email_black"
+                tools:ignore="HardcodedText" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/loginGoogleBtn"
@@ -94,7 +113,8 @@
                 android:text="Google"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                app:icon="@drawable/google_black"/>
+                app:icon="@drawable/google_black"
+                tools:ignore="HardcodedText"/>
 
         </LinearLayout>
 

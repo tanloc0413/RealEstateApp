@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             style="@style/TextAppearance.Material3.TitleMedium"
             android:padding="8dp"
-            android:text="Filter Properties"
+            android:text="Lọc bất động sản"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:layout_centerHorizontal="true"
@@ -27,16 +27,17 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:src="@drawable/apartment"
-            android:alpha="0.7"
-            android:scaleType="fitEnd"
+            android:alpha="0.5"
+            android:scaleType="fitStart"
             android:adjustViewBounds="true"
             android:layout_marginTop="60dp"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"/>
-        
+            android:layout_centerVertical="true"
+            tools:ignore="ContentDescription" />
+
         <LinearLayout
             android:id="@+id/tabsLl"
-            android:layout_width="130dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_alignParentBottom="true"
@@ -51,7 +52,7 @@
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="@drawable/shape_rounded_white"
-                android:text="Buy"
+                android:text="Mua"
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimary"
                 android:gravity="center"
@@ -62,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:text="Rent"
+                android:text="Thuê"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:gravity="center"
@@ -78,18 +79,21 @@
         android:layout_height="wrap_content"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_marginHorizontal="10dp"
+        android:hint="Loại nhà đất"
         app:boxCornerRadiusTopStart="8dp"
         app:boxCornerRadiusTopEnd="8dp"
         app:boxCornerRadiusBottomStart="8dp"
         app:boxCornerRadiusBottomEnd="8dp"
-        app:startIconDrawable="@drawable/category_black">
+        app:startIconDrawable="@drawable/category_black"
+        tools:ignore="HardcodedText">
 
         <AutoCompleteTextView
             android:id="@+id/propertyCategoryAct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingStart="50dp"
             android:inputType="none"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="LabelFor,RtlSymmetry,SpeakableTextPresentCheck" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,10 +114,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="LabelFor,SpeakableTextPresentCheck" />
 
     </com.google.android.material.textfield.TextInputLayout>
-    
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -122,19 +126,20 @@
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
         tools:ignore="HardcodedText"/>
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginHorizontal="10dp">
+        android:layout_marginHorizontal="10dp"
+        tools:ignore="DisableBaselineAlignment">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/priceMinTil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-            android:hint="Minimun"
+            android:hint="Giá thấp nhất"
             android:layout_weight="1"
             android:layout_marginEnd="5dp"
             android:layout_marginTop="5dp"
@@ -150,7 +155,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:inputType="numberDecimal"/>
+                android:inputType="numberDecimal"
+                tools:ignore="Autofill,LabelFor"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -159,7 +165,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-            android:hint="Maximun"
+            android:hint="Giá cao nhất"
             android:layout_weight="1"
             android:layout_marginEnd="5dp"
             android:layout_marginTop="5dp"
@@ -192,8 +198,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Reset"
-            android:textSize="15sp"
+            android:text="Đặt lại"
+            android:textSize="18sp"
+            android:fontFamily="@font/roboto"
             android:layout_marginEnd="5dp"
             android:minHeight="@dimen/m_button_height"
             android:textColor="?attr/colorOnSurface"
@@ -206,8 +213,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Apply Filter"
-            android:textSize="15sp"
+            android:text="Áp dụng"
+            android:textSize="18sp"
+            android:fontFamily="@font/roboto"
             android:layout_marginEnd="5dp"
             android:minHeight="@dimen/m_button_height"
             tools:ignore="HardcodedText,InefficientWeight"/>

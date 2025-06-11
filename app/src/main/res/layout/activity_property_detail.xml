@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextAppearance.Material3.TitleMedium"
-            android:text="Chi tiết thuộc tính"
+            android:text="Chi tiết bất động sản"
             android:textSize="22sp"
             android:textColor="@color/white"
             android:layout_toEndOf="@+id/toolbarBackBtn"
@@ -192,7 +192,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="2dp"
-                    android:text="Purpose"
+                    android:text="Mục đích"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText,RtlHardcoded" />
@@ -233,7 +233,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="2dp"
-                    android:text="Category"
+                    android:text="Loại nhà đất"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText,RtlHardcoded" />
@@ -290,7 +290,7 @@
                     android:id="@+id/specificationTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Specifications"
+                    android:text="Chi tiết"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText" />
@@ -299,7 +299,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/specificationTv"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -354,13 +354,14 @@
                 android:id="@+id/sellerRv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:layout_below="@+id/specificationRv">
 
                 <TextView
                     android:id="@+id/sellerTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Seller Info"
+                    android:text="Thông tin người bán"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText" />

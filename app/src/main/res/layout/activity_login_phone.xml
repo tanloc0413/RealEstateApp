@@ -22,7 +22,7 @@
             android:padding="10dp"
             android:src="@drawable/back_white"
             app:tint="?attr/colorOnPrimary"
-            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profileIv"
@@ -31,7 +31,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginVertical="25dp"
             android:background="?attr/colorOnPrimary"
-            android:src="@drawable/person_black"
+            android:src="@mipmap/ic_logo_round"
             app:shapeAppearanceOverlay="@style/ImageStyle_Circle" />
 
         <!-- TextView: Just to show a labeled text -->
@@ -43,9 +43,10 @@
             android:layout_below="@id/profileIv"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="-15dp"
-            android:text="Login To Your Account"
+            android:text="Đăng nhập bằng số điện thoại"
+            android:textSize="18sp"
             android:textColor="?attr/colorOnPrimary"
-            android:textSize="18sp" />
+            tools:ignore="HardcodedText"/>
 
     </RelativeLayout>
 
@@ -57,45 +58,65 @@
         android:padding="10dp"
         android:visibility="visible">
 
-        <!-- CountryCodePicker: To pick country code for phone number -->
-        <com.hbb20.CountryCodePicker
-            android:id="@+id/phoneCodeTil"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="8dp"
-            android:gravity="center"
-            android:minWidth="60dp"
-            android:minHeight="56dp"
-            app:ccp_autoDetectCountry="true"
-            app:ccp_contentColor="@color/colorGray1"
-            app:ccp_rememberLastSelection="true"
-            app:ccp_showFlag="true"
-            app:ccp_showNameCode="false"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/phoneNumberTil"
+        <LinearLayout
+            android:id="@+id/phoneNumberOTP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-            android:layout_toEndOf="@+id/phoneCodeTil"
-            android:hint="Phone Number"
-            app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusBottomStart="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
-            app:boxCornerRadiusTopStart="8dp"
-            app:startIconDrawable="@drawable/smartphone"
-            tools:ignore="HardcodedText">
+            android:gravity="center">
 
-            <EditText
-                android:id="@+id/phoneNumberEt"
+            <RelativeLayout
+                android:id="@+id/phoneCodeRl"
+                android:layout_width="wrap_content"
+                android:layout_height="60.5dp"
+                android:background="@drawable/stroke_black"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="2.6dp"
+                tools:ignore="RtlHardcoded">
+
+                <!-- CountryCodePicker: To pick country code for phone number -->
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/phoneCodeTil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:minWidth="50dp"
+                    android:minHeight="56dp"
+                    android:paddingLeft="5dp"
+                    app:ccp_autoDetectCountry="true"
+                    app:ccp_contentColor="@color/black"
+                    app:ccp_rememberLastSelection="true"
+                    app:ccp_showFlag="true"
+                    app:ccp_showNameCode="false"
+                    tools:ignore="RtlSymmetry" />
+
+            </RelativeLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phoneNumberTil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:paddingStart="45dp"
-                android:textSize="18sp"/>
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_toEndOf="@+id/phoneCodeRl"
+                android:hint="Số điện thoại"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:startIconDrawable="@drawable/smartphone"
+                tools:ignore="HardcodedText,ObsoleteLayoutParam">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <EditText
+                    android:id="@+id/phoneNumberEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:inputType="phone"
+                    android:paddingStart="40dp"
+                    android:textSize="18sp"
+                    tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
 
         <!-- MaterialButton: Click to send otp to input phone number -->
         <com.google.android.material.button.MaterialButton
@@ -103,12 +124,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="@dimen/m_button_height"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/phoneCodeTil"
-            android:text="Send OTP"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/phoneNumberOTP"
+            android:text="Gửi mã OTP"
             android:textSize="18sp"
             tools:ignore="HardcodedText"/>
-        
+
     </RelativeLayout>
 
     <!-- RelativeLayout: OTP Input -->
@@ -133,7 +154,7 @@
             app:counterEnabled="true"
             app:startIconDrawable="@drawable/smartphone"
             tools:ignore="HardcodedText">
-            
+
             <EditText
                 android:id="@+id/otpEt"
                 android:layout_width="match_parent"
@@ -141,7 +162,8 @@
                 android:inputType="number"
                 android:maxLength="6"
                 android:paddingStart="45dp"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                tools:ignore="Autofill,LabelFor,RtlSymmetry" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -153,7 +175,9 @@
             android:minHeight="@dimen/m_button_height"
             android:layout_below="@+id/otpTil"
             android:layout_marginTop="10dp"
-            android:text="Verify OTP"/>
+            android:text="Xác thực OTP"
+            android:textSize="18sp"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/resendOtpTv"
@@ -163,7 +187,7 @@
             android:text="@string/didn_t_receive_otp_resend"
             android:layout_below="@id/verifyOtpBtn"
             android:padding="5dp"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>

@@ -1,15 +1,15 @@
 plugins {
-    id("com.android.application")
-    id("com.google.gms.google-services")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
-    namespace = "com.example.realestate"
+    namespace = "com.fit.realestate"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.realestate"
-        minSdk = 23
+        applicationId = "com.fit.realestate"
+        minSdk = 24
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -27,36 +27,20 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-
     buildFeatures {
-        viewBinding = true
+        viewBinding = true;
     }
 }
 
 dependencies {
+    // XML
     implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.2.1")
     implementation("androidx.activity:activity:1.10.1")
-
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:okhttp:4.9.3")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
-
-    // Firebase
-    implementation("com.google.firebase:firebase-analytics:22.4.0")
-    implementation("com.google.firebase:firebase-auth:23.2.1")
-    implementation("com.google.firebase:firebase-database:21.0.0")
-    implementation("com.google.firebase:firebase-firestore:25.1.4")
-    implementation("com.google.firebase:firebase-storage:21.0.2")
-    implementation("androidx.credentials:credentials:1.5.0")
-    implementation("androidx.credentials:credentials-play-services-auth:1.5.0")
-    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
-    implementation("com.google.android.gms:play-services-auth:21.3.0")
 
     // Phone Code
     implementation("com.hbb20:ccp:2.7.3")
@@ -68,10 +52,16 @@ dependencies {
     implementation("com.google.android.gms:play-services-maps:19.2.0")
     implementation("com.google.android.libraries.places:places:4.3.1")
 
-
     // Carousel
     implementation("com.google.android.material:material:1.12.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    // Firebase
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.database)
+    implementation(libs.firebase.storage)
+    implementation("com.google.android.gms:play-services-auth:21.3.0")
 
     // Default Android
     testImplementation("junit:junit:4.13.2")

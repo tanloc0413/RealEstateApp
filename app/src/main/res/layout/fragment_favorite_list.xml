@@ -35,10 +35,10 @@
                     android:background="@android:color/transparent"
                     android:drawableStart="@drawable/search_gray"
                     android:drawablePadding="7dp"
-                    android:hint="Search"
+                    android:hint="Tìm kiếm"
                     android:padding="8dp"
                     android:textSize="14sp"
-                    tools:ignore="HardcodedText,TextFields,TouchTargetSizeCheck" />
+                    tools:ignore="Autofill,HardcodedText,TextFields,TouchTargetSizeCheck" />
 
             </LinearLayout>
 

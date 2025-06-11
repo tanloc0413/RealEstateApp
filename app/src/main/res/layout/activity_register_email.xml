@@ -43,12 +43,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextAppearance.Material3.TitleMedium"
-            android:text="Create A New Account"
+            android:text="Tạo tài khoản mới"
+            android:textSize="20dp"
             android:textColor="?attr/colorOnPrimary"
             android:layout_below="@+id/profileIv"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="-17dp"
-            android:textSize="18dp"/>
+            android:layout_marginTop="-18dp"
+            tools:ignore="HardcodedText,SpUsage"/>
 
     </RelativeLayout>
 
@@ -71,14 +72,16 @@
             app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusTopStart="8dp"
             app:startIconDrawable="@drawable/email_black"
-            app:startIconMinSize="50dp">
+            app:startIconMinSize="50dp"
+            tools:ignore="HardcodedText">
 
             <EditText
                 android:id="@+id/emailEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:paddingStart="50dp"/>
+                android:paddingStart="50dp"
+                tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:hint="Password"
+            android:hint="Nhập mật khẩu"
             android:layout_below="@+id/emailTil"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
@@ -96,15 +99,16 @@
             app:boxCornerRadiusTopStart="8dp"
             app:passwordToggleEnabled="true"
             app:startIconDrawable="@drawable/lock_black"
-            app:startIconPadding="25dp"
-            app:startIconMinSize="50dp">
+            app:startIconMinSize="50dp"
+            tools:ignore="HardcodedText">
 
             <EditText
                 android:id="@+id/passwordEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:paddingStart="50dp"/>
+                android:paddingStart="50dp"
+                tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -114,23 +118,50 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:hint="Confirm Password"
+            android:hint="Nhập lại mật khẩu"
             android:layout_below="@+id/passwordTil"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
             app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusTopStart="8dp"
             app:passwordToggleEnabled="true"
-            app:startIconDrawable="@drawable/lock_black"
-            app:startIconPadding="25dp"
-            app:startIconMinSize="50dp">
+            app:startIconDrawable="@drawable/repass_black"
+            app:startIconMinSize="50dp"
+            tools:ignore="HardcodedText">
 
             <EditText
                 android:id="@+id/cPasswordEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:paddingStart="50dp"/>
+                android:paddingStart="50dp"
+                tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- TextInputLayout: Input phone numbe -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/phoneNumberTil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:hint="Nhập số điện thoại"
+            android:layout_below="@+id/cPasswordTil"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:startIconDrawable="@drawable/phone_black"
+            app:startIconMinSize="50dp"
+            tools:ignore="HardcodedText">
+
+            <EditText
+                android:id="@+id/phoneNumberEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:paddingStart="50dp"
+                tools:ignore="Autofill,LabelFor,RtlSymmetry,TextFields"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -142,7 +173,9 @@
             style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_marginTop="5dp"
             android:text="@string/have_account_login"
-            android:layout_below="@id/cPasswordTil"/>
+            android:textSize="16dp"
+            android:layout_below="@id/phoneNumberTil"
+            tools:ignore="SpUsage"/>
 
         <!-- MaterialButton: Click to register user -->
         <com.google.android.material.button.MaterialButton
@@ -151,9 +184,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:minHeight="@dimen/m_button_height"
-            android:text="Register"
+            android:text="Đăng ký"
             android:textSize="18dp"
-            android:background="@drawable/toolbar_bg03"/>
+            android:background="@drawable/toolbar_bg03"
+            tools:ignore="HardcodedText,SpUsage"/>
 
     </RelativeLayout>
 

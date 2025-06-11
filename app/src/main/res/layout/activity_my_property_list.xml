@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/toolbarRl"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="135dp"
         android:background="@drawable/toolbar_bg02">
 
         <!-- ImageButton: Click to go-back -->
@@ -21,7 +21,7 @@
             android:padding="10dp"
             android:src="@drawable/back_white"
             app:tint="?attr/colorOnPrimary"
-            tools:ignore="SpeakableTextPresentCheck"/>
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck"/>
 
         <!-- TextView: Toolbar title -->
         <TextView
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextAppearance.Material3.LabelLarge"
-            android:text="My Ads"
+            android:text="Bài đăng của tôi"
             android:textColor="?attr/colorOnPrimary"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
@@ -60,17 +60,17 @@
                     android:background="@android:color/transparent"
                     android:drawableStart="@drawable/search_gray"
                     android:drawablePadding="7dp"
-                    android:hint="Search"
+                    android:hint="Tìm kiếm"
                     android:padding="8dp"
                     android:textSize="14sp"
-                    tools:ignore="HardcodedText,TouchTargetSizeCheck" />
+                    tools:ignore="Autofill,HardcodedText,TextFields,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
     </RelativeLayout>
-    
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/propertiesRv"
         android:layout_width="match_parent"

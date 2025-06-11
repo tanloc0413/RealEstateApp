@@ -35,12 +35,12 @@
                     android:background="@android:color/transparent"
                     android:drawableStart="@drawable/search_gray"
                     android:drawablePadding="7dp"
-                    android:hint="Search"
+                    android:hint="Tìm kiếm"
                     android:padding="8dp"
                     android:textSize="18sp"
                     android:layout_weight="1"
-                    tools:ignore="HardcodedText,TouchTargetSizeCheck" />
-                
+                    tools:ignore="Autofill,HardcodedText,TextFields,TouchTargetSizeCheck" />
+
                 <com.google.android.material.divider.MaterialDivider
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
@@ -60,10 +60,10 @@
                     android:drawableEnd="@drawable/next_gray"
                     android:drawableTop="@color/colorPrimary"
                     android:drawablePadding="4dp"
-                    android:text="Choose Location"
+                    android:text="Chọn vị trí"
                     android:textColor="#9D9D9D"
                     android:textSize="15sp"
-                    tools:ignore="HardcodedText,UseCompatTextViewDrawableXml"/>
+                    tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UseCompatTextViewDrawableXml"/>
 
             </LinearLayout>
 
@@ -82,7 +82,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Showing All"
+            android:text="Hiển thị tất cả"
             android:textColor="#909090"
             tools:ignore="HardcodedText,InefficientWeight"/>
 
@@ -90,7 +90,7 @@
             android:id="@+id/filterRv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Filter"
+            android:text="Lọc"
             android:textColor="#909090"
             android:gravity="center_vertical"
             android:drawableStart="@drawable/sort_gray"
@@ -100,12 +100,12 @@
 
     </LinearLayout>
 
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="8dp"
-        app:dividerColor=".5dp"/>
+    <!--    <com.google.android.material.divider.MaterialDivider-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginHorizontal="10dp"-->
+    <!--        android:layout_marginVertical="8dp"-->
+    <!--        app:dividerColor=".5dp"/>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/propertiesRv"
@@ -113,6 +113,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbarRl"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/row_property"/>
+        tools:listitem="@layout/row_property"
+        tools:ignore="ObsoleteLayoutParam" />
 
 </LinearLayout>
