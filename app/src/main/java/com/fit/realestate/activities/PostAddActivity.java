@@ -175,7 +175,7 @@ public class PostAddActivity extends AppCompatActivity {
         });
     }
 
-    private ActivityResultLauncher<Intent> locationPickerActivityResultLauncher = registerForActivityResult(
+    private final ActivityResultLauncher<Intent> locationPickerActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -203,7 +203,34 @@ public class PostAddActivity extends AppCompatActivity {
 
                             binding.locationAct.setText(address);
                         }
+                    } else {
+                        Log.w(TAG, "Location picking was cancelled or failed.");
                     }
+//                    if (result.getResultCode() == Activity.RESULT_OK) {
+//                        Intent data = result.getData();
+//
+//                        if (data == null) {
+//                            Log.e(TAG, "No data returned from LocationPickerActivity");
+//                            MyUtils.toast(PostAddActivity.this, "Không lấy được vị trí");
+//                            return;
+//                        }
+//
+//                        try {
+//                            latitude = data.getDoubleExtra("latitude", 0);
+//                            longitude = data.getDoubleExtra("longitude", 0);
+//                            address = data.getStringExtra("address");
+//                            city = data.getStringExtra("city");
+//                            country = data.getStringExtra("country");
+//                            state = data.getStringExtra("state");
+//
+//                            binding.locationAct.setText(address);
+//                        } catch (Exception e) {
+//                            Log.e(TAG, "Lỗi khi đọc dữ liệu từ Intent", e);
+//                            MyUtils.toast(PostAddActivity.this, "Lỗi dữ liệu vị trí");
+//                        }
+//                    } else {
+//                        Log.w(TAG, "onActivityResult: Location picking cancelled or failed");
+//                    }
                 }
             }
     );
@@ -560,7 +587,7 @@ public class PostAddActivity extends AppCompatActivity {
         });
     }
 
-    private ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
+    private final ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -595,7 +622,7 @@ public class PostAddActivity extends AppCompatActivity {
             }
     );
 
-    private ActivityResultLauncher<String> requestStoragePermission = registerForActivityResult(
+    private final ActivityResultLauncher<String> requestStoragePermission = registerForActivityResult(
             new ActivityResultContracts.RequestPermission(),
             new ActivityResultCallback<Boolean>() {
                 @Override
@@ -662,7 +689,7 @@ public class PostAddActivity extends AppCompatActivity {
         cameraActivityResultLauncher.launch(intent);
     }
 
-    private ActivityResultLauncher<Intent> cameraActivityResultLauncher = registerForActivityResult(
+    private final ActivityResultLauncher<Intent> cameraActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override

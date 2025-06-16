@@ -37,7 +37,6 @@ public class MyPropertyListActivity extends AppCompatActivity {
     private ArrayList<ModelProperty> propertyArrayList;
     private AdapterProperty adapterProperty;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,5 +1,6 @@
 package com.fit.realestate.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -45,7 +46,9 @@ public class AdapterImagePicked extends RecyclerView.Adapter<AdapterImagePicked.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HolderImagePicked holder, int position) {
+    public void onBindViewHolder(
+            @NonNull HolderImagePicked holder,
+            @SuppressLint("RecyclerView") int position) {
         /* get data from particular position of list and set to the
            UI Views of row_images_picked.xml and Handle clicks */
         ModelImagePicked modelImagePicked = imagePickedArrayList.get(position);
