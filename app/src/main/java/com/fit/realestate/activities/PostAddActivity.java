@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -15,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.PopupMenu;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.activity.result.ActivityResult;
@@ -25,7 +25,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.fit.realestate.R;
 import com.fit.realestate.adapters.AdapterImagePicked;
+import com.fit.realestate.fragments.HomeFragment;
 import com.fit.realestate.models.ModelImagePicked;
 import com.fit.realestate.MyUtils;
 import com.fit.realestate.databinding.ActivityPostAddBinding;
@@ -66,6 +68,7 @@ public class PostAddActivity extends AppCompatActivity {
     private AdapterImagePicked adapterImagePicked;
     private String category = MyUtils.propertyTypes[0];
     private String purpose = MyUtils.PROPERTY_PURPOSE_SELL;
+    private String purposeRent = MyUtils.PROPERTY_PURPOSE_RENT;
     private String subcategory = "", floors = "", bedRooms = "", bathRooms = "";
     private String areaSize = "", areaSizeUnit = "", price = "", title = "";
     private String description = "", email = "", phoneCode = "", phoneNumber = "";
@@ -100,6 +103,11 @@ public class PostAddActivity extends AppCompatActivity {
         imagePickedArrayList = new ArrayList<>();
         loadImages();
         propertyCategoryHomes();
+
+        binding.purposeSellRb.setChecked(true);
+
+        int sellId = binding.purposeSellRb.getId();
+        int rentId = binding.purposeRentRb.getId();
 
         // handle propertyCategoryTabLayout change listener, Choose Category
         binding.propertyCategoryTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -141,8 +149,14 @@ public class PostAddActivity extends AppCompatActivity {
         binding.purposeRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-                RadioButton selectedRadioButton = findViewById(checkedId);
-                purpose = selectedRadioButton.getText().toString();
+//                RadioButton selectedRadioButton = findViewById(checkedId);
+//                purpose = selectedRadioButton.getText().toString();
+                if (checkedId == sellId) {
+                    purpose = MyUtils.PROPERTY_PURPOSE_SELL;
+                } else if (checkedId == rentId) {
+                    purpose = MyUtils.PROPERTY_PURPOSE_RENT;
+                }
+
                 // show in logs
                 Log.d(TAG, "onCheckedChanged: Mục đích: " + purpose);
 
@@ -206,31 +220,7 @@ public class PostAddActivity extends AppCompatActivity {
                     } else {
                         Log.w(TAG, "Location picking was cancelled or failed.");
                     }
-//                    if (result.getResultCode() == Activity.RESULT_OK) {
-//                        Intent data = result.getData();
-//
-//                        if (data == null) {
-//                            Log.e(TAG, "No data returned from LocationPickerActivity");
-//                            MyUtils.toast(PostAddActivity.this, "Không lấy được vị trí");
-//                            return;
-//                        }
-//
-//                        try {
-//                            latitude = data.getDoubleExtra("latitude", 0);
-//                            longitude = data.getDoubleExtra("longitude", 0);
-//                            address = data.getStringExtra("address");
-//                            city = data.getStringExtra("city");
-//                            country = data.getStringExtra("country");
-//                            state = data.getStringExtra("state");
-//
-//                            binding.locationAct.setText(address);
-//                        } catch (Exception e) {
-//                            Log.e(TAG, "Lỗi khi đọc dữ liệu từ Intent", e);
-//                            MyUtils.toast(PostAddActivity.this, "Lỗi dữ liệu vị trí");
-//                        }
-//                    } else {
-//                        Log.w(TAG, "onActivityResult: Location picking cancelled or failed");
-//                    }
+
                 }
             }
     );
@@ -378,6 +368,17 @@ public class PostAddActivity extends AppCompatActivity {
                         Log.d(TAG, "onSuccess: Đăng bài thành công");
 
                         uploadImagesStorage(keyId);
+
+                        progressDialog.dismiss();
+                        MyUtils.toast(PostAddActivity.this, "Đăng bài thành công!");
+                        resetForm();
+
+                        new Handler().postDelayed(() -> {
+                            Intent intent = new Intent(PostAddActivity.this, HomeFragment.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+                        }, 1500);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -412,7 +413,7 @@ public class PostAddActivity extends AppCompatActivity {
                             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                                 double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
 
-                                String message = "Đang tải lên " + imageIndexForProgress
+                                String message = "Đang tải " + imageIndexForProgress
                                         + " của " + imagePickedArrayList.size()
                                         + " những hình ảnh... \nQuá trình tải lên " + (int)progress + "%";
                                 Log.d(TAG, "onProgress: thông báo: " + message);
@@ -661,7 +662,7 @@ public class PostAddActivity extends AppCompatActivity {
                     } else {
                         /* Camera or Storage or Both permission are denied, can't launch camera capture image
                            Log.d(TAG, "onActivityResult: All or either one permission denied..."); */
-                        MyUtils.toast(PostAddActivity.this, "Quyền Camera hoặc lưu trữ hoặc cả 2 đều bị từ chối!");
+                        MyUtils.toast(PostAddActivity.this, "Camera hoặc lưu trữ hoặc cả 2 đều bị từ chối!");
                     }
                 }
             }
@@ -687,6 +688,37 @@ public class PostAddActivity extends AppCompatActivity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         cameraActivityResultLauncher.launch(intent);
+    }
+
+    private void resetForm() {
+        binding.propertySubcategoryAct.setText("");
+        binding.floorsEt.setText("");
+        binding.bedRoomEt.setText("");
+        binding.bathRoomEt.setText("");
+        binding.areaSizeEt.setText("");
+        binding.areaSizeUnitAct.setText("");
+        binding.locationAct.setText("");
+        binding.priceEt.setText("");
+        binding.titleEt.setText("");
+        binding.descriptionEt.setText("");
+        binding.emailEt.setText("");
+        binding.phoneNumberEt.setText("");
+
+        // Reset RadioGroup
+        binding.purposeSellRb.setChecked(true);
+
+        // Reset tab về tab đầu tiên
+        binding.propertyCategoryTabLayout.getTabAt(0).select();
+        propertyCategoryHomes();
+
+        // Reset hình ảnh
+        imagePickedArrayList.clear();
+        loadImages();
+
+        // Reset các biến dữ liệu
+        latitude = 0;
+        longitude = 0;
+        address = city = state = country = "";
     }
 
     private final ActivityResultLauncher<Intent> cameraActivityResultLauncher = registerForActivityResult(

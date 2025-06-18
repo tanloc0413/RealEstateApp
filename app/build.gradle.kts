@@ -31,8 +31,8 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
-        viewBinding = true;
-        compose = true;
+        viewBinding = true
+        compose = true
     }
 }
 
@@ -52,16 +52,17 @@ dependencies {
     // MapBox
 //    implementation("com.mapbox.maps:android:10.15.0")
 //    implementation("com.mapbox.maps:android:10.14.1")
-    implementation("com.mapbox.maps:android:11.12.4")
-    implementation("androidx.annotation:annotation:1.9.1")
-    implementation("com.mapbox.extension:maps-style:10.16.0")
+    implementation(libs.android)
+    implementation(libs.annotation)
+    implementation(libs.maps.style)
+    implementation(libs.autofill)
+    implementation(libs.discover)
+    implementation(libs.place.autocomplete)
+    implementation(libs.offline)
+    implementation(libs.mapbox.search.android)
+    implementation(libs.search.mapbox.search.android.ui)
+    implementation("com.mapbox.search:mapbox-search-android:1.0.0-beta.32")
 
-//    implementation("com.mapbox.search:autofill:2.12.0-beta.1")
-//    implementation("com.mapbox.search:discover:2.12.0-beta.1")
-//    implementation("com.mapbox.search:place-autocomplete:2.12.0-beta.1")
-//    implementation("com.mapbox.search:offline:2.12.0-beta.1")
-//    implementation("com.mapbox.search:mapbox-search-android:2.12.0-beta.1")
-//    implementation("com.mapbox.search:mapbox-search-android-ui:2.12.0-beta.1")
 
     // Google Map
     implementation(libs.places)

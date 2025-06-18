@@ -56,21 +56,23 @@ public class MainActivity extends AppCompatActivity {
                     showHomeFragment();
                     // Return true so bottom navigation menu become selected
                     return true;
-                } else if (itemId == R.id.item_chat) {
-                    // Chats item clicked, show ChatsListFragment
-
-                    if (firebaseAuth.getCurrentUser() == null) {
-                        // Not, Logged-In, show message toast
-                        MyUtils.toast(MainActivity.this, "Bắt buộc phải đăng nhập...!");
-                        // Return false so bottom navigation menu doesn't become selected
-                        return false;
-                    } else {
-                        // Logged-In, open ChatListFragment
-                        showChatListFragment();
-                        // Return true so bottom navigation menu become selected
-                        return true;
-                    }
-                } else if (itemId == R.id.item_favorite) {
+                }
+//                else if (itemId == R.id.item_chat) {
+//                    // Chats item clicked, show ChatsListFragment
+//
+//                    if (firebaseAuth.getCurrentUser() == null) {
+//                        // Not, Logged-In, show message toast
+//                        MyUtils.toast(MainActivity.this, "Bắt buộc phải đăng nhập...!");
+//                        // Return false so bottom navigation menu doesn't become selected
+//                        return false;
+//                    } else {
+//                        // Logged-In, open ChatListFragment
+//                        showChatListFragment();
+//                        // Return true so bottom navigation menu become selected
+//                        return true;
+//                    }
+//                }
+                else if (itemId == R.id.item_favorite) {
                     // Favorites item clicked, show FavoriteListFragment
                     if (firebaseAuth.getCurrentUser() == null) {
                         // Not, Logged-In, show message toast
@@ -114,14 +116,14 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    private void showChatListFragment() {
-        binding.toolbarTitleTv.setText("Chat");
-
-        ChatsListFragment chatListFragment = new ChatsListFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(binding.fragmentsFl.getId(), chatListFragment, "ChatListFragment");
-        fragmentTransaction.commit();
-    }
+//    private void showChatListFragment() {
+//        binding.toolbarTitleTv.setText("Chat");
+//
+//        ChatsListFragment chatListFragment = new ChatsListFragment();
+//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(binding.fragmentsFl.getId(), chatListFragment, "ChatListFragment");
+//        fragmentTransaction.commit();
+//    }
 
     private void showFavoriteListFragment() {
         binding.toolbarTitleTv.setText("Yêu thích");

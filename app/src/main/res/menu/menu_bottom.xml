@@ -6,10 +6,10 @@
         android:title="Trang chủ"
         android:icon="@drawable/home_black"
         tools:ignore="HardcodedText" />
-    <item android:id="@+id/item_chat"
-        android:title="Chat"
-        android:icon="@drawable/chat_black"
-        tools:ignore="HardcodedText" />
+<!--    <item android:id="@+id/item_chat"-->
+<!--        android:title="Chat"-->
+<!--        android:icon="@drawable/chat_black"-->
+<!--        tools:ignore="HardcodedText" />-->
     <item android:id="@+id/item_favorite"
         android:title="Yêu thích"
         android:icon="@drawable/fav_black"

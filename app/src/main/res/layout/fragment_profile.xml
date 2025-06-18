@@ -68,7 +68,8 @@
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.Material3.LabelLarge"
                     android:text="Email"
-                    android:textSize="17sp"/>
+                    android:textSize="17sp"
+                    tools:ignore="HardcodedText"/>
 
                 <!-- TextView: Show User Email -->
                 <TextView
@@ -78,7 +79,8 @@
                     style="@style/TextAppearance.Material3.BodySmall"
                     tools:text="example@gmail.com"
                     android:layout_alignParentEnd="true"
-                    android:textSize="17sp"/>
+                    android:textSize="17sp"
+                    tools:ignore="RelativeOverlap" />
 
             </RelativeLayout>
 
@@ -248,7 +250,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sở thích"
+                    android:text="Chức năng"
                     android:layout_marginBottom="5dp"
                     android:textSize="16.5dp"
                     android:textColor="@color/colorGray4"

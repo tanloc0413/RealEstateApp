@@ -100,20 +100,15 @@
 
     </LinearLayout>
 
-    <!--    <com.google.android.material.divider.MaterialDivider-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginHorizontal="10dp"-->
-    <!--        android:layout_marginVertical="8dp"-->
-    <!--        app:dividerColor=".5dp"/>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/propertiesRv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/toolbarRl"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/row_property"
-        tools:ignore="ObsoleteLayoutParam" />
+        tools:ignore="ObsoleteLayoutParam,ScrollViewSize" />
 
 </LinearLayout>

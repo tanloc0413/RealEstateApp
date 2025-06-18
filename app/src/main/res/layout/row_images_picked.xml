@@ -29,9 +29,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:background="@android:color/transparent"
-            android:padding="10dp"
+            android:padding="5dp"
             android:src="@drawable/close_black"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     </RelativeLayout>
 

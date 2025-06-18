@@ -60,8 +60,6 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
     public void onBindViewHolder(@NonNull HolderProperty holder, int position) {
         ModelProperty modelProperty = propertyArrayList.get(position);
 
-        double price = modelProperty.getPrice();
-        long timestamp = modelProperty.getTimestamp();
         String propertyId = modelProperty.getId();
         String title = modelProperty.getTitle();
         String description = modelProperty.getDescription();
@@ -69,6 +67,8 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
         String purpose = modelProperty.getPurpose();
         String category = modelProperty.getCategory();
         String subcategory = modelProperty.getSubcategory();
+        double price = modelProperty.getPrice();
+        long timestamp = modelProperty.getTimestamp();
         String formattedPrice = MyUtils.formatCurrency(price);
         String formattedDate = MyUtils.formatTimestampDate(timestamp);
 
@@ -85,7 +85,7 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
         holder.subcategoryTv.setText(subcategory);
         holder.addressTv.setText(address);
         holder.dateTv.setText(formattedDate);
-        holder.priceTv.setText(formattedPrice);
+        holder.priceTv.setText(formattedPrice + "đ");
 
         holder.favoriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +97,9 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
                 } else {
                     MyUtils.addToFavorite(context, propertyId);
                 }
+
+//                checkIsFavorite(modelProperty, holder);
+
             }
         });
     }
@@ -146,7 +149,7 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
                         if (favorite) {
                             holder.favoriteBtn.setImageResource(R.drawable.fav_red);
                         } else {
-                            holder.favoriteBtn.setImageResource(R.drawable.un_fav_red);
+                            holder.favoriteBtn.setImageResource(R.drawable.un_fav_black);
                         }
                     }
 
@@ -221,9 +224,9 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
             titleTv = binding.titleTv;
             descriptionTv = binding.descriptionTv;
             purposeTv = binding.purposeTv;
-            categoryTv = binding.purposeTv;
-            subcategoryTv = binding.purposeTv;
-            addressTv = binding.purposeTv;
+            categoryTv = binding.categoryTv;
+            subcategoryTv = binding.subcategoryTv;
+            addressTv = binding.addressTv;
             dateTv = binding.dateTv;
             priceTv = binding.priceTv;
             favoriteBtn = binding.favoriteBtn;

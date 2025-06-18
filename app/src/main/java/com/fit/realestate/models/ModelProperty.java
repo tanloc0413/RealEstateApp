@@ -12,12 +12,12 @@ public class ModelProperty {
     public ModelProperty() {
     }
 
-    public ModelProperty(String id, String uid, String purpose, String category, boolean favorite,
+    public ModelProperty(String id, String uid, String purpose, String category,
                          String subcategory, String areaSizeUnit, String title, String description,
                          String email, String phoneCode, String phoneNumber, String country,
                          String city, String state, String address, String status,
                          long floors, long bedRooms, long bathRooms, long timestamp,
-                         Double latitude, Double longitude, Double areaSize, Double price) {
+                         Double latitude, Double longitude, Double areaSize, Double price, boolean favorite) {
         this.id = id;
         this.uid = uid;
         this.purpose = purpose;

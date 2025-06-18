@@ -83,7 +83,7 @@
                 android:layout_toEndOf="@+id/editBtn"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
-                android:src="@drawable/un_fav_red"
+                android:src="@drawable/un_fav_black"
                 app:tint="@color/white"
                 tools:ignore="RtlHardcoded,ContentDescription,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 

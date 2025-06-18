@@ -15,63 +15,71 @@
     <com.mapbox.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        tools:visibility="gone"/>
 
     <!-- RelativeLayout: Toolbar -->
     <RelativeLayout
         android:id="@+id/toolbarRl"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
 
         <!-- ImageButton: Click to go-back -->
         <ImageButton
             android:id="@+id/toolbarBackBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/border_btn"
-            android:padding="10dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
+            android:background="@drawable/border_btn"
+            android:minWidth="50dp"
+            android:minHeight="55dp"
+            android:padding="10dp"
             android:src="@drawable/back_white"
-            tools:ignore="ContentDescription,RtlHardcoded,SpeakableTextPresentCheck,TouchTargetSizeCheck"/>
+            tools:ignore="ContentDescription,RtlHardcoded,SpeakableTextPresentCheck,TouchTargetSizeCheck,ImageContrastCheck" />
 
-        <!-- TextView: Just to show a labeled text a title -->
-<!--        <TextView-->
-<!--            android:id="@+id/toolbarTitleTv"-->
-<!--            android:layout_width="wrap_content"-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/searchTv"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_toEndOf="@+id/toolbarBackBtn"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            app:hintEnabled="false"
+            tools:ignore="HardcodedText,RtlHardcoded">
+
+            <EditText
+                android:id="@+id/searchEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/stroke1_black"
+                android:ellipsize="end"
+                android:inputType="text"
+                android:paddingStart="15dp"
+                android:hint="Địa điểm"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                tools:ignore="Autofill,HardcodedText,LabelFor,RtlSymmetry,SpeakableTextPresentCheck,TextFields" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/searchIv"-->
+<!--            android:layout_width="50dp"-->
 <!--            android:layout_height="wrap_content"-->
-<!--            style="@style/TextAppearance.Material3.TitleMedium"-->
-<!--            android:text="Pick Location"-->
-<!--            android:textColor="?attr/colorOnPrimary"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:textSize="24sp"-->
-<!--            tools:ignore="HardcodedText"/>-->
-
-
-
-        <!-- MaterialCardView: Will contain places search -->
-<!--        <com.google.android.material.card.MaterialCardView-->
-<!--            android:id="@+id/searchCv"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@+id/toolbarTitleTv"-->
-<!--            android:layout_marginHorizontal="10dp"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:minWidth="30dp"-->
-<!--            app:cardCornerRadius="20dp"-->
-<!--            app:cardUseCompatPadding="true"-->
-<!--            app:strokeWidth="0dp">-->
-
-<!--&lt;!&ndash;            <androidx.fragment.app.FragmentContainerView&ndash;&gt;-->
-<!--&lt;!&ndash;                android:id="@+id/autocomplete_fragment"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment" />&ndash;&gt;-->
-
-
-
-<!--        </com.google.android.material.card.MaterialCardView>-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:minHeight="50dp"-->
+<!--            android:src="@drawable/search_gray"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:layout_marginRight="5dp"-->
+<!--            android:layout_marginLeft="5dp"-->
+<!--            android:background="@drawable/stroke1_black"-->
+<!--            android:tint="@color/black"-->
+<!--            tools:ignore="ContentDescription,RtlHardcoded,SpeakableTextPresentCheck,UseAppTint" />-->
 
     </RelativeLayout>
 
@@ -89,23 +97,6 @@
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:layout_marginBottom="5dp">
-
-            <!--            <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-            <!--                android:id="@+id/shareLocation"-->
-            <!--                android:layout_width="55dp"-->
-            <!--                android:layout_height="60dp"-->
-            <!--                android:layout_alignParentEnd="true"-->
-            <!--                android:backgroundTint="@color/white"-->
-            <!--                android:scaleType="centerInside"-->
-            <!--                android:padding="5dp"-->
-            <!--                app:icon="@drawable/share_white"-->
-            <!--                app:iconTint="@color/black"-->
-            <!--                app:iconSize="30dp"-->
-            <!--                app:strokeWidth="1dp"-->
-            <!--                app:cornerRadius="10dp"-->
-            <!--                tools:ignore="HardcodedText,TouchTargetSizeCheck,SpeakableTextPresentCheck" />-->
-            <!-- ImageButton: Click to show current location on map -->
-
 
             <ImageButton
                 android:id="@+id/shareLocation"
@@ -182,7 +173,7 @@
             android:minHeight="@dimen/m_button_height"
             android:text="Xong"
             android:textSize="18sp"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText,TextContrastCheck" />
 
     </LinearLayout>
 
