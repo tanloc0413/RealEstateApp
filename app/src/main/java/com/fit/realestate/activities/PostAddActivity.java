@@ -336,7 +336,6 @@ public class PostAddActivity extends AppCompatActivity {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("id", "" + keyId);
         hashMap.put("uid", "" + firebaseAuth.getUid());
-        hashMap.put("purpose", "" + purpose);
         hashMap.put("category", "" + category);
         hashMap.put("subcategory", "" + subcategory);
         hashMap.put("areaSize", Double.parseDouble(areaSize));
@@ -414,8 +413,8 @@ public class PostAddActivity extends AppCompatActivity {
                                 double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
 
                                 String message = "Đang tải " + imageIndexForProgress
-                                        + " của " + imagePickedArrayList.size()
-                                        + " những hình ảnh... \nQuá trình tải lên " + (int)progress + "%";
+                                        + " ảnh " + imagePickedArrayList.size()
+                                        + " lên... \nQuá trình tải lên " + (int)progress + "%";
                                 Log.d(TAG, "onProgress: thông báo: " + message);
 
                                 progressDialog.setMessage(message);

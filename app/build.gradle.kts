@@ -61,7 +61,7 @@ dependencies {
     implementation(libs.offline)
     implementation(libs.mapbox.search.android)
     implementation(libs.search.mapbox.search.android.ui)
-    implementation("com.mapbox.search:mapbox-search-android:1.0.0-beta.32")
+    implementation(libs.mapbox.search.android.v100beta32)
 
 
     // Google Map

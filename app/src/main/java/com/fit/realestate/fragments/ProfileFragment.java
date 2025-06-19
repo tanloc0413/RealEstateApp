@@ -141,7 +141,6 @@ public class ProfileFragment extends Fragment {
                         // concatenate phone code and phone number to make full phone number
                         String phone = phoneNumber;
 
-
                         // to avoid null or format exceptions
                         if (timestamp.equals("null")) {
                             timestamp = "0";

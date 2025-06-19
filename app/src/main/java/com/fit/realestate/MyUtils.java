@@ -121,9 +121,8 @@ public class MyUtils {
 
     public static String formatCurrency(Double price) {
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
-
+        numberFormat.setMinimumFractionDigits(0);
         numberFormat.setMaximumFractionDigits(2);
-
         return numberFormat.format(price);
     }
 

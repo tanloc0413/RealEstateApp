@@ -4,8 +4,17 @@
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+
+        <item name="bluePrimary">@color/bluePrimary</item>
+
+        <item name="redPrimary">@color/red</item>
+
     </style>
 
     <style name="Theme.RealEstate" parent="Base.Theme.RealEstate" />
+
+    <attr name="bluePrimary" format="color"/>
+
+    <attr name="redPrimary" format="color"/>
 
 </resources>

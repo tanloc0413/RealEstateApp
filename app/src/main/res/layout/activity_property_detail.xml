@@ -10,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/toolbarRl"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="65dp"
         android:background="@color/colorPrimary">
 
         <ImageButton
@@ -22,7 +22,7 @@
             android:padding="10dp"
             android:src="@drawable/back_white"
             app:tint="?attr/colorOnPrimary"
-            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         <ImageView
             android:layout_width="130dp"
@@ -30,14 +30,15 @@
             android:src="@drawable/home_buildings"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            android:adjustViewBounds="true" />
+            android:adjustViewBounds="true"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/titleTil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextAppearance.Material3.TitleMedium"
-            android:text="Chi tiết bất động sản"
+            android:text="Chi tiết BĐS"
             android:textSize="22sp"
             android:textColor="@color/white"
             android:layout_toEndOf="@+id/toolbarBackBtn"
@@ -67,7 +68,7 @@
                 android:id="@+id/editBtn"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_marginLeft="11dp"
+                android:layout_marginLeft="15dp"
                 android:layout_toEndOf="@+id/deleteBtn"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
@@ -79,12 +80,11 @@
                 android:id="@+id/favBtn"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_marginLeft="12dp"
+                android:layout_marginLeft="15dp"
                 android:layout_toEndOf="@+id/editBtn"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
                 android:src="@drawable/un_fav_black"
-                app:tint="@color/white"
                 tools:ignore="RtlHardcoded,ContentDescription,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
         </RelativeLayout>
@@ -104,23 +104,43 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp">
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/carouselRv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_img"
                 android:orientation="vertical">
 
-                <include layout="@layout/row_carousel" />
+<!--                <include layout="@layout/row_carousel" />-->
 
-            </LinearLayout>
+                <ImageView
+                    android:id="@+id/propertyIv"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    tools:src="@tools:sample/backgrounds/scenic"/>
+
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/propertyIv"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="200dp"-->
+<!--                    android:background="@drawable/border_img"-->
+<!--                    android:clipToPadding="false"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:overScrollMode="never"-->
+<!--                    android:paddingStart="10dp"-->
+<!--                    android:paddingEnd="10dp"-->
+<!--                    tools:ignore="SpeakableTextPresentCheck"-->
+<!--                    tools:listitem="@layout/row_carousel" />-->
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/priceDateRv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/carouselRv"
-                android:layout_marginTop="2dp">
+                android:layout_marginTop="5dp">
 
                 <TextView
                     android:id="@+id/priceEt"
@@ -132,7 +152,7 @@
                     android:text="1.100.000.000đ"
                     android:textColor="@color/colorPrimary"
                     android:textFontWeight="900"
-                    android:textSize="26sp"
+                    android:textSize="24sp"
                     tools:ignore="HardcodedText,UnusedAttribute" />
 
                 <TextView
@@ -156,7 +176,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/priceDateRv"
-                android:textSize="23sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 tools:text="@tools:sample/lorem" />
 
@@ -174,7 +194,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto"
                     android:textColor="#646464"
-                    android:textSize="17sp"
+                    android:textSize="18sp"
                     tools:ignore="InefficientWeight"
                     tools:text="@tools:sample/lorem[15]" />
 
@@ -192,8 +212,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="2dp"
-                    android:text="Mục đích"
-                    android:textSize="20sp"
+                    android:text="Mục đích:"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText,RtlHardcoded" />
 
@@ -233,8 +253,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="2dp"
-                    android:text="Loại nhà đất"
-                    android:textSize="20sp"
+                    android:text="Loại nhà đất:"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText,RtlHardcoded" />
 
@@ -262,8 +282,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="2dp"
-                    android:text="Subcategory"
-                    android:textSize="20sp"
+                    android:text="Loại hình:"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText,RtlHardcoded" />
 
@@ -290,8 +310,8 @@
                     android:id="@+id/specificationTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chi tiết"
-                    android:textSize="20sp"
+                    android:text="Chi tiết:"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText" />
 
@@ -311,6 +331,7 @@
                         android:gravity="center"
                         android:text="@string/floors_number"
                         android:textSize="14sp"
+                        android:layout_marginEnd="5dp"
                         tools:ignore="HardcodedText,UseCompatTextViewDrawableXml" />
 
                     <TextView
@@ -322,6 +343,7 @@
                         android:gravity="center"
                         android:text="@string/bedroom_number"
                         android:textSize="14sp"
+                        android:layout_marginEnd="5dp"
                         tools:ignore="HardcodedText,UseCompatTextViewDrawableXml" />
 
                     <TextView
@@ -333,13 +355,14 @@
                         android:gravity="center"
                         android:text="@string/bathroom_number"
                         android:textSize="14sp"
+                        android:layout_marginEnd="5dp"
                         tools:ignore="HardcodedText,UseCompatTextViewDrawableXml" />
 
                     <TextView
                         android:id="@+id/areaSizeEt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:drawableTop="@drawable/area_black"
                         android:gravity="center"
                         android:text="@string/area_size"
@@ -351,11 +374,40 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/descriptionRv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/specificationRv">
+
+                <TextView
+                    android:id="@+id/descriptionTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:text="Mô tả:"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText,RtlHardcoded" />
+
+                <TextView
+                    android:id="@+id/descriptionEt"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/descriptionTv"
+                    android:textColor="@color/colorGray7"
+                    android:textSize="18sp"
+                    tools:text="@tools:sample/lorem"
+                    tools:ignore="HardcodedText" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/sellerRv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_below="@+id/specificationRv">
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/descriptionRv">
 
                 <TextView
                     android:id="@+id/sellerTv"
@@ -395,17 +447,18 @@
                             tools:ignore="RtlHardcoded" />
 
                         <LinearLayout
+                            android:layout_toEndOf="@+id/avtIv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:layout_toEndOf="@+id/avtIv"
-                            android:layout_centerVertical="true">
+                            android:layout_centerVertical="true"
+                            tools:ignore="RelativeOverlap">
 
                             <TextView
                                 android:id="@+id/fullNameEt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="17sp"
+                                android:textSize="20sp"
                                 android:textStyle="bold"
                                 android:fontFamily="@font/roboto"
                                 android:gravity="center_vertical"
@@ -415,10 +468,9 @@
                                 android:id="@+id/phoneEt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="15sp"
+                                android:textSize="17sp"
                                 android:text="0379383465"
                                 android:textColor="#737373"
-                                android:layout_marginTop="-3dp"
                                 tools:ignore="HardcodedText"/>
 
                         </LinearLayout>
@@ -450,21 +502,21 @@
                 android:layout_marginBottom="15dp"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/chatBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/TextAppearance.Material3.TitleLarge"
-                    android:gravity="center"
-                    android:text="Chats"
-                    android:textSize="11.5sp"
-                    android:textColor="@color/white"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="5dp"
-                    android:drawableTop="@drawable/chat_black"
-                    android:drawableTint="@color/white"
-                    android:background="@drawable/border_btn"
-                    tools:ignore="HardcodedText,InefficientWeight"/>
+<!--                <Button-->
+<!--                    android:id="@+id/chatBtn"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    style="@style/TextAppearance.Material3.TitleLarge"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="Chats"-->
+<!--                    android:textSize="11.5sp"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_marginEnd="5dp"-->
+<!--                    android:drawableTop="@drawable/chat_black"-->
+<!--                    android:drawableTint="@color/white"-->
+<!--                    android:background="@drawable/border_btn"-->
+<!--                    tools:ignore="HardcodedText,InefficientWeight"/>-->
 
                 <Button
                     android:id="@+id/callBtn"
@@ -474,8 +526,8 @@
                     android:drawableTop="@drawable/call_white"
                     android:gravity="center"
                     android:drawableTint="@color/white"
-                    android:text="Call"
-                    android:textSize="11.5sp"
+                    android:text="Gọi"
+                    android:textSize="14sp"
                     android:textColor="@color/white"
                     android:layout_marginEnd="5dp"
                     android:background="@drawable/border_btn"
@@ -491,7 +543,7 @@
                     android:gravity="center"
                     android:drawableTint="@color/white"
                     android:text="SMS"
-                    android:textSize="11.5sp"
+                    android:textSize="14sp"
                     android:textColor="@color/white"
                     android:layout_marginEnd="5dp"
                     android:background="@drawable/border_btn"
@@ -504,11 +556,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.Material3.TitleLarge"
-                    android:textSize="11.5sp"
+                    android:textSize="14sp"
                     android:drawableTint="@color/white"
                     android:drawableTop="@drawable/location_white"
                     android:gravity="center"
-                    android:text="Location"
+                    android:text="Vị trí"
                     android:textColor="@color/white"
                     android:background="@drawable/border_btn"
                     android:layout_weight="1"
@@ -519,5 +571,16 @@
         </RelativeLayout>
 
     </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/deleteConfirmLayout"
+            layout="@layout/row_delete_property"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

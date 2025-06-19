@@ -9,6 +9,7 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.1"
+mapboxSearchAndroid = "1.0.0-beta.32"
 mapboxSearchAndroidUi = "2.12.0-beta.1"
 mapsStyle = "11.12.4"
 material = "1.12.0"
@@ -34,6 +35,7 @@ ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitV
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 mapbox-search-android = { module = "com.mapbox.search:mapbox-search-android", version.ref = "autofill" }
+mapbox-search-android-v100beta32 = { module = "com.mapbox.search:mapbox-search-android", version.ref = "mapboxSearchAndroid" }
 maps-style = { module = "com.mapbox.extension:maps-style", version.ref = "mapsStyle" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }

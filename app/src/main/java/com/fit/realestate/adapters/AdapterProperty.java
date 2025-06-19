@@ -1,6 +1,8 @@
 package com.fit.realestate.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.fit.realestate.MyUtils;
 import com.fit.realestate.R;
+import com.fit.realestate.activities.PropertyDetailActivity;
 import com.fit.realestate.databinding.RowPropertyBinding;
 import com.fit.realestate.models.ModelProperty;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -87,6 +91,7 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
         holder.dateTv.setText(formattedDate);
         holder.priceTv.setText(formattedPrice + "đ");
 
+        // xử lý sự kiện nhấn yêu thích
         holder.favoriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,8 +107,22 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
 
             }
         });
+
+        // xử lý sự kiện nhấn card để xem bài đăng chi tiết
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: propertyId = " + propertyId);
+                Intent intent = new Intent(context, PropertyDetailActivity.class);
+                intent.putExtra("propertyId", propertyId);
+                context.startActivity(intent);
+            }
+        });
+
+
     }
 
+    // lấy hình ảnh đầu tiên
     private void loadPropertyFirstImage(ModelProperty modelProperty, HolderProperty holder) {
         Log.d(TAG, "loadPropertyFirstImage: ");
 
@@ -230,6 +249,7 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
             dateTv = binding.dateTv;
             priceTv = binding.priceTv;
             favoriteBtn = binding.favoriteBtn;
+//            materialCardView = binding.cardView;
         }
     }
 }

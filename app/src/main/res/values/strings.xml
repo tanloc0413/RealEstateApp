@@ -8,11 +8,11 @@
     <string name="have_account_login">Đã có tài khoản? <b>Đăng nhập</b></string>
     <string name="didn_t_receive_otp_resend">Chưa có mã OTP? <b>Gửi lại mã</b></string>
     <string name="price_symbol">đ</string>
-    <string name="my_maps_api_key"></string>
-    <string name="floors_number">Tầng: %1$d</string>
-    <string name="bedroom_number">Phòng ngủ: %1$d</string>
-    <string name="bathroom_number">Phòng tắm: %1$d</string>
-    <string name="area_size">Diện tích: %1$dm²</string>
+    <!--    <string name="my_maps_api_key"></string>-->
+    <string name="floors_number">Tầng: 1</string>
+    <string name="bedroom_number">Phòng ngủ: 1</string>
+    <string name="bathroom_number">Phòng tắm: 1</string>
+    <string name="area_size">Diện tích: 1m²</string>
     <string name="mapbox_access_token" translatable="false" tools:ignore="UnusedResources">pk.eyJ1IjoiY2F2b2liaWVuOTg4OCIsImEiOiJjbWJzaWlqb2swaDQwMmtzZGNscjBwMDV0In0.6MoNh--7ZeF_RMuFsypH1A</string>
 
 </resources>
