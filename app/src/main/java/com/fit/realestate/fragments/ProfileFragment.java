@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.fit.realestate.MyUtils;
@@ -23,7 +24,12 @@ import com.fit.realestate.activities.MyPropertyListActivity;
 import com.fit.realestate.activities.PostAddActivity;
 import com.fit.realestate.activities.ProfileEditActivity;
 import com.fit.realestate.databinding.FragmentProfileBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -119,6 +125,211 @@ public class ProfileFragment extends Fragment {
                 startActivity(new Intent(mContext, MyPropertyListActivity.class));
             }
         });
+
+        // Handle confirm delete button click
+        binding.deleteAccountCv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDeleteConfirmation();
+            }
+        });
+
+        // Handle cancel delete button click
+        binding.deleteConfirmLayout.cancelDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideDeleteConfirmation();
+            }
+        });
+
+        binding.verifyAccountCv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                verifyAccount();
+            }
+        });
+    }
+
+    private void verifyAccount() {
+        Log.d(TAG, "verifyAccount: Starting email verification process");
+
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        if (user == null) {
+            Log.e(TAG, "verifyAccount: User is null");
+            Toast.makeText(mContext, "Bạn chưa đăng nhập!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String email = user.getEmail();
+        if (email == null || email.isEmpty()) {
+            Log.e(TAG, "verifyAccount: Email is null or empty");
+            Toast.makeText(mContext, "Vui lòng cập nhật email trước khi xác thực!", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(mContext, ProfileEditActivity.class));
+            return;
+        }
+
+        // Check if already verified
+        if (user.isEmailVerified()) {
+            Toast.makeText(mContext, "Email đã được xác thực!", Toast.LENGTH_SHORT).show();
+            loadMyInfo(); // Refresh UI to hide verify button
+            return;
+        }
+
+        // Show progress dialog
+        progressDialog.setMessage("Đang gửi email xác thực...");
+        progressDialog.show();
+
+        // Send verification email
+        user.sendEmailVerification()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        progressDialog.dismiss();
+
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "onComplete: Verification email sent successfully");
+                            Toast.makeText(mContext, "Link xác thực đã được gửi đến email của bạn!\nVui lòng kiểm tra hộp thư và làm theo hướng dẫn.", Toast.LENGTH_LONG).show();
+
+                            // Optionally show a dialog to check verification status
+                            showVerificationCheckDialog();
+                        } else {
+                            Log.e(TAG, "onComplete: Failed to send verification email", task.getException());
+                            String errorMessage = task.getException() != null ?
+                                    task.getException().getMessage() : "Lỗi không xác định";
+                            Toast.makeText(mContext, "Không thể gửi email xác thực: " + errorMessage, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
+    // Method để hiển thị dialog kiểm tra trạng thái xác thực
+    private void showVerificationCheckDialog() {
+        // Tạo một dialog đơn giản để người dùng có thể refresh trạng thái
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(mContext);
+        builder.setTitle("Xác thực Email");
+        builder.setMessage("Email xác thực đã được gửi. Sau khi bạn nhấp vào link trong email, hãy nhấn 'Kiểm tra' để cập nhật trạng thái.");
+
+        builder.setPositiveButton("Kiểm tra", (dialog, which) -> {
+            checkVerificationStatus();
+        });
+
+        builder.setNegativeButton("Đóng", (dialog, which) -> {
+            dialog.dismiss();
+        });
+
+        builder.setNeutralButton("Gửi lại", (dialog, which) -> {
+            verifyAccount(); // Gửi lại email xác thực
+        });
+
+        builder.show();
+    }
+
+    // Method để kiểm tra trạng thái xác thực
+    private void checkVerificationStatus() {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        if (user == null) {
+            Toast.makeText(mContext, "Lỗi: Không tìm thấy người dùng", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        progressDialog.setMessage("Đang kiểm tra trạng thái xác thực...");
+        progressDialog.show();
+
+        // Reload user to get latest verification status
+        user.reload().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                progressDialog.dismiss();
+
+                if (task.isSuccessful()) {
+                    if (user.isEmailVerified()) {
+                        Toast.makeText(mContext, "Chúc mừng! Email đã được xác thực thành công!", Toast.LENGTH_LONG).show();
+                        loadMyInfo(); // Refresh UI to hide verify button
+                    } else {
+                        Toast.makeText(mContext, "Email chưa được xác thực. Vui lòng kiểm tra hộp thư của bạn.", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Log.e(TAG, "checkVerificationStatus: Failed to reload user", task.getException());
+                    Toast.makeText(mContext, "Lỗi khi kiểm tra trạng thái xác thực", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void showDeleteConfirmation() {
+        Log.d(TAG, "showDeleteConfirmation: Showing delete confirmation dialog");
+        binding.deleteConfirmLayout.getRoot().setVisibility(View.VISIBLE);
+    }
+
+    private void hideDeleteConfirmation() {
+        Log.d(TAG, "hideDeleteConfirmation: Hiding delete confirmation dialog");
+        binding.deleteConfirmLayout.getRoot().setVisibility(View.GONE);
+    }
+
+    private void deleteAccount() {
+        Log.d(TAG, "deleteAccount: Starting account deletion process");
+
+        // Show progress dialog
+        progressDialog.setMessage("Đang xóa tài khoản...");
+        progressDialog.show();
+
+        // Get current user
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user == null) {
+            Log.e(TAG, "deleteAccount: User is null");
+            progressDialog.dismiss();
+            Toast.makeText(mContext, "Lỗi: Không tìm thấy người dùng", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String uid = user.getUid();
+        Log.d(TAG, "deleteAccount: Deleting account for UID: " + uid);
+
+        // First, delete user data from Realtime Database
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(uid);
+        userRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.d(TAG, "onSuccess: User data deleted from database");
+
+                // Now delete the Firebase Auth account
+                user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        progressDialog.dismiss();
+
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "onComplete: Account deleted successfully");
+                            Toast.makeText(mContext, "Tài khoản đã được xóa thành công", Toast.LENGTH_SHORT).show();
+
+                            // Navigate to MainActivity
+                            Intent intent = new Intent(mContext, MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            getActivity().finish();
+                        } else {
+                            Log.e(TAG, "onComplete: Failed to delete account", task.getException());
+                            Toast.makeText(mContext, "Lỗi khi xóa tài khoản: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+
+                            // Try to restore user data if auth deletion failed
+                            // Note: This is a simplified approach - in production you might want more robust error handling
+                        }
+
+                        hideDeleteConfirmation();
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "onFailure: Failed to delete user data from database", e);
+                progressDialog.dismiss();
+                Toast.makeText(mContext, "Lỗi khi xóa dữ liệu người dùng: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                hideDeleteConfirmation();
+            }
+        });
     }
 
     private void loadMyInfo() {
@@ -162,23 +373,39 @@ public class ProfileFragment extends Fragment {
                            have to verify */
                         if (userType.equals(MyUtils.USER_TYPE_EMAIL)) {
                             // userType is Email, have to check if verified or not
-                            boolean isVerified = firebaseAuth.getCurrentUser().isEmailVerified();
+                            FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
-                            // Check if verified or not
-                            if (isVerified) {
-                                // Verified, hide the Verify Account option
-                                binding.verifyAccountCv.setVisibility(View.GONE);
-                                binding.verificationTv.setText("Đã xác thực");
+                            if (currentUser != null) {
+                                boolean isVerified = currentUser.isEmailVerified();
+                                Log.d(TAG, "loadMyInfo: Email user - isVerified: " + isVerified);
+
+                                // Check if verified or not
+                                if (isVerified) {
+                                    // Verified, hide the Verify Account option
+                                    binding.verifyAccountCv.setVisibility(View.GONE);
+                                    binding.verificationTv.setText("Đã xác thực");
+                                } else {
+                                    // Not verified, show the Verify Account option
+                                    binding.verifyAccountCv.setVisibility(View.VISIBLE);
+                                    binding.verificationTv.setText("Chưa xác thực");
+                                }
                             } else {
-                                // Not verified, hide the Verify Account option
-                                binding.verifyAccountCv.setVisibility(View.VISIBLE);
+                                // No current user, hide verify option
+                                binding.verifyAccountCv.setVisibility(View.GONE);
                                 binding.verificationTv.setText("Chưa xác thực");
                             }
-                        } else {
-                            /* userType is Google or Phone, no need to check if verified or not as
-                               it is already verified, hide the Verify Account option */
+                        } else if (userType.equals(MyUtils.USER_TYPE_PHONE)) {
+                            /* userType is Phone, already verified, hide the Verify Account option */
                             binding.verifyAccountCv.setVisibility(View.GONE);
-                            binding.verificationTv.setText("Chưa xác thực");
+                            binding.verificationTv.setText("Đã xác thực");
+                        } else if (userType.equals(MyUtils.USER_TYPE_GOOGLE)) {
+                            /* userType is Google, already verified, hide the Verify Account option */
+                            binding.verifyAccountCv.setVisibility(View.GONE);
+                            binding.verificationTv.setText("Đã xác thực");
+                        } else {
+                            // Unknown user type, hide verify option
+                            binding.verifyAccountCv.setVisibility(View.GONE);
+                            binding.verificationTv.setText("Chưa xác định");
                         }
 
                         // set profile image to profileIv

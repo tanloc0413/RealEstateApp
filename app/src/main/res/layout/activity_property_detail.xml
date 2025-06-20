@@ -551,20 +551,20 @@
                     android:drawablePadding="5dp"
                     tools:ignore="HardcodedText,InefficientWeight" />
 
-                <Button
-                    android:id="@+id/locationBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/TextAppearance.Material3.TitleLarge"
-                    android:textSize="14sp"
-                    android:drawableTint="@color/white"
-                    android:drawableTop="@drawable/location_white"
-                    android:gravity="center"
-                    android:text="Vị trí"
-                    android:textColor="@color/white"
-                    android:background="@drawable/border_btn"
-                    android:layout_weight="1"
-                    tools:ignore="HardcodedText,InefficientWeight"/>
+<!--                <Button-->
+<!--                    android:id="@+id/locationBtn"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    style="@style/TextAppearance.Material3.TitleLarge"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:drawableTint="@color/white"-->
+<!--                    android:drawableTop="@drawable/location_white"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="Vị trí"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:background="@drawable/border_btn"-->
+<!--                    android:layout_weight="1"-->
+<!--                    tools:ignore="HardcodedText,InefficientWeight"/>-->
 
             </LinearLayout>
 

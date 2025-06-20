@@ -68,7 +68,6 @@ public class PostAddActivity extends AppCompatActivity {
     private AdapterImagePicked adapterImagePicked;
     private String category = MyUtils.propertyTypes[0];
     private String purpose = MyUtils.PROPERTY_PURPOSE_SELL;
-    private String purposeRent = MyUtils.PROPERTY_PURPOSE_RENT;
     private String subcategory = "", floors = "", bedRooms = "", bathRooms = "";
     private String areaSize = "", areaSizeUnit = "", price = "", title = "";
     private String description = "", email = "", phoneCode = "", phoneNumber = "";
@@ -239,9 +238,9 @@ public class PostAddActivity extends AppCompatActivity {
         price = binding.priceEt.getText().toString().trim();
         title = binding.titleEt.getText().toString().trim();
         description = binding.descriptionEt.getText().toString().trim();
-        email = binding.emailEt.getText().toString().trim();
-        phoneCode = binding.phoneCodeTil.getSelectedCountryCodeWithPlus();
-        phoneNumber = binding.phoneNumberEt.getText().toString().trim();
+//        email = binding.emailEt.getText().toString().trim();
+//        phoneCode = binding.phoneCodeTil.getSelectedCountryCodeWithPlus();
+//        phoneNumber = binding.phoneNumberEt.getText().toString().trim();
 
         // validate data
         if (subcategory.isEmpty()) {
@@ -272,12 +271,14 @@ public class PostAddActivity extends AppCompatActivity {
             // no area size entered in areaSizeUnitAct, show error in areaSizeUnitAct and focus
             binding.areaSizeUnitAct.setError("Chọn đơn vị diện tích...!");
             binding.areaSizeUnitAct.requestFocus();
-        } else if (address.isEmpty()) {
-            /* no address selected in locationAct (need to pick from map), show error
-               in locationAct and focus */
-            binding.locationAct.setError("Chọn vị trí...!");
-            binding.locationAct.requestFocus();
-        } else if (price.isEmpty()) {
+        }
+//        else if (address.isEmpty()) {
+//            /* no address selected in locationAct (need to pick from map), show error
+//               in locationAct and focus */
+//            binding.locationAct.setError("Chọn vị trí...!");
+//            binding.locationAct.requestFocus();
+//        }
+        else if (price.isEmpty()) {
             // no price entered in priceEt, show error in priceEt and focus
             binding.priceEt.setError("Nhập giá...!");
             binding.priceEt.requestFocus();
@@ -289,11 +290,13 @@ public class PostAddActivity extends AppCompatActivity {
             // no description entered in descriptionEt, show error in descriptionEt and focus
             binding.descriptionEt.setError("Nhập mô tả...!");
             binding.descriptionEt.requestFocus();
-        } else if (phoneNumber.isEmpty()) {
-            // no phone number entered in phoneNumberEt, show error in phoneNumberEt and focus
-            binding.phoneNumberEt.setError("Nhập số điện thoại...!");
-            binding.phoneNumberEt.requestFocus();
-        } else if (imagePickedArrayList.isEmpty()) {
+        }
+//        else if (phoneNumber.isEmpty()) {
+//            // no phone number entered in phoneNumberEt, show error in phoneNumberEt and focus
+//            binding.phoneNumberEt.setError("Nhập số điện thoại...!");
+//            binding.phoneNumberEt.requestFocus();
+//        }
+        else if (imagePickedArrayList.isEmpty()) {
             // no image selected/picked
             MyUtils.toast(this, "Chọn ít nhất một hình ảnh...!");
         } else {
@@ -307,7 +310,7 @@ public class PostAddActivity extends AppCompatActivity {
         Log.d(TAG, "postAd: ");
 
         // show progress
-        progressDialog.setMessage("Đang đăng tải");
+        progressDialog.setMessage("Đang đăng tải bài viết...");
         progressDialog.show();
 
         // if floors is empty init with "0"
@@ -336,15 +339,13 @@ public class PostAddActivity extends AppCompatActivity {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("id", "" + keyId);
         hashMap.put("uid", "" + firebaseAuth.getUid());
+        hashMap.put("purpose", "" + purpose);
         hashMap.put("category", "" + category);
         hashMap.put("subcategory", "" + subcategory);
         hashMap.put("areaSize", Double.parseDouble(areaSize));
         hashMap.put("areaSizeUnit", "" + areaSizeUnit);
         hashMap.put("title", "" + title);
         hashMap.put("description", "" + description);
-        hashMap.put("email", "" + email);
-        hashMap.put("phoneCode", "" + phoneCode);
-        hashMap.put("phoneNumber", "" + phoneNumber);
         hashMap.put("country", "" + country);
         hashMap.put("city", "" + city);
         hashMap.put("state", "" + state);
@@ -364,20 +365,11 @@ public class PostAddActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d(TAG, "onSuccess: Đăng bài thành công");
+                        Log.d(TAG, "onSuccess: Đăng bài thành công, bắt đầu upload ảnh");
 
+                        // CHỈ UPLOAD ẢNH SAU KHI ĐÃ TẠO PROPERTY THÀNH CÔNG
+                        // KHÔNG dismiss progressDialog ở đây
                         uploadImagesStorage(keyId);
-
-                        progressDialog.dismiss();
-                        MyUtils.toast(PostAddActivity.this, "Đăng bài thành công!");
-                        resetForm();
-
-                        new Handler().postDelayed(() -> {
-                            Intent intent = new Intent(PostAddActivity.this, HomeFragment.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            finish();
-                        }, 1500);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -385,81 +377,156 @@ public class PostAddActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Log.e(TAG, "onFailure: ", e);
                         progressDialog.dismiss();
-                        MyUtils.toast(
-                                PostAddActivity.this,
-                                "Không thể đăng lên do " + e.getMessage()
-                        );
+                        MyUtils.toast(PostAddActivity.this, "Không thể đăng lên do " + e.getMessage());
                     }
                 });
     }
 
     private void uploadImagesStorage(String propertyId) {
-        Log.d(TAG, "uploadImagesStorage: ID bất động sản : " + propertyId);
+        Log.d(TAG, "uploadImagesStorage: ID bất động sản: " + propertyId);
+        Log.d(TAG, "uploadImagesStorage: Số lượng ảnh: " + imagePickedArrayList.size());
+
+        if (imagePickedArrayList.isEmpty()) {
+            Log.w(TAG, "Không có ảnh để upload");
+            progressDialog.dismiss();
+            MyUtils.toast(PostAddActivity.this, "Đăng bài thành công!");
+            finishPostProcess();
+            return;
+        }
+
+        // Đếm số ảnh đã upload thành công
+        final int[] uploadedCount = {0};
+        final int totalImages = imagePickedArrayList.size();
+
+        progressDialog.setMessage("Đang tải ảnh (0/" + totalImages + ")...");
 
         for (int i = 0; i < imagePickedArrayList.size(); i++) {
             ModelImagePicked modelImagePicked = imagePickedArrayList.get(i);
 
+            Log.d(TAG, "Processing image " + (i + 1) + "/" + totalImages);
+
             if (!modelImagePicked.isFromInternet()) {
                 String imageName = modelImagePicked.getId();
                 String filePathAndName = "Properties/" + imageName;
-                int imageIndexForProgress = i + 1;
+                int imageIndex = i + 1;
                 Uri pickedImageUri = modelImagePicked.getImageUri();
 
+                // Kiểm tra URI có hợp lệ không
+                if (pickedImageUri == null) {
+                    Log.e(TAG, "Image URI is null for image: " + imageName);
+                    uploadedCount[0]++;
+                    checkUploadComplete(uploadedCount[0], totalImages);
+                    continue;
+                }
+
                 StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
+
+                Log.d(TAG, "Bắt đầu upload: " + filePathAndName);
+
                 storageReference.putFile(pickedImageUri)
                         .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                                 double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
+                                String message = "Đang tải ảnh " + imageIndex + "/" + totalImages
+                                        + "\nTiến độ: " + (int)progress + "%";
 
-                                String message = "Đang tải " + imageIndexForProgress
-                                        + " ảnh " + imagePickedArrayList.size()
-                                        + " lên... \nQuá trình tải lên " + (int)progress + "%";
-                                Log.d(TAG, "onProgress: thông báo: " + message);
-
+                                Log.d(TAG, "Upload progress: " + progress + "% for image " + imageIndex);
                                 progressDialog.setMessage(message);
-                                progressDialog.show();
                             }
                         })
                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                Log.d(TAG, "onSuccess: ");
+                                Log.d(TAG, "Upload thành công cho ảnh: " + imageName);
 
-                                // image uploaded get url of uploaded image
-                                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                                while (!uriTask.isSuccessful());
-                                Uri uploadedImageUrl = uriTask.getResult();
+                                // Lấy download URL
+                                taskSnapshot.getStorage().getDownloadUrl()
+                                        .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri downloadUrl) {
+                                                Log.d(TAG, "Download URL: " + downloadUrl);
 
-                                if (uriTask.isSuccessful()) {
-                                    HashMap<String, Object> hashMap = new HashMap<>();
-                                    hashMap.put("id", "" + modelImagePicked.getId());
-                                    hashMap.put("imageUrl", "" + uploadedImageUrl);
+                                                // Lưu thông tin ảnh vào database
+                                                HashMap<String, Object> imageData = new HashMap<>();
+                                                imageData.put("id", imageName);
+                                                imageData.put("imageUrl", downloadUrl.toString());
 
-                                    DatabaseReference refProperties = FirebaseDatabase.getInstance().getReference("Properties");
-                                    refProperties.child(propertyId).child("Images")
-                                            .child(imageName).updateChildren(hashMap);
-                                }
-
-                                progressDialog.dismiss();
+                                                DatabaseReference refProperties = FirebaseDatabase.getInstance()
+                                                        .getReference("Properties");
+                                                refProperties.child(propertyId)
+                                                        .child("Images")
+                                                        .child(imageName)
+                                                        .setValue(imageData) // Dùng setValue thay vì updateChildren
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void unused) {
+                                                                Log.d(TAG, "Lưu metadata ảnh thành công: " + imageName);
+                                                                uploadedCount[0]++;
+                                                                progressDialog.setMessage("Đã tải xong " + uploadedCount[0] + "/" + totalImages + " ảnh");
+                                                                checkUploadComplete(uploadedCount[0], totalImages);
+                                                            }
+                                                        })
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Log.e(TAG, "Lỗi lưu metadata ảnh: " + imageName, e);
+                                                                uploadedCount[0]++;
+                                                                checkUploadComplete(uploadedCount[0], totalImages);
+                                                            }
+                                                        });
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.e(TAG, "Lỗi lấy download URL: " + imageName, e);
+                                                uploadedCount[0]++;
+                                                checkUploadComplete(uploadedCount[0], totalImages);
+                                            }
+                                        });
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.e(TAG, "onFailure: ", e);
-
-                                MyUtils.toast(
-                                        PostAddActivity.this,
-                                        "Không tải lên được do " + e.getMessage()
-                                );
-
-                                progressDialog.dismiss();
+                                Log.e(TAG, "Upload thất bại cho ảnh: " + imageName, e);
+                                MyUtils.toast(PostAddActivity.this, "Lỗi tải ảnh: " + e.getMessage());
+                                uploadedCount[0]++;
+                                checkUploadComplete(uploadedCount[0], totalImages);
                             }
                         });
-
+            } else {
+                // Ảnh từ internet, bỏ qua
+                uploadedCount[0]++;
+                checkUploadComplete(uploadedCount[0], totalImages);
             }
         }
+    }
+
+    // Hàm kiểm tra xem đã upload hết ảnh chưa
+    private void checkUploadComplete(int uploadedCount, int totalImages) {
+        Log.d(TAG, "checkUploadComplete: " + uploadedCount + "/" + totalImages);
+
+        if (uploadedCount >= totalImages) {
+            Log.d(TAG, "Tất cả ảnh đã được xử lý");
+            progressDialog.dismiss();
+            MyUtils.toast(PostAddActivity.this, "Đăng bài thành công!");
+            finishPostProcess();
+        }
+    }
+
+    // Hàm xử lý sau khi hoàn thành
+    private void finishPostProcess() {
+        resetForm();
+
+        new Handler().postDelayed(() -> {
+            // Quay về HomeFragment hoặc MainActivity
+            Intent intent = new Intent(PostAddActivity.this, MainActivity.class); // Thay MainActivity bằng activity chính
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }, 1500);
     }
 
     private void loadImages() {
@@ -582,7 +649,7 @@ public class PostAddActivity extends AppCompatActivity {
 
                 }
 
-                return false;
+                return true;
             }
         });
     }
@@ -632,7 +699,7 @@ public class PostAddActivity extends AppCompatActivity {
                     // Let's check if permission is granted or not
                     if (isGranted) {
                         // Storage Permission granted, we can now launch gallery to pick image
-
+                        pickImageGallery();
                     } else {
                         // Storage Permission granted, we can't launch gallery to pick image
                         MyUtils.toast(PostAddActivity.this, "Quyền lưu trữ bị từ chối!");
@@ -670,9 +737,14 @@ public class PostAddActivity extends AppCompatActivity {
     private void pickImageGallery() {
         Log.d(TAG, "pickImageGallery: ");
 
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        galleryActivityResultLauncher.launch(intent);
+        try {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            galleryActivityResultLauncher.launch(intent);
+        } catch (Exception e) {
+            Log.e(TAG, "Error launching gallery: ", e);
+            MyUtils.toast(this, "Không thể mở thư viện ảnh!");
+        }
     }
 
     private void pickImageCamera() {
@@ -700,9 +772,6 @@ public class PostAddActivity extends AppCompatActivity {
         binding.priceEt.setText("");
         binding.titleEt.setText("");
         binding.descriptionEt.setText("");
-        binding.emailEt.setText("");
-        binding.phoneNumberEt.setText("");
-
         // Reset RadioGroup
         binding.purposeSellRb.setChecked(true);
 

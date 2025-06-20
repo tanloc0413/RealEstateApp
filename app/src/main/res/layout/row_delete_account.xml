@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:id="@+id/confirmDeleteRv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/stroke1_black"
+        android:padding="10dp"
+        android:layout_centerVertical="true"
+        tools:ignore="UselessParent">
+
+        <TextView
+            android:id="@+id/confirmDeleteTil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Bạn muốn xóa tài khoản?"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText"/>
+
+        <RelativeLayout
+            android:id="@+id/confirmDeleteCv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/confirmDeleteTil"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/confirmDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:text="Xác nhận"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                app:backgroundTint="?attr/colorPrimary"
+                app:cornerRadius="10dp"
+                tools:ignore="HardcodedText"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancelDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:text="Hủy bỏ"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:layout_toEndOf="@+id/confirmDelete"
+                android:layout_marginLeft="5dp"
+                app:backgroundTint="?attr/redPrimary"
+                app:cornerRadius="10dp"
+                tools:ignore="HardcodedText,RtlHardcoded"/>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

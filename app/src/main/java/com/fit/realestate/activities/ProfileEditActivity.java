@@ -191,6 +191,8 @@ public class ProfileEditActivity extends AppCompatActivity {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("name", "" + name);
         hashMap.put("dob", "" + dob);
+        hashMap.put("phoneCode", "" + phoneCode);
+        hashMap.put("phoneNumber", "" + phoneNumber);
 
         if (imageUrl != null) {
             // update profileImageUrl in db only if uploaded image url is not null
@@ -219,6 +221,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                         Log.d(TAG, "onSuccess: Thông tin đã cập nhật");
                         progressDialog.dismiss();
                         MyUtils.toast(ProfileEditActivity.this, "Đã cập nhật hồ sơ...");
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

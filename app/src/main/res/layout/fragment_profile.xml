@@ -240,6 +240,7 @@
             <!-- LinearLayout: Show preferences e.g Logout, Edit Profile,
                  Change Password, Verify Account, Delete Account -->
             <LinearLayout
+                android:id="@+id/functionCv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/userVerification"
@@ -248,6 +249,7 @@
 
                 <!-- TextView: Preferences Label -->
                 <TextView
+                    android:id="@+id/functionTv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Chức năng"
@@ -449,8 +451,23 @@
 
             </LinearLayout>
 
+            <RelativeLayout
+                android:id="@+id/floatLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/userVerification"
+                android:layout_marginTop="120dp"
+                tools:ignore="ObsoleteLayoutParam,UselessLeaf">
+
+                <include
+                    android:id="@+id/deleteConfirmLayout"
+                    layout="@layout/row_delete_account"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
 
         </RelativeLayout>
+
 
     </LinearLayout>
 

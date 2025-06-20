@@ -26,6 +26,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -69,6 +70,7 @@ public class LoginOptionsActivity extends AppCompatActivity {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
+                .requestProfile()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
@@ -107,14 +109,86 @@ public class LoginOptionsActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginOptionsActivity.this, LoginPhoneActivity.class));
             }
         });
+
+        checkGoogleSignInConfiguration();
+        clearGoogleSignInCache();
+
+
+    }
+
+//    private void clearGoogleSignInCache() {
+//        if (mGoogleSignInClient != null) {
+//            mGoogleSignInClient.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
+//                @Override
+//                public void onComplete(@NonNull Task<Void> task) {
+//                    Log.d(TAG, "clearGoogleSignInCache: Cache cleared on activity start");
+//                }
+//            });
+//        }
+//    }
+
+    private void checkGoogleSignInConfiguration() {
+        Log.d(TAG, "checkGoogleSignInConfiguration: Checking configuration");
+
+        try {
+            String webClientId = getString(R.string.default_web_client_id);
+            Log.d(TAG, "checkGoogleSignInConfiguration: Web Client ID = " +
+                    (webClientId != null && !webClientId.isEmpty() ? "Available" : "Missing"));
+
+            GoogleSignInAccount lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(this);
+            Log.d(TAG, "checkGoogleSignInConfiguration: Last signed in account = " +
+                    (lastSignedInAccount != null ? lastSignedInAccount.getEmail() : "None"));
+
+        } catch (Exception e) {
+            Log.e(TAG, "checkGoogleSignInConfiguration: Error", e);
+        }
     }
 
     private void beginGoogleLogin() {
-        Log.d(TAG, "beginGoogleLogin: ");
+        Log.d(TAG, "beginGoogleLogin: Starting simple Google Sign-In");
 
-        // Intent to launch google signIn options dialog
-        Intent googleSignInIntent = mGoogleSignInClient.getSignInIntent();
-        googleSignInARL.launch(googleSignInIntent);
+        // Bỏ signOut() nếu nó gây lỗi
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        googleSignInARL.launch(signInIntent);
+    }
+
+    // Thêm method này để xóa cache Google Sign-In (tùy chọn)
+    private void clearGoogleSignInCache() {
+        mGoogleSignInClient.revokeAccess().addOnCompleteListener(this, new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Log.d(TAG, "clearGoogleSignInCache: Google Sign-In cache cleared");
+            }
+        });
+    }
+
+    private void beginGoogleLoginWithRevoke() {
+        Log.d(TAG, "beginGoogleLoginWithRevoke: Revoking access and starting fresh sign-in");
+
+        mGoogleSignInClient.revokeAccess().addOnCompleteListener(this, new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                // Launch sign-in intent sau khi revoke
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                googleSignInARL.launch(signInIntent);
+            }
+        });
+    }
+
+    private void beginGoogleLoginWithAccountPicker() {
+        Log.d(TAG, "beginGoogleLoginWithAccountPicker: ");
+
+        // Tạo GoogleSignInOptions mới với setAccountName(null) để force picker
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .setAccountName(null) // Force account picker
+                .build();
+
+        GoogleSignInClient tempClient = GoogleSignIn.getClient(this, gso);
+
+        Intent signInIntent = tempClient.getSignInIntent();
+        googleSignInARL.launch(signInIntent);
     }
 
     private ActivityResultLauncher<Intent> googleSignInARL = registerForActivityResult(
@@ -122,34 +196,70 @@ public class LoginOptionsActivity extends AppCompatActivity {
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    Log.d(TAG, "onActivityResult: ");
+                    Log.d(TAG, "onActivityResult: Result code = " + result.getResultCode());
 
-                    // handle google signIn result here
                     if(result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
 
-                        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                        if (data != null) {
+                            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 
-                        try {
-                            // Google Sign In was successful, authenticate with Firebase
-                            GoogleSignInAccount account = task.getResult(ApiException.class);
-                            Log.d(TAG, "onActivityResult: ID tài khoản: " + account.getId());
-                            firebaseAuthWithGoogleAccount(account.getIdToken());
-                        } catch (Exception e) {
-                            // Google Sign In failed
-                            Log.e(TAG, "onActivityResult: ", e);
+                            try {
+                                GoogleSignInAccount account = task.getResult(ApiException.class);
+                                Log.d(TAG, "onActivityResult: Google Sign In success");
+                                Log.d(TAG, "onActivityResult: Account: " + account.getEmail());
+                                Log.d(TAG, "onActivityResult: ID Token: " + (account.getIdToken() != null ? "Available" : "Null"));
+
+                                if (account.getIdToken() != null) {
+                                    firebaseAuthWithGoogleAccount(account.getIdToken());
+                                } else {
+                                    Log.e(TAG, "onActivityResult: ID Token is null");
+                                    MyUtils.toast(LoginOptionsActivity.this, "Lỗi: Không lấy được thông tin xác thực");
+                                }
+                            } catch (ApiException e) {
+                                Log.e(TAG, "onActivityResult: Google Sign In failed", e);
+                                Log.e(TAG, "onActivityResult: Error code = " + e.getStatusCode());
+
+                                String errorMessage;
+                                switch (e.getStatusCode()) {
+                                    case 12501:
+                                        errorMessage = "Đăng nhập bị hủy bởi người dùng";
+                                        break;
+                                    case 12502:
+                                        errorMessage = "Đăng nhập thất bại - vui lòng thử lại";
+                                        break;
+                                    case 12500:
+                                        errorMessage = "Lỗi cấu hình Google Sign-In";
+                                        break;
+                                    default:
+                                        errorMessage = "Đăng nhập Google thất bại: " + e.getMessage();
+                                }
+                                MyUtils.toast(LoginOptionsActivity.this, errorMessage);
+                            } catch (Exception e) {
+                                Log.e(TAG, "onActivityResult: Unexpected error", e);
+                                MyUtils.toast(LoginOptionsActivity.this, "Lỗi không mong muốn: " + e.getMessage());
+                            }
+                        } else {
+                            Log.e(TAG, "onActivityResult: Intent data is null");
+                            MyUtils.toast(LoginOptionsActivity.this, "Lỗi: Không nhận được dữ liệu từ Google");
                         }
+                    } else if (result.getResultCode() == Activity.RESULT_CANCELED) {
+                        Log.d(TAG, "onActivityResult: User cancelled Google Sign-In");
+                        MyUtils.toast(LoginOptionsActivity.this, "Đăng nhập đã bị hủy");
                     } else {
-                        // Cancelled from google signIn options/confirmation dialog
-                        Log.d(TAG, "onActivityResult: Đã hủy bỏ...!");
-                        MyUtils.toast(LoginOptionsActivity.this, "Đã hủy bỏ..!");
+                        Log.d(TAG, "onActivityResult: Unknown result code: " + result.getResultCode());
+                        MyUtils.toast(LoginOptionsActivity.this, "Đăng nhập thất bại");
                     }
                 }
             }
     );
 
     private void firebaseAuthWithGoogleAccount(String idToken) {
-        Log.d(TAG, "firebaseAuthWithGoogleAccount: ID token: " + idToken);
+        Log.d(TAG, "firebaseAuthWithGoogleAccount: Starting Firebase auth");
+
+        // Hiển thị progress dialog
+        progressDialog.setMessage("Đang đăng nhập...");
+        progressDialog.show();
 
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
 
@@ -157,11 +267,15 @@ public class LoginOptionsActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
+                        Log.d(TAG, "onSuccess: Firebase auth successful");
+                        progressDialog.dismiss();
+
                         if(authResult.getAdditionalUserInfo().isNewUser()) {
-                            Log.d(TAG, "onSuccess: Đã tạo tài khoản mới...!");
+                            Log.d(TAG, "onSuccess: New user created");
                             updateUserInfoDb();
                         } else {
-                            Log.d(TAG, "onSuccess: Đã đăng nhập...!");
+                            Log.d(TAG, "onSuccess: Existing user signed in");
+                            MyUtils.toast(LoginOptionsActivity.this, "Đăng nhập thành công!");
                             startActivity(new Intent(LoginOptionsActivity.this, MainActivity.class));
                             finishAffinity();
                         }
@@ -170,7 +284,9 @@ public class LoginOptionsActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "onFailure: ", e);
+                        Log.e(TAG, "onFailure: Firebase auth failed", e);
+                        progressDialog.dismiss();
+                        MyUtils.toast(LoginOptionsActivity.this, "Đăng nhập Firebase thất bại: " + e.getMessage());
                     }
                 });
     }

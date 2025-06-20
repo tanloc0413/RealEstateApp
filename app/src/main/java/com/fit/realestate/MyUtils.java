@@ -222,6 +222,4 @@ public class MyUtils {
         // Các trường hợp khác trả về nguyên gốc
         return phoneNumber;
     }
-
-
 }

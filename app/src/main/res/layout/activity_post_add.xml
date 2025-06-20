@@ -483,6 +483,7 @@
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:hint="Email"
                 android:layout_marginTop="5dp"
+                android:visibility="gone"
                 app:boxCornerRadiusTopStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
                 app:boxCornerRadiusBottomStart="8dp"
@@ -506,7 +507,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="5dp"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:visibility="gone">
 
                 <!-- CountryCodePicker: To pick country code for phone number -->
                 <com.hbb20.CountryCodePicker

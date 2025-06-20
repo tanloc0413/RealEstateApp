@@ -75,6 +75,7 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
         long timestamp = modelProperty.getTimestamp();
         String formattedPrice = MyUtils.formatCurrency(price);
         String formattedDate = MyUtils.formatTimestampDate(timestamp);
+        String displayCategory = category.equals("Thương mại - Dịch vụ") ? "TMDV" : category;
 
         loadPropertyFirstImage(modelProperty, holder);
 
@@ -85,7 +86,8 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
         holder.titleTv.setText(title);
         holder.descriptionTv.setText(description);
         holder.purposeTv.setText(purpose);
-        holder.categoryTv.setText(category);
+//        holder.categoryTv.setText(category);
+        holder.categoryTv.setText(displayCategory);
         holder.subcategoryTv.setText(subcategory);
         holder.addressTv.setText(address);
         holder.dateTv.setText(formattedDate);
@@ -193,22 +195,39 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
                     FilterResults results = new FilterResults();
                     ArrayList<ModelProperty> filteredList = new ArrayList<>();
 
+                    Log.d(TAG, "performFiltering: query = '" + constraint + "'");
+                    Log.d(TAG, "performFiltering: filterList size = " + filterList.size());
+
                     if (constraint == null || constraint.length() == 0) {
+                        // Nếu không có query, hiển thị tất cả items trong filterList
                         filteredList.addAll(filterList);
+                        Log.d(TAG, "performFiltering: No query, showing all " + filterList.size() + " items");
                     } else {
                         String searchQuery = constraint.toString().toLowerCase().trim();
+                        Log.d(TAG, "performFiltering: Searching for '" + searchQuery + "'");
 
                         for (ModelProperty property : filterList) {
-                            String title = property.getTitle().toLowerCase();
-                            String description = property.getDescription().toLowerCase();
-                            String category = property.getCategory().toLowerCase();
-                            String subcategory = property.getSubcategory().toLowerCase();
+                            try {
+                                String title = property.getTitle() != null ? property.getTitle().toLowerCase() : "";
+                                String description = property.getDescription() != null ? property.getDescription().toLowerCase() : "";
+                                String category = property.getCategory() != null ? property.getCategory().toLowerCase() : "";
+                                String subcategory = property.getSubcategory() != null ? property.getSubcategory().toLowerCase() : "";
+                                String address = property.getAddress() != null ? property.getAddress().toLowerCase() : "";
 
-                            if (title.contains(searchQuery) || description.contains(searchQuery) ||
-                                    category.contains(searchQuery) || subcategory.contains(searchQuery)) {
-                                filteredList.add(property);
+                                if (title.contains(searchQuery) ||
+                                        description.contains(searchQuery) ||
+                                        category.contains(searchQuery) ||
+                                        subcategory.contains(searchQuery) ||
+                                        address.contains(searchQuery)) {
+                                    filteredList.add(property);
+                                    Log.d(TAG, "performFiltering: Found match: " + property.getTitle());
+                                }
+                            } catch (Exception e) {
+                                Log.e(TAG, "performFiltering: Error processing property: " + property.getTitle(), e);
                             }
                         }
+
+                        Log.d(TAG, "performFiltering: Found " + filteredList.size() + " matches");
                     }
 
                     results.values = filteredList;
@@ -219,14 +238,52 @@ public class AdapterProperty extends RecyclerView.Adapter<AdapterProperty.Holder
 
                 @Override
                 protected void publishResults(CharSequence charSequence, FilterResults results) {
+                    Log.d(TAG, "publishResults: Updating UI with " + results.count + " results");
+
                     propertyArrayList.clear();
-                    propertyArrayList.addAll((ArrayList<ModelProperty>)results.values);
+                    if (results.values != null) {
+                        propertyArrayList.addAll((ArrayList<ModelProperty>) results.values);
+                    }
                     notifyDataSetChanged();
+
+                    Log.d(TAG, "publishResults: propertyArrayList now has " + propertyArrayList.size() + " items");
                 }
             };
         }
 
         return filter;
+    }
+
+    // Add this method to AdapterProperty class
+    public void updateFilterList(ArrayList<ModelProperty> newFilterList) {
+        Log.d(TAG, "updateFilterList: Updating filter list with " + newFilterList.size() + " items");
+
+        this.filterList.clear();
+        this.filterList.addAll(newFilterList);
+
+        // Cũng cập nhật propertyArrayList để hiển thị ngay lập tức
+        this.propertyArrayList.clear();
+        this.propertyArrayList.addAll(newFilterList);
+
+        notifyDataSetChanged();
+
+        Log.d(TAG, "updateFilterList: Update complete. filterList: " + filterList.size() +
+                ", propertyArrayList: " + propertyArrayList.size());
+    }
+
+    public void debugAdapterData() {
+        Log.d(TAG, "=== ADAPTER DEBUG ===");
+        Log.d(TAG, "propertyArrayList size: " + propertyArrayList.size());
+        Log.d(TAG, "filterList size: " + filterList.size());
+
+        if (!propertyArrayList.isEmpty()) {
+            Log.d(TAG, "First few items in propertyArrayList:");
+            for (int i = 0; i < Math.min(3, propertyArrayList.size()); i++) {
+                ModelProperty property = propertyArrayList.get(i);
+                Log.d(TAG, "  " + i + ": " + property.getTitle() + " - " + property.getPurpose());
+            }
+        }
+        Log.d(TAG, "=== END ADAPTER DEBUG ===");
     }
 
     class HolderProperty extends RecyclerView.ViewHolder {
