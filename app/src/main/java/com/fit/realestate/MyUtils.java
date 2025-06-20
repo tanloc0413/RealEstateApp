@@ -96,6 +96,44 @@ public class MyUtils {
             "mẫu"
     };
 
+    public static final String[][] provinceMerges = {
+            {"Kiên Giang + An Giang", "An Giang"},
+            {"Bắc Giang + Bắc Ninh", "Bắc Ninh"},
+            {"Bạc Liêu + Cà Mau", "Cà Mau"},
+            {"Cao Bằng", "Cao Bằng"},
+            {"Phú Yên + Đắk Lắk", "Đắk Lắk"},
+            {"Điện Biên", "Điện Biên"},
+            {"Bình Phước + Đồng Nai", "Đồng Nai"},
+            {"Tiền Giang + Đồng Tháp", "Đồng Tháp"},
+            {"Gia Lai + Bình Định", "Gia Lai"},
+            {"Hà Tĩnh", "Hà Tĩnh"},
+            {"Thái Bình + Hưng Yên", "Hưng Yên"},
+            {"Khánh Hòa + Ninh Thuận", "Khánh Hòa"},
+            {"Lai Châu", "Lai Châu"},
+            {"Đắk Nông + Lâm Đồng + Bình Thuận", "Lâm Đồng"},
+            {"Lạng Sơn", "Lạng Sơn"},
+            {"Lào Cai + Yên Bái", "Lào Cai"},
+            {"Nghệ An", "Nghệ An"},
+            {"Hà Nam + Ninh Bình + Nam Định", "Ninh Bình"},
+            {"Hòa Bình + Vĩnh Phúc + Phú Thọ", "Phú Thọ"},
+            {"Quảng Ngãi + Kon Tum", "Quảng Ngãi"},
+            {"Quảng Ninh", "Quảng Ninh"},
+            {"Quảng Bình + Quảng Trị", "Quảng Trị"},
+            {"Sơn La", "Sơn La"},
+            {"Long An + Tây Ninh", "Tây Ninh"},
+            {"Bắc Kạn + Thái Nguyên", "Thái Nguyên"},
+            {"Thanh Hóa", "Thanh Hóa"},
+            {"Sóc Trăng + Hậu Giang + Cần Thơ", "TP.Cần Thơ"},
+            {"Quảng Nam + TP. Đà Nẵng", "TP.Đà Nẵng"},
+            {"Hà Nội", "TP.Hà Nội"},
+            {"Hải Dương + TP. Hải Phòng", "TP.Hải Phòng"},
+            {"Bình Dương + TP. Hồ Chí Minh + Bà Rịa - Vũng Tàu", "TP.Hồ Chí Minh"},
+            {"TP. Huế", "TP. Huế"},
+            {"Tuyên Quang + Hà Giang", "Tuyên Quang"},
+            {"Bến Tre + Vĩnh Long + Trà Vinh", "Vĩnh Long"}
+    };
+
+
     public static final String PROPERTY_PURPOSE_ANY = "Any";
     public static final String PROPERTY_PURPOSE_SELL = "Đăng bán";
     public static final String PROPERTY_PURPOSE_RENT = "Cho thuê";

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -7,4 +7,597 @@
     android:layout_height="match_parent"
     tools:context=".activities.PropertyEditActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- RelativeLayout: Toolbar -->
+    <RelativeLayout
+        android:id="@+id/toolbarRl"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="@drawable/toolbar_bg02">
+
+        <!-- ImageButton: Click to go-back -->
+        <ImageButton
+            android:id="@+id/toolbarBackBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="10dp"
+            android:src="@drawable/back_white"
+            app:tint="?attr/colorOnPrimary"
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck"/>
+
+        <!-- TextView: Just to show a labeled text -->
+        <TextView
+            android:id="@+id/toolbarTitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:text="Đăng BĐS"
+            android:textColor="?attr/colorOnPrimary"
+            android:textStyle="bold"
+            android:textSize="26sp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="-20dp"
+            android:layout_below="@+id/toolbarBackBtn"
+            tools:ignore="HardcodedText"/>
+
+        <!-- TextView: Just to show a labeled text/description -->
+        <TextView
+            android:id="@+id/toolbarSubtitleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tiếp cận được nhiều người \nhơn khi đăng bán hoặc cho \nthuê các bất động sản"
+            android:layout_below="@+id/toolbarTitleTv"
+            android:textSize="15sp"
+            android:textColor="?attr/colorOnPrimary"
+            android:fontFamily="@font/roboto"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="5dp"
+            tools:ignore="HardcodedText"/>
+
+        <!-- ImageView: Just an icon -->
+        <ImageView
+            android:id="@+id/toolbarAssetTv"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/apartment"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="15.25dp"
+            android:adjustViewBounds="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            tools:ignore="ContentDescription" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="10dp"
+        android:layout_below="@+id/toolbarRl"
+        android:layout_above="@+id/submitBtn">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- TextView: Label of Property Purpose e.g Buy or Rent -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mục đích"
+                android:textSize="18sp"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                tools:ignore="HardcodedText"/>
+
+            <!-- RadioGroup: Choose purpose of property Buy or Rent -->
+            <RadioGroup
+                android:id="@+id/purposeRg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
+
+                <!-- RadioButton: Purpose Sell -->
+                <RadioButton
+                    android:id="@+id/purposeSellRb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Đăng bán"
+                    android:textSize="16sp"
+                    tools:ignore="HardcodedText"/>
+
+                <!-- RadioButton: Purpose Rent -->
+                <RadioButton
+                    android:id="@+id/purposeRentRb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cho thuê"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="15dp"
+                    tools:ignore="HardcodedText,RtlHardcoded"/>
+
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Loại hình"
+                android:textSize="18sp"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                tools:ignore="HardcodedText"/>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/propertyCategoryTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- TabItem: Select property type Homes -->
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:icon="@drawable/modern_house_black"
+                    android:text="Nhà ở"
+                    tools:ignore="HardcodedText"/>
+
+                <!-- TabItem: Select property type Plots -->
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:icon="@drawable/land_black"
+                    android:text="Lô đất"
+                    tools:ignore="HardcodedText"/>
+
+                <!-- TabItem: Select property type Commercial -->
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:icon="@drawable/store_black"
+                    android:text="TMDV"
+                    tools:ignore="HardcodedText"/>
+
+            </com.google.android.material.tabs.TabLayout>
+
+            <!-- TextInputLayout: Pick property sub category from
+                 drop down options -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/propertySubCategoryTil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:hint="Loại bất động sản"
+                android:layout_marginTop="10dp"
+                app:startIconDrawable="@drawable/category_black"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
+                tools:ignore="HardcodedText">
+
+                <AutoCompleteTextView
+                    android:id="@+id/propertySubcategoryAct"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:paddingStart="40dp"
+                    android:textSize="18sp"
+                    tools:ignore="LabelFor,RtlSymmetry,SpeakableTextPresentCheck"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp"
+                android:text="Chi tiết"
+                tools:ignore="HardcodedText"/>
+
+            <!-- TextInputLayout: Input Floors Count -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/floorsTil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:hint="Số tầng"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:startIconDrawable="@drawable/floor_black"
+                    tools:ignore="HardcodedText">
+
+                    <EditText
+                        android:id="@+id/floorsEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:paddingStart="45dp"
+                        tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <!-- TextInputLayout: Input number of Bed Rooms -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/bedRoomTil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:hint="Số phòng ngủ"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:startIconDrawable="@drawable/bed_black"
+                    tools:ignore="HardcodedText">
+
+                    <EditText
+                        android:id="@+id/bedRoomEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textSize="18sp"
+                        android:paddingStart="45dp"
+                        tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <!-- TextInputLayout: Input number of Bath Rooms -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/bathRoomTil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:hint="Số phòng tắm"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:startIconDrawable="@drawable/bath_black"
+                    tools:ignore="HardcodedText">
+
+                    <EditText
+                        android:id="@+id/bathRoomEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textSize="18sp"
+                        android:paddingStart="45dp"
+                        tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <!-- TextInputLayout: Input Area Size -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                tools:ignore="DisableBaselineAlignment">
+
+                <!-- TextInputLayout: Input Area Size -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/areaSizeTil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:hint="Diện tích"
+                    android:layout_weight="1"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:startIconDrawable="@drawable/area_black"
+                    tools:ignore="HardcodedText">
+
+                    <EditText
+                        android:id="@+id/areaSizeEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:textSize="18sp"
+                        android:paddingStart="45dp"
+                        tools:ignore="Autofill,LabelFor,RtlSymmetry" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- TextInputLayout: Choose Area Size Unit from drop
+                     down options -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/areaSizeUnitTil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:hint="Đơn vị"
+                    android:layout_weight="1"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    android:layout_marginLeft="10dp"
+                    tools:ignore="HardcodedText,InefficientWeight,RtlHardcoded">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/areaSizeUnitAct"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:textSize="18sp"
+                        android:paddingStart="15dp"
+                        tools:ignore="LabelFor,RtlHardcoded,RtlSymmetry,SpeakableTextPresentCheck" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <!-- TextInputLayout: Pick location (From Map) -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/locationTil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:hint="Vị trí"
+                android:layout_marginTop="5dp"
+                app:endIconMinSize="36dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:startIconDrawable="@drawable/location_black1"
+                tools:ignore="HardcodedText">
+
+                <EditText
+                    android:id="@+id/locationAct"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:paddingStart="45dp"
+                    android:textSize="18sp"
+                    android:drawableEnd="@drawable/next_gray"
+                    android:drawableTint="@color/colorGray4"
+                    tools:ignore=",Autofill,LabelFor,RtlSymmetry" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- TextInputLayout: Input Price -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/priceTil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:hint="Giá"
+                android:layout_marginTop="5dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:startIconDrawable="@drawable/price_black"
+                tools:ignore="HardcodedText">
+
+                <EditText
+                    android:id="@+id/priceEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:paddingStart="45dp"
+                    android:textSize="18sp"
+                    tools:ignore="Autofill,LabelFor,RtlSymmetry" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- TextInputLayout: Input Price -->
+            <TextView
+                android:id="@+id/propertyDetailsLabelTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:text="Thông tin cơ bản"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp"
+                android:layout_marginBottom="5dp"
+                tools:ignore="HardcodedText"/>
+
+            <!-- TextInputLayout: Input Property Title-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/titleTil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:hint="Tiêu đề"
+                android:layout_marginTop="5dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:startIconDrawable="@drawable/title_black"
+                tools:ignore="HardcodedText">
+
+                <EditText
+                    android:id="@+id/titleEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:textSize="18sp"
+                    android:paddingStart="45dp"
+                    tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- TextInputLayout: Input Property Description -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/descriptionTil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:hint="Mô tả"
+                android:layout_marginTop="5dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:startIconDrawable="@drawable/document_black"
+                tools:ignore="HardcodedText">
+
+                <EditText
+                    android:id="@+id/descriptionEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:textSize="18sp"
+                    android:paddingStart="45dp"
+                    tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- TextInputLayout: Input Seller Email -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emailTil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:hint="Email"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:startIconDrawable="@drawable/email_outline_black"
+                tools:ignore="HardcodedText">
+
+                <EditText
+                    android:id="@+id/emailEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:textSize="18sp"
+                    android:paddingStart="50dp"
+                    tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <!-- CountryCodePicker: To pick country code for phone number -->
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/phoneCodeTil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center"
+                    android:minWidth="65dp"
+                    android:minHeight="58.5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="1dp"
+                    android:layout_marginTop="2.5dp"
+                    android:background="@drawable/stroke_black"
+                    app:ccp_autoDetectCountry="true"
+                    app:ccp_contentColor="@color/black"
+                    app:ccp_rememberLastSelection="true"
+                    app:ccp_showFlag="false"
+                    app:ccp_showNameCode="false"
+                    app:ccpDialog_textColor="@color/black"
+                    tools:ignore="RtlHardcoded,RtlSymmetry" />
+
+                <!-- TextInputLayout: Input Phone Number -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/phoneNumberTil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:hint="Số điện thoại"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:startIconDrawable="@drawable/smartphone_size30"
+                    tools:ignore="HardcodedText">
+
+                    <EditText
+                        android:id="@+id/phoneNumberEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:textSize="18sp"
+                        android:paddingStart="40dp"
+                        tools:ignore="Autofill,LabelFor,RtlSymmetry"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/pickImagesTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:drawableStart="@drawable/add_photo_size30"
+                android:drawablePadding="10dp"
+                android:paddingVertical="5dp"
+                android:gravity="center_vertical"
+                android:text="Chọn hình ảnh"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp"
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UseCompatTextViewDrawableXml"/>
+
+            <!-- RecyclerView: Show images picked/taken from Gallery/Camera -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/imagesRv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:spanCount="3"
+                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                tools:listitem="@layout/row_images_picked"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- MaterialButton: Begin Add/Update Property -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/submitBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:text="Cập nhật"
+        android:textSize="18sp"
+        android:minHeight="@dimen/m_button_height"
+        tools:ignore="HardcodedText" />
+
+</RelativeLayout>

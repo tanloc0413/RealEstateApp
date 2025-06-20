@@ -70,7 +70,7 @@ public class PostAddActivity extends AppCompatActivity {
     private String purpose = MyUtils.PROPERTY_PURPOSE_SELL;
     private String subcategory = "", floors = "", bedRooms = "", bathRooms = "";
     private String areaSize = "", areaSizeUnit = "", price = "", title = "";
-    private String description = "", email = "", phoneCode = "", phoneNumber = "";
+    private String description = "", specificAddress= "", ward = "";
     private String country = "", city = "", address = "", state = "";
     private double latitude = 0, longitude = 0;
 
@@ -346,8 +346,10 @@ public class PostAddActivity extends AppCompatActivity {
         hashMap.put("areaSizeUnit", "" + areaSizeUnit);
         hashMap.put("title", "" + title);
         hashMap.put("description", "" + description);
-        hashMap.put("country", "" + country);
+//        hashMap.put("specificAddress", "" + specificAddress);
+//        hashMap.put("ward", "" + ward);
         hashMap.put("city", "" + city);
+        hashMap.put("country", "" + country);
         hashMap.put("state", "" + state);
         hashMap.put("address", "" + address);
         hashMap.put("status", "" + MyUtils.AD_STATUS_AVAILABLE);

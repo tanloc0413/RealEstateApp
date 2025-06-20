@@ -99,6 +99,15 @@ public class PropertyDetailActivity extends AppCompatActivity {
             }
         });
 
+        binding.editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PropertyDetailActivity.this, PropertyEditActivity.class);
+                intent.putExtra("propertyId", propertyId);
+                startActivity(intent);
+            }
+        });
+
         // xóa bất động sản
         binding.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override

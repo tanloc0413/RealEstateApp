@@ -142,6 +142,13 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        binding.deleteConfirmLayout.confirmDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteAccount();
+            }
+        });
+
         binding.verifyAccountCv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -287,47 +294,68 @@ public class ProfileFragment extends Fragment {
         String uid = user.getUid();
         Log.d(TAG, "deleteAccount: Deleting account for UID: " + uid);
 
-        // First, delete user data from Realtime Database
+        // STEP 1: XÓA DỮ LIỆU TỪ REALTIME DATABASE TRƯỚC
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(uid);
-        userRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+        userRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onSuccess(Void unused) {
-                Log.d(TAG, "onSuccess: User data deleted from database");
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "onComplete: User data deleted from Realtime Database successfully");
 
-                // Now delete the Firebase Auth account
-                user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        progressDialog.dismiss();
+                    // STEP 2: SAU ĐÓ MỚI XÓA FIREBASE AUTHENTICATION
+                    user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            progressDialog.dismiss();
 
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "onComplete: Account deleted successfully");
-                            Toast.makeText(mContext, "Tài khoản đã được xóa thành công", Toast.LENGTH_SHORT).show();
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "onComplete: Firebase Auth deleted successfully");
+                                Toast.makeText(mContext, "Tài khoản đã được xóa hoàn toàn!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Log.e(TAG, "onComplete: Failed to delete Firebase Auth", task.getException());
+                                Toast.makeText(mContext, "Dữ liệu đã xóa, nhưng lỗi Auth: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            }
 
-                            // Navigate to MainActivity
+                            // Dù Auth có lỗi hay không, vẫn chuyển về MainActivity
                             Intent intent = new Intent(mContext, MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                             getActivity().finish();
-                        } else {
-                            Log.e(TAG, "onComplete: Failed to delete account", task.getException());
-                            Toast.makeText(mContext, "Lỗi khi xóa tài khoản: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-
-                            // Try to restore user data if auth deletion failed
-                            // Note: This is a simplified approach - in production you might want more robust error handling
                         }
+                    });
 
-                        hideDeleteConfirmation();
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e(TAG, "onFailure: Failed to delete user data from database", e);
-                progressDialog.dismiss();
-                Toast.makeText(mContext, "Lỗi khi xóa dữ liệu người dùng: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                } else {
+                    // Nếu xóa Database thất bại
+                    Log.e(TAG, "onComplete: Failed to delete from Realtime Database", task.getException());
+                    progressDialog.dismiss();
+                    Toast.makeText(mContext, "Lỗi khi xóa dữ liệu: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                }
+
                 hideDeleteConfirmation();
+            }
+        });
+    }
+
+    // THÊM METHOD ĐỂ XÓA DỮ LIỆU CỦA USER ĐÃ BỊ XÓA AUTH (nếu cần)
+    private void deleteRemainingUserData(String uid) {
+        Log.d(TAG, "deleteRemainingUserData: Attempting to delete data for UID: " + uid);
+
+        progressDialog.setMessage("Đang xóa dữ liệu còn lại...");
+        progressDialog.show();
+
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(uid);
+        userRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                progressDialog.dismiss();
+
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "onComplete: Remaining user data deleted successfully");
+                    Toast.makeText(mContext, "Dữ liệu còn lại đã được xóa!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e(TAG, "onComplete: Failed to delete remaining data", task.getException());
+                    Toast.makeText(mContext, "Lỗi khi xóa dữ liệu: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

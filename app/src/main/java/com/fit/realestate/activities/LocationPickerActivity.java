@@ -371,9 +371,11 @@ public class LocationPickerActivity extends AppCompatActivity {
             resultIntent.putExtra("latitude", selectedLatitude != null ? selectedLatitude : 0);
             resultIntent.putExtra("longitude", selectedLongitude != null ? selectedLongitude : 0);
             resultIntent.putExtra("address", selectedAddress != null ? selectedAddress : "");
+//            resultIntent.putExtra("specificAddress", specificAddress != null ? specificAddress : "");
+//            resultIntent.putExtra("ward", ward != null ? ward : "");
             resultIntent.putExtra("city", selectedCity != null ? selectedCity : "");
             resultIntent.putExtra("country", selectedCountry != null ? selectedCountry : "");
-            resultIntent.putExtra("state", selectedState != null ? selectedState : "");
+//            resultIntent.putExtra("state", selectedState != null ? selectedState : "");
 
             setResult(RESULT_OK, resultIntent);
             finish(); // kết thúc Activity và trả kết quả về PostAddActivity
@@ -404,25 +406,25 @@ public class LocationPickerActivity extends AppCompatActivity {
 
     private final OnIndicatorPositionChangedListener onIndicatorPositionChangedListener =
             new OnIndicatorPositionChangedListener() {
-        @Override
-        public void onIndicatorPositionChanged(@NonNull Point point) {
-            binding.mapView.getMapboxMap().setCamera(new CameraOptions
-                    .Builder()
-                    .center(point)
-                    .zoom(16.0)
-                    .build());
-            getGestures(binding.mapView).setFocalPoint(binding.mapView.getMapboxMap().pixelForCoordinate(point));
-            LocationPickerActivity.this.point = point;
+                @Override
+                public void onIndicatorPositionChanged(@NonNull Point point) {
+                    binding.mapView.getMapboxMap().setCamera(new CameraOptions
+                            .Builder()
+                            .center(point)
+                            .zoom(16.0)
+                            .build());
+                    getGestures(binding.mapView).setFocalPoint(binding.mapView.getMapboxMap().pixelForCoordinate(point));
+                    LocationPickerActivity.this.point = point;
 
-            selectedLatitude = point.latitude();
-            selectedLongitude = point.longitude();
+                    selectedLatitude = point.latitude();
+                    selectedLongitude = point.longitude();
 
-            if (shouldGeocodeOnce) {
-                shouldGeocodeOnce = false;
-                geocodeLocation(point);
-            }
-        }
-    };
+                    if (shouldGeocodeOnce) {
+                        shouldGeocodeOnce = false;
+                        geocodeLocation(point);
+                    }
+                }
+            };
 
     private final OnMoveListener onMoveListener = new OnMoveListener() {
         @Override
@@ -443,102 +445,6 @@ public class LocationPickerActivity extends AppCompatActivity {
 
         }
     };
-
-//    private void updateCamera(Point point, Double bearing) {
-//        MapAnimationOptions mapAnimationOptions = new MapAnimationOptions
-//                .Builder()
-//                .duration(1500L)
-//                .build();
-//        CameraOptions cameraOptions = new CameraOptions
-//                .Builder()
-//                .center(point)
-//                .zoom(18.0)
-//                .bearing(bearing)
-//                .pitch(45.0)
-//                .padding(
-//                        new EdgeInsets(
-//                                1000.0,
-//                                0.0,
-//                                0.0,
-//                                0.0
-//                        )
-//                )
-//                .build();
-//        getCamera(binding.mapView).easeTo(cameraOptions, mapAnimationOptions);
-//    }
-
-//    private void handleLongPress(Point point) {
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                // Xóa marker cũ nếu có
-//                if (selectedLocationAnnotation != null) {
-//                    selectedLocationAnnotationManager.delete(selectedLocationAnnotation);
-//                }
-//
-//                // Tạo marker mới tại vị trí được nhấn
-//                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.location_white);
-//                PointAnnotationOptions selectedLocationOptions = new PointAnnotationOptions()
-//                        .withTextAnchor(TextAnchor.CENTER)
-//                        .withIconImage(bitmap)
-//                        .withPoint(point);
-//
-//                selectedLocationAnnotation = selectedLocationAnnotationManager.create(selectedLocationOptions);
-//
-//                // Cập nhật vị trí hiện tại
-//                LocationPickerActivity.this.point = point;
-//                selectedLatitude = point.latitude();
-//                selectedLongitude = point.longitude();
-//
-//                // Hiển thị toast thông báo
-//                Toast.makeText(LocationPickerActivity.this,
-//                        "Đã chọn vị trí: " + String.format("%.6f", point.latitude()) +
-//                                ", " + String.format("%.6f", point.longitude()),
-//                        Toast.LENGTH_SHORT).show();
-//
-//                // Tắt chế độ follow location
-//                isFollowingLocation = false;
-//
-//                // Xóa listeners để ngừng theo dõi vị trí GPS
-//                LocationComponentPlugin locationComponentPlugin = getLocationComponent(binding.mapView);
-//                locationComponentPlugin.removeOnIndicatorBearingChangedListener(onIndicatorBearingChangedListener);
-//                locationComponentPlugin.removeOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener);
-//                getGestures(binding.mapView).removeOnMoveListener(onMoveListener);
-//
-//                // Đổi icon button về trạng thái ban đầu (thay bằng icon GPS gốc của bạn)
-//                imageButton.setImageDrawable(AppCompatResources.getDrawable(
-//                        LocationPickerActivity.this,
-//                        R.drawable.baseline_location // thay bằng icon GPS gốc của bạn
-//                ));
-//
-//
-//
-//            }
-//        });
-//
-//        Geocoder geocoder = new Geocoder(LocationPickerActivity.this, Locale.getDefault());
-//        try {
-//            List<Address> addresses = geocoder.getFromLocation(point.latitude(), point.longitude(), 1);
-//            if (addresses != null && !addresses.isEmpty()) {
-//                Address address = addresses.get(0);
-//                String fullAddress = "";
-//
-//                String subLocality = address.getSubLocality(); // phường/xã
-//                String locality = address.getLocality(); // quận/huyện hoặc thành phố nhỏ
-//                String adminArea = address.getAdminArea(); // tỉnh/thành phố
-//
-//                if (subLocality != null) fullAddress += subLocality + ", ";
-//                if (locality != null) fullAddress += locality + ", ";
-//                if (adminArea != null) fullAddress += adminArea;
-//
-//                // Gán vào EditText
-//                binding.searchEt.setText(fullAddress);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
     private void handleLongPress(Point point) {
         // Cập nhật vị trí được chọn
         LocationPickerActivity.this.point = point;
